@@ -6,6 +6,8 @@ import { Course } from '../../models/course';
 import { ApiService } from '../../services/api.service';
 import { AuthService } from '../../services/auth.service';
 import { Constants } from '../../constants';
+import { Router } from '@angular/router';
+import { User } from '../../models/user';
 
 @Component({
   selector: 'app-masters',
@@ -15,25 +17,38 @@ import { Constants } from '../../constants';
 export class MastersComponent implements OnInit {
   branches: Array<Branch> = new Array<Branch>();
   courses: Array<Course> = new Array<Course>();
+  users: Array<User> = new Array<User>();
   branch = new Branch();
   course = new Course();
+  user = new User();
   closeResult: string;
   modalReference: NgbModalRef;
 
   constructor(
     private service: ApiService,
     private modalService: NgbModal,
-    private auth: AuthService
+    private auth: AuthService,
+    private route: Router
   ) {
+
+  }
+
+  ngOnInit() {
+    if (this.auth.isLoggedIn() !== true) {
+      this.route.navigate(['login']);
+    }
     this.getBranches();
     this.getCourses();
   }
 
-  ngOnInit() {}
-
   getBranches(): any {
     this.service.get(Constants.branch).subscribe(resp => {
       this.bindBranches(resp.data);
+    });
+  }
+  getUsers(): any {
+    this.service.get(Constants.user).subscribe(resp => {
+      this.bindUsers(resp.data);
     });
   }
 
@@ -49,6 +64,10 @@ export class MastersComponent implements OnInit {
 
   bindCourses(data: Array<Course>) {
     this.courses = data;
+  }
+
+  bindUsers(data: Array<User>) {
+    this.users = data;
   }
 
   saveBranchDetails() {

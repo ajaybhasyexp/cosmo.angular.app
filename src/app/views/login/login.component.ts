@@ -36,7 +36,6 @@ export class LoginComponent implements OnInit {
     this.user.userName = this.form.value.username;
     this.user.password = this.form.value.password;
     this.apiService.post(Constants.login, this.user).subscribe(data => {
-      console.log(data);
       this.auth.login(data);
     });
   }
