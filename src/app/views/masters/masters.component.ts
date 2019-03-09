@@ -1,5 +1,5 @@
-import { Component, OnInit, TemplateRef } from '@angular/core';
-import { NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
+import { Component, OnInit } from '@angular/core';
+import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 
 import { Branch } from '../../models/branch';
 import { Course } from '../../models/course';
@@ -18,7 +18,7 @@ export class MastersComponent implements OnInit {
   branch = new Branch();
   course = new Course();
   closeResult: string;
-  modalReference = null;
+  modalReference: NgbModalRef;
 
   constructor(
     private service: ApiService,
@@ -55,8 +55,8 @@ export class MastersComponent implements OnInit {
     this.service.post(Constants.branch, this.branch).subscribe(resp => {
       console.log(resp);
       this.getBranches();
+      this.modalReference.close();
     });
-    // this.modalReference.close();
   }
 
   saveCourseDetails() {
@@ -65,29 +65,11 @@ export class MastersComponent implements OnInit {
     this.course.updatedBy = userId;
     this.service.post(Constants.course, this.course).subscribe(resp => {
       this.getCourses();
+      this.modalReference.close();
     });
   }
 
   onModalClick(content) {
-    this.modalReference = this.modalService
-      .open(content, { ariaLabelledBy: 'modal-basic-title' })
-      .result.then(
-        result => {
-          this.closeResult = `Closed with: ${result}`;
-        },
-        reason => {
-          this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
-        }
-      );
-  }
-
-  private getDismissReason(reason: any): string {
-    if (reason === ModalDismissReasons.ESC) {
-      return 'by pressing ESC';
-    } else if (reason === ModalDismissReasons.BACKDROP_CLICK) {
-      return 'by clicking on a backdrop';
-    } else {
-      return `with: ${reason}`;
-    }
+    this.modalReference = this.modalService.open(content);
   }
 }
