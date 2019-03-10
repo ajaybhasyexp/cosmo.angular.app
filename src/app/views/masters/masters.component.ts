@@ -1,5 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
+import { ModalDirective } from 'ngx-bootstrap/modal';
 
 import { Branch } from '../../models/branch';
 import { Course } from '../../models/course';
@@ -15,6 +16,7 @@ import { User } from '../../models/user';
   styleUrls: ['./masters.component.scss']
 })
 export class MastersComponent implements OnInit {
+  @ViewChild('warningModal') public warningModal: ModalDirective;
   branches: Array<Branch> = new Array<Branch>();
   courses: Array<Course> = new Array<Course>();
   users: Array<User> = new Array<User>();
@@ -29,9 +31,7 @@ export class MastersComponent implements OnInit {
     private modalService: NgbModal,
     private auth: AuthService,
     private route: Router
-  ) {
-
-  }
+  ) {}
 
   ngOnInit() {
     if (this.auth.isLoggedIn() !== true) {
@@ -90,5 +90,8 @@ export class MastersComponent implements OnInit {
 
   onModalClick(content) {
     this.modalReference = this.modalService.open(content);
+  }
+  closeModal() {
+    this.modalReference.close();
   }
 }
