@@ -133,12 +133,15 @@
               <tr>
                 <th>Course Name</th>
                 <th>Description</th>
+                <th>Actions</th>
               </tr>
             </thead>
             <tbody *ngFor="let course of courses">
               <tr>
                 <td>{{course.courseName}}</td>
                 <td>{{course.description}}</td>
+                <td><i class="fa fa-trash" (click)="onModalClick(deleteModal)"></i> &nbsp;
+                  <i (click)="onModalClick(courseModal)" class="fa fa-pencil"></i></td>
               </tr>
             </tbody>
           </table>
@@ -159,7 +162,7 @@
                 <th>Username</th>
                 <th>Email</th>
                 <th>Branch</th>
-                <th>User Role</th>                
+                <th>User Role</th>
               </tr>
             </thead>
             <tbody *ngFor="let course of courses">
@@ -365,16 +368,16 @@
     <div class="modal-body">
       <div class="card-body">
         <div class="form-group">
-          <!-- <label for="company">Name</label> -->
+        <label for="company">Name</label>
           <input [(ngModel)]="user.userName" type="text" class="form-control" id="Name" placeholder="Name of the user">
         </div>
         <div class="form-group">
-          <!-- <label for="vat">Branch Address</label> -->
-          <input [(ngModel)]="branch.branchAddress" type="text" class="form-control" id="address" placeholder="Address of the branch">
+        <label for="company">Email</label>
+        <input [(ngModel)]="user.email" type="text" class="form-control" id="email" placeholder="Email of the user">
         </div>
         <div class="form-group">
-          <!-- <label for="postal-code">Branch Email</label> -->
-          <input [(ngModel)]="branch.branchEmail" type="text" class="form-control" id="email" placeholder="Email address">
+        <label for="street">Password</label>
+        <input [(ngModel)]="user.password" type="password" class="form-control" id="password" placeholder="User Password">
         </div>
         <div class="form-group">
           <!-- <label for="street">Contact Person</label> -->
@@ -389,4 +392,21 @@
     <div class="modal-footer">
       <button type="button" class="btn btn-primary" (click)="saveBranchDetails()">Save</button>
     </div>
-  </ng-template>
+</ng-template>
+
+<ng-template #deleteModal let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title">Confirmation</h4>
+  </div>
+  <div class="modal-body">
+    <div class="card-body">
+      <div>
+        Are you sure you want to delete?
+      </div>
+    </div>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-secondary" (click)="closeModal()">No</button>
+    <button type="button" class="btn btn-primary" (click)="saveCourseDetails()">Yes</button>
+  </div>
+</ng-template>

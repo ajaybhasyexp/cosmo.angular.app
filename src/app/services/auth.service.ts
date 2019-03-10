@@ -4,36 +4,37 @@ import { Router } from '@angular/router';
 
 @Injectable()
 export class AuthService {
-    constructor(private route: Router) { }
+  constructor(private route: Router) {}
 
-    login(data) {
+  login(data) {
+    localStorage.setItem(Constants.tokenKey, data.token);
+    localStorage.setItem(Constants.userId, data.userId);
+    localStorage.setItem(Constants.role, data.role);
+    this.route.navigate(['masters']);
+  }
 
-        localStorage.setItem(Constants.userId, data.id);
-        localStorage.setItem(Constants.role, data.role);
-        this.route.navigate(['masters']);
+  logout() {
+    localStorage.clear();
+    this.route.navigate(['login']);
+  }
+
+  isLoggedIn() {
+    return this.getToken() !== null;
+  }
+
+  getToken() {
+    return localStorage.getItem(Constants.tokenKey);
+  }
+
+  getUserId() {
+    return localStorage.getItem(Constants.userId);
+  }
+
+  isSuperAdmin(): boolean {
+    if (localStorage.getItem('role') === 'Superadmin') {
+      return true;
+    } else {
+      return false;
     }
-
-    logout() {
-        localStorage.clear();
-        this.route.navigate(['login']);
-    }
-
-    isLoggedIn() {
-        return this.getToken() !== null;
-    }
-
-    getToken() {
-        return localStorage.getItem(Constants.tokenKey);
-    }
-
-    getUserId() {
-        return localStorage.getItem(Constants.userId);
-    }
-
-    isSuperAdmin(): boolean {
-
-        if (localStorage.getItem('role') === 'Superadmin') { return true; }
-        else { return false; }
-
-    }
+  }
 }

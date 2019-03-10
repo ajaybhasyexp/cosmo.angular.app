@@ -6,4 +6,5 @@ export class User {
   userRoleId: string;
   profilePic: string;
   token: string;
+  branchId: number;
 }
