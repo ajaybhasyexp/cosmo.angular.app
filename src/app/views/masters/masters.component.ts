@@ -23,6 +23,7 @@ export class MastersComponent implements OnInit {
   user = new User();
   closeResult: string;
   modalReference: NgbModalRef;
+  loading:boolean;
 
   constructor(
     private service: ApiService,
@@ -39,22 +40,29 @@ export class MastersComponent implements OnInit {
     }
     this.getBranches();
     this.getCourses();
+    
   }
 
   getBranches(): any {
+    this.loading = true; 
     this.service.get(Constants.branch).subscribe(resp => {
       this.bindBranches(resp.data);
+      this.loading = false; 
     });
   }
   getUsers(): any {
+    this.loading = true; 
     this.service.get(Constants.user).subscribe(resp => {
       this.bindUsers(resp.data);
+      this.loading = false; 
     });
   }
 
   getCourses(): any {
+    this.loading = true; 
     this.service.get(Constants.course).subscribe(resp => {
       this.bindCourses(resp.data);
+      this.loading = false; 
     });
   }
 
@@ -71,10 +79,12 @@ export class MastersComponent implements OnInit {
   }
 
   saveBranchDetails() {
+    this.loading = true; 
     this.service.post(Constants.branch, this.branch).subscribe(resp => {
       console.log(resp);
       this.getBranches();
       this.modalReference.close();
+      this.loading = true; 
     });
   }
 

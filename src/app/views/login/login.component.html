@@ -3,9 +3,12 @@
     <div class="container">
       <div class="row">
         <div class="col-md-8 mx-auto">
-          <div class="card-group">
+          <div class="card-group">           
             <div class="card p-4">
-              <div class="card-body">
+                <div class="loading" *ngIf="loading" >
+                    <img  src="assets/loading.gif" />
+                  </div>
+              <div class="card-body">                 
                 <form [formGroup]="form" (ngSubmit)="login()">
                   <h1>Login</h1>
                   <p class="text-muted">Sign In to your account</p>
