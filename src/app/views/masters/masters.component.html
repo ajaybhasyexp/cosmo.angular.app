@@ -140,7 +140,7 @@
               <tr>
                 <td>{{course.courseName}}</td>
                 <td>{{course.description}}</td>
-                <td><i class="fa fa-trash" (click)="onModalClick(deleteModal)"></i> &nbsp;
+                <td><i class="fa fa-trash" (click)="onDeleteModalClick(deleteModal,course,'course')"></i> &nbsp;
                   <i (click)="onModalClick(courseModal)" class="fa fa-pencil"></i></td>
               </tr>
             </tbody>
@@ -407,6 +407,6 @@
   </div>
   <div class="modal-footer">
     <button type="button" class="btn btn-secondary" (click)="closeModal()">No</button>
-    <button type="button" class="btn btn-primary" (click)="saveCourseDetails()">Yes</button>
+    <button type="button" class="btn btn-primary" (click)="deleteItem()">Yes</button>
   </div>
 </ng-template>
