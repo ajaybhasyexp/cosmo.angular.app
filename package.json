@@ -1,29 +1,28 @@
 {
-  "name": "@coreui/coreui-free-angular-admin-template",
+  "name": "csmplus",
   "version": "2.4.3",
-  "description": "CoreUI Free Angular 2+ Admin Template",
+  "description": "Cosmo Management System +",
   "author": {
-    "name": "Łukasz Holeczek",
-    "url": "http://holeczek.pl",
-    "github": "https://github.com/mrholek",
-    "twitter": "https://twitter.com/lukaszholeczek"
+    "name": "Ajay Bhasy",
+    "url": "",
+    "github": "https://github.com/ajaybhasyexp"    
   },
   "contributors": [
     {
-      "name": "Andrzej Kopański",
-      "url": "https://github.com/xidedix"
+      "name": "Arun AG"      
     }
   ],
-  "homepage": "https://coreui.io/angular",
-  "copyright": "Copyright 2018 creativeLabs Łukasz Holeczek",
+  "homepage": "",
+  "copyright": "",
   "license": "MIT",
   "scripts": {
     "ng": "ng",
-    "start": "ng serve",
+    "start": "node server.js",
     "build": "ng build --prod --aot --buildOptimizer --commonChunk --vendorChunk --optimization --progress",
     "test": "ng test",
     "lint": "ng lint",
-    "e2e": "ng e2e"
+    "e2e": "ng e2e",
+    "heroku-postbuild": "ng build --prod"
   },
   "private": true,
   "dependencies": {
@@ -44,6 +43,7 @@
     "bootstrap": "^4.3.1",
     "chart.js": "^2.7.3",
     "core-js": "^2.6.5",
+    "express": "^4.16.4",
     "flag-icon-css": "^3.2.1",
     "font-awesome": "^4.7.0",
     "moment": "^2.24.0",
@@ -51,6 +51,7 @@
     "ng2-charts": "^1.6.0",
     "ngx-bootstrap": "^3.2.0",
     "ngx-perfect-scrollbar": "^7.2.1",
+    "path": "^0.12.7",
     "rxjs": "^6.4.0",
     "rxjs-compat": "^6.4.0",
     "simple-line-icons": "^2.4.1",
@@ -68,6 +69,7 @@
     "@types/jasminewd2": "^2.0.6",
     "@types/node": "^11.9.4",
     "codelyzer": "^4.5.0",
+    "enhanced-resolve": "^3.3.0",
     "jasmine-core": "^3.3.0",
     "jasmine-spec-reporter": "^4.2.1",
     "karma": "^4.0.0",
