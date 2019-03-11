@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-
+import { Component } from '@angular/core';
+import { FormControl } from '@angular/forms'
 import { MastersComponent } from './masters.component';
 
 const routes: Routes = [
@@ -17,4 +18,6 @@ const routes: Routes = [
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule]
 })
-export class MastersRoutingModule {}
+export class MastersRoutingModule {
+  name = new FormControl('');
+}

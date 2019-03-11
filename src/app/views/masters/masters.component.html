@@ -10,7 +10,7 @@
           <i (click)="onModalClick(content)" class="fa fa-plus"></i>
         </div>
         <div class="card-body">
-          <table class="table">
+          <table class="table table-bordered" >
             <thead>
               <tr>
                 <th>Branch Name</th>
@@ -128,7 +128,7 @@
           <i (click)="onModalClick(courseModal)" class="fa fa-plus"></i>
         </div>
         <div class="card-body">
-          <table class="table table-sm">
+          <table class="table table-bordered">
             <thead>
               <tr>
                 <th>Course Name</th>
@@ -156,7 +156,7 @@
             <i (click)="onModalClick(userModal)" class="fa fa-plus"></i>
         </div>
         <div class="card-body">
-          <table class="table table-bordered">
+          <table class="table table-bordered" >
             <thead>
               <tr>
                 <th>Username</th>
@@ -231,7 +231,7 @@
           <i class="fa fa-align-justify"></i> Combined All Table
         </div>
         <div class="card-body">
-          <table class="table table-bordered table-striped table-sm">
+          <table class=" table table-bordered">
             <thead>
               <tr>
                 <th>Username</th>
@@ -312,31 +312,36 @@
   </div>
   <div class="modal-body">
     <div class="card-body">
-      <div class="form-group">
-        <!-- <label for="company">Name</label> -->
-        <input [(ngModel)]="branch.branchName" type="text" class="form-control" id="Name" placeholder="Name of the branch">
-      </div>
-      <div class="form-group">
-        <!-- <label for="vat">Branch Address</label> -->
-        <input [(ngModel)]="branch.branchAddress" type="text" class="form-control" id="address" placeholder="Address of the branch">
-      </div>
-      <div class="form-group">
-        <!-- <label for="postal-code">Branch Email</label> -->
-        <input [(ngModel)]="branch.branchEmail" type="text" class="form-control" id="email" placeholder="Email address">
-      </div>
-      <div class="form-group">
-        <!-- <label for="street">Contact Person</label> -->
-        <input [(ngModel)]="branch.contactPerson" type="text" class="form-control" id="contPerson" placeholder="Contact person">
-      </div>
-      <div class="form-group">
-        <!-- <label for="city">Contact Number</label> -->
-        <input [(ngModel)]="branch.contactNumber" type="text" class="form-control" id="city" placeholder="Contact number">
-      </div>
+        <form [formGroup]="branchForm" (ngSubmit)="saveBranchDetails()">
+            <div class="form-group">
+                <label for="company">Name</label> 
+                <input [(ngModel)]="branch.branchName" formControlName="branchName"  type="text" class="form-control"  id="Name" placeholder="Name of the branch">
+               
+              </div>
+              <div class="form-group">
+                <label for="vat">Branch Address</label>
+                <input [(ngModel)]="branch.branchAddress" formControlName="branchAddress"  type="text" class="form-control" id="address" placeholder="Address of the branch">
+              </div>
+              <div class="form-group">
+                <label for="postal-code">Branch Email</label>
+                <input [(ngModel)]="branch.branchEmail" formControlName="branchEmail"  type="text" class="form-control" id="email" placeholder="Email address">
+              </div>
+              <div class="form-group">
+                <label for="street">Contact Person</label>
+                <input [(ngModel)]="branch.contactPerson" formControlName="branchPerson" type="text" class="form-control" id="contPerson" placeholder="Contact person">
+              </div>
+              <div class="form-group">
+                <label for="city">Contact Number</label>
+                <input [(ngModel)]="branch.contactNumber" formControlName="branchNumber"  type="text" class="form-control" id="city" placeholder="Contact number">
+              </div>
+              <div class="form-group">
+                  <button class="btn btn-primary" type="submit" >Submit</button>
+                </div>
+          </form>
+      
     </div>
   </div>
-  <div class="modal-footer">
-    <button type="button" class="btn btn-primary" (click)="saveBranchDetails()">Save</button>
-  </div>
+ 
 </ng-template>
 
 <ng-template #courseModal let-modal>
@@ -345,16 +350,19 @@
   </div>
   <div class="modal-body">
     <div class="card-body">
+        <form [formGroup]="courseForm" (ngSubmit)="saveCourseDetails()">
       <div class="form-group">
-        <input [(ngModel)]="course.courseName" type="text" class="form-control" id="Name" placeholder="Course Name">
+        <input [(ngModel)]="course.courseName" formControlName="courseName" type="text" class="form-control" id="Name" placeholder="Course Name">
       </div>
       <div class="form-group">
-        <input [(ngModel)]="course.description" type="text" class="form-control" id="address" placeholder="Description">
+        <input [(ngModel)]="course.description" formControlName="courseDescription"  type="text" class="form-control" id="address" placeholder="Description">
       </div>
+      <div class="form-group">
+          <button class="btn btn-primary" type="submit" >Submit</button>
+      </div>
+      
+      </form>
     </div>
-  </div>
-  <div class="modal-footer">
-    <button type="button" class="btn btn-primary" (click)="saveCourseDetails()">Save</button>
   </div>
 </ng-template>
 
@@ -367,30 +375,32 @@
     </div>
     <div class="modal-body">
       <div class="card-body">
+          <form [formGroup]="userForm" (ngSubmit)="saveUserDetails()">
         <div class="form-group">
         <label for="company">Name</label>
-          <input [(ngModel)]="user.userName" type="text" class="form-control" id="Name" placeholder="Name of the user">
+          <input [(ngModel)]="user.userName" formControlName="userName" type="text" class="form-control" id="Name" placeholder="Name of the user">
         </div>
         <div class="form-group">
         <label for="company">Email</label>
-        <input [(ngModel)]="user.email" type="text" class="form-control" id="email" placeholder="Email of the user">
+        <input [(ngModel)]="user.email" formControlName="userEmail"  type="text" class="form-control" id="email" placeholder="Email of the user">
         </div>
         <div class="form-group">
         <label for="street">Password</label>
-        <input [(ngModel)]="user.password" type="password" class="form-control" id="password" placeholder="User Password">
+        <input [(ngModel)]="user.password" formControlName="userPassword"  type="password" class="form-control" id="password" placeholder="User Password">
         </div>
         <div class="form-group">
-          <!-- <label for="street">Contact Person</label> -->
-          <input [(ngModel)]="branch.contactPerson" type="text" class="form-control" id="contPerson" placeholder="Contact person">
+          <label for="street">Contact Person</label>
+          <input [(ngModel)]="branch.contactPerson" formControlName="userContactPerson"  type="text" class="form-control" id="contPerson" placeholder="Contact person">
         </div>
         <div class="form-group">
-          <!-- <label for="city">Contact Number</label> -->
-          <input [(ngModel)]="branch.contactNumber" type="text" class="form-control" id="city" placeholder="Contact number">
+          <label for="city">Contact Number</label>
+          <input [(ngModel)]="branch.contactNumber" formControlName="userContactNumber"  type="text" class="form-control" id="city" placeholder="Contact number">
         </div>
+        <div class="form-group">
+            <button class="btn btn-primary" type="submit" >Submit</button>
+          </div>
+        </form>
       </div>
-    </div>
-    <div class="modal-footer">
-      <button type="button" class="btn btn-primary" (click)="saveBranchDetails()">Save</button>
     </div>
 </ng-template>
 
