@@ -51,7 +51,7 @@ export class MastersComponent implements OnInit {
   constructor(
     private service: ApiService,
     private modalService: NgbModal,
-    private auth: AuthService,
+    public auth: AuthService,
     private route: Router
   ) {}
 
