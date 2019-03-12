@@ -17,7 +17,7 @@
                 <th>Address</th>
                 <th>Contact Person</th>
                 <th>Contact Number</th>
-                <th>Status</th>
+                <th>Actions</th>
               </tr>
             </thead>
             <tbody *ngFor="let branch of branches">
@@ -27,7 +27,9 @@
                 <td>{{branch.contactPerson}}</td>
                 <td>{{branch.contactNumber}}</td>
                 <td>
-                  <span class="badge badge-success">Active</span>
+                  <!-- <span class="badge badge-success">Active</span> -->
+                  <i class="fa fa-trash" (click)="onDeleteModalClick(deleteModal,branch,'branch')"></i> &nbsp;
+                  <i (click)="onEditModalClick(content,branch.id)" class="fa fa-pencil"></i>
                 </td>
               </tr>
             </tbody>
