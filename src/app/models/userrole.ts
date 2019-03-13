@@ -1,7 +1,6 @@
-export class Course {
+export class UserRole {
   id: number;
-  courseName: string;
-  description: string;
+  role: string;
   createdDate: string;
   updatedDate: string;
   createdBy: number;

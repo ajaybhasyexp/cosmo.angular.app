@@ -1,5 +1,5 @@
 export class Branch {
-    branchId: number;
+    id: number;
     branchName: string;
     branchAddress: string;
     contactNumber: string;

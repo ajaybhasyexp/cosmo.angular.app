@@ -9,8 +9,7 @@ import { AuthService } from '../../services/auth.service';
 import { Constants } from '../../constants';
 import { Router } from '@angular/router';
 import { User } from '../../models/user';
-
-
+import { UserRole } from '../../models/userrole';
 
 @Component({
   selector: 'app-masters',
@@ -22,6 +21,7 @@ export class MastersComponent implements OnInit {
   branches: Array<Branch> = new Array<Branch>();
   courses: Array<Course> = new Array<Course>();
   users: Array<User> = new Array<User>();
+  userRoles: Array<UserRole> = new Array<UserRole>();
   branch = new Branch();
   course = new Course();
   user = new User();
@@ -30,6 +30,7 @@ export class MastersComponent implements OnInit {
   loading: boolean;
   deleteobject: any;
   url: string;
+
   branchForm = new FormGroup({
     branchName: new FormControl('', Validators.required),
     branchAddress: new FormControl('', Validators.required),
@@ -37,23 +38,29 @@ export class MastersComponent implements OnInit {
     branchPerson: new FormControl('', Validators.required),
     branchNumber: new FormControl('', Validators.required)
   });
+
   courseForm = new FormGroup({
     courseName: new FormControl('', Validators.required),
     courseDescription: new FormControl('', Validators.required)
   });
+
   userForm = new FormGroup({
     userName: new FormControl('', Validators.required),
     userEmail: new FormControl('', [Validators.required, Validators.email]),
-    userPassword: new FormControl('', [Validators.required, Validators.minLength(5)]),
+    userPassword: new FormControl('', [
+      Validators.required,
+      Validators.minLength(5)
+    ]),
     userContactPerson: new FormControl('', Validators.required),
     userContactNumber: new FormControl('', Validators.required)
   });
+
   constructor(
     private service: ApiService,
     private modalService: NgbModal,
     public auth: AuthService,
     private route: Router
-  ) { }
+  ) {}
 
   ngOnInit() {
     if (this.auth.isLoggedIn() !== true) {
@@ -61,6 +68,7 @@ export class MastersComponent implements OnInit {
     }
     this.getBranches();
     this.getCourses();
+    this.getUserRoles();
   }
 
   getBranches(): any {
@@ -86,6 +94,12 @@ export class MastersComponent implements OnInit {
     });
   }
 
+  getUserRoles(): any {
+    this.service.get(Constants.roles).subscribe(resp => {
+      this.bindUserRoles(resp.data);
+    });
+  }
+
   bindBranches(data: Array<Branch>) {
     this.branches = data;
   }
@@ -98,6 +112,10 @@ export class MastersComponent implements OnInit {
     this.users = data;
   }
 
+  bindUserRoles(data: Array<UserRole>) {
+    this.userRoles = data;
+  }
+
   saveBranchDetails() {
     console.log(this.branchForm.value);
     console.log(this.branchForm.status);
@@ -108,10 +126,8 @@ export class MastersComponent implements OnInit {
         this.getBranches();
         this.loading = false;
         this.modalReference.close();
-
       });
     }
-
   }
 
   saveCourseDetails() {
@@ -136,7 +152,7 @@ export class MastersComponent implements OnInit {
     this.modalReference = this.modalService.open(content);
   }
 
-  onDeleteModalClick(content, deleteobject: any, url: string) {
+  onDeleteModalClick(content: any, deleteobject: any, url: string) {
     this.modalReference = this.modalService.open(content);
     this.deleteobject = deleteobject;
     this.url = url;
@@ -153,16 +169,13 @@ export class MastersComponent implements OnInit {
     });
   }
 
-  getbranch(id: number) {
-    this.service.get(Constants.branch + '/' + id).subscribe(resp => {
-      this.bindBranch(resp.data);
-    });
-  }
-  onEditModalClick(content, id) {
-    this.getbranch(id);
+  onBranchEditModalClick(content: any, id: number) {
+    this.branch = this.branches.find(x => x.id === id);
     this.onModalClick(content);
   }
-  bindBranch(data) {
-    this.branch = data;
+
+  onCourseEditModalClick(content: any, id: number) {
+    this.course = this.courses.find(x => x.id === id);
+    this.onModalClick(content);
   }
 }
