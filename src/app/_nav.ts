@@ -44,6 +44,11 @@ export const navItems: NavData[] = [
     //   text: 'NEW'
     // }
   },
+  {
+    name: 'Branch',
+    url: '/branch',
+    icon: 'icon-home'
+  },
   // {
   //   name: 'Colors',
   //   url: '/theme/colors',

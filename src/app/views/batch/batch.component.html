@@ -1,0 +1,58 @@
+<div class="animated fadeIn">
+  <div *ngIf="auth.isSuperAdmin()" class="row">
+    <div class="col-lg-12">
+      <div class="loading" *ngIf="loading">
+        <img src="assets/loading.gif" />
+      </div>
+      <div class="card">
+        <div class="card-header">
+          <i class="fa fa-align-justify"></i> Batch&nbsp;
+          <i (click)="onModalClick(batchModal)" class="fa fa-plus"></i>
+        </div>
+        <div class="card-body">
+          <table class="table table-bordered">
+            <thead>
+              <tr>
+                <th>Batch Name</th>                
+              </tr>
+            </thead>
+            <tbody *ngFor="let batch of batches">
+              <tr>
+                <td>{{batch.batchName}}</td>                
+                <td>
+                  <!-- <span class="badge badge-success">Active</span> -->
+                  <i class="fa fa-trash" (click)="onDeleteModalClick(deleteModal,branch,'branch')"></i> &nbsp;
+                  <i (click)="onBranchEditModalClick(content,branch.id)" class="fa fa-pencil"></i>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<ng-template #batchModal let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title">Add Course</h4>
+  </div>
+  <div class="modal-body">
+    <div class="card-body">
+      <form [formGroup]="courseForm" (ngSubmit)="saveCourseDetails()">
+        <div class="form-group">
+          <input [(ngModel)]="course.courseName" formControlName="courseName" type="text" class="form-control" id="Name"
+            placeholder="Course Name">
+        </div>
+        <div class="form-group">
+          <input [(ngModel)]="course.description" formControlName="courseDescription" type="text" class="form-control"
+            id="address" placeholder="Description">
+        </div>
+        <div class="form-group">
+          <button class="btn btn-primary" type="submit">Submit</button>
+        </div>
+
+      </form>
+    </div>
+  </div>
+</ng-template>
