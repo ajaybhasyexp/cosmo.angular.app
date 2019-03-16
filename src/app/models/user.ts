@@ -7,4 +7,8 @@ export class User {
   profilePic: string;
   token: string;
   branchId: number;
+  contactNumber: number;
+  contactPerson: string;
+  createdBy: number;
+  updatedBy: number;
 }
