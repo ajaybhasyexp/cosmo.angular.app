@@ -9,20 +9,16 @@ import {
   FormsModule
 } from '@angular/forms';
 
-import { BranchComponent } from './branch.component';
-import { BranchRoutingModule } from './branch-routing.module';
-import { BatchComponent } from '../batch/batch.component';
-import { BatchassignComponent } from '../batchassign/batchassign.component';
+import { BatchassignComponent } from './batchassign.component';
 
 @NgModule({
   imports: [
-    BranchRoutingModule,
     ChartsModule,
     BsDropdownModule,
     CommonModule,
     FormsModule,
     ReactiveFormsModule
   ],
-  declarations: [BranchComponent, BatchComponent, BatchassignComponent]
+  declarations: [BatchassignComponent]
 })
 export class BranchModule {}

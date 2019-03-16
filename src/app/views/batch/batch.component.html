@@ -1,33 +1,34 @@
-<div class="animated fadeIn">
-  <div *ngIf="auth.isSuperAdmin()" class="row">
-    <div class="col-lg-12">
-      <div class="loading" *ngIf="loading">
-        <img src="assets/loading.gif" />
+<div *ngIf="auth.isSuperAdmin()" class="row">
+  <div class="col-lg-12">
+    <div class="loading" *ngIf="loading">
+      <img src="assets/loading.gif" />
+    </div>
+    <div class="card">
+      <div class="card-header">
+        <i class="fa fa-align-justify"></i> Batch&nbsp;
+        <i (click)="onModalClick(batchModal)" class="fa fa-plus"></i>
       </div>
-      <div class="card">
-        <div class="card-header">
-          <i class="fa fa-align-justify"></i> Batch&nbsp;
-          <i (click)="onModalClick(batchModal)" class="fa fa-plus"></i>
-        </div>
-        <div class="card-body">
-          <table class="table table-bordered">
-            <thead>
-              <tr>
-                <th>Batch Name</th>                
-              </tr>
-            </thead>
-            <tbody *ngFor="let batch of batches">
-              <tr>
-                <td>{{batch.batchName}}</td>                
-                <td>
-                  <!-- <span class="badge badge-success">Active</span> -->
-                  <i class="fa fa-trash" (click)="onDeleteModalClick(deleteModal,branch,'branch')"></i> &nbsp;
-                  <i (click)="onBranchEditModalClick(content,branch.id)" class="fa fa-pencil"></i>
-                </td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
+      <div class="card-body">
+        <table class="table table-bordered">
+          <thead>
+            <tr>
+              <th>Batch Name</th>
+              <th>Description</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody *ngFor="let batch of batches">
+            <tr>
+              <td>{{batch.batchName}}</td>
+              <td>{{batch.description}}</td>
+              <td>
+                <!-- <span class="badge badge-success">Active</span> -->
+                <i class="fa fa-trash" (click)="onDelete(deleteModal,batch)"></i> &nbsp;
+                <i (click)="onEdit(batchModal,batch.id)" class="fa fa-pencil"></i>
+              </td>
+            </tr>
+          </tbody>
+        </table>
       </div>
     </div>
   </div>
@@ -39,14 +40,16 @@
   </div>
   <div class="modal-body">
     <div class="card-body">
-      <form [formGroup]="courseForm" (ngSubmit)="saveCourseDetails()">
+      <form [formGroup]="batchForm" (ngSubmit)="saveBatchDetails()">
         <div class="form-group">
-          <input [(ngModel)]="course.courseName" formControlName="courseName" type="text" class="form-control" id="Name"
-            placeholder="Course Name">
+            <label>Batch Name</label>
+          <input [(ngModel)]="batch.batchName" formControlName="batchName" type="text" class="form-control" id="Name"
+            placeholder="Batch Name">
         </div>
         <div class="form-group">
-          <input [(ngModel)]="course.description" formControlName="courseDescription" type="text" class="form-control"
-            id="address" placeholder="Description">
+            <label>Description</label>
+          <input [(ngModel)]="batch.description" formControlName="description" type="text" class="form-control" id="Description"
+            placeholder="Description">
         </div>
         <div class="form-group">
           <button class="btn btn-primary" type="submit">Submit</button>
@@ -54,5 +57,22 @@
 
       </form>
     </div>
+  </div>
+</ng-template>
+
+<ng-template #deleteModal let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title">Confirmation</h4>
+  </div>
+  <div class="modal-body">
+    <div class="card-body">
+      <div>
+        Are you sure you want to delete?
+      </div>
+    </div>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-secondary" (click)="this.closeModal()">No</button>
+    <button type="button" class="btn btn-primary" (click)="this.deleteItem()">Yes</button>
   </div>
 </ng-template>

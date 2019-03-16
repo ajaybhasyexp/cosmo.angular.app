@@ -162,7 +162,7 @@ export class MastersComponent implements OnInit {
   }
 
   deleteItem() {
-    this.service.delete(this.url, this.deleteobject).subscribe(resp => {
+    this.service.delete(this.url, this.deleteobject).subscribe(() => {
       this.getCourses();
       this.getBranches();
       this.modalReference.close();
