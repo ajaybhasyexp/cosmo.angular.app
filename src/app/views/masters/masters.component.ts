@@ -10,6 +10,7 @@ import { Constants } from '../../constants';
 import { Router } from '@angular/router';
 import { User } from '../../models/user';
 import { UserRole } from '../../models/userrole';
+import { debug } from 'util';
 
 
 
@@ -27,17 +28,22 @@ export class MastersComponent implements OnInit {
   branch = new Branch();
   course = new Course();
   user = new User();
+  userRole = new UserRole();
   closeResult: string;
   modalReference: NgbModalRef;
   loading:boolean;
   deleteobject: any;
   url: string;
+  userRoleIdSelected:number;
+  adminIdSelected:number;
+  branchIdSelected:number;
   branchForm = new FormGroup({
     branchName: new FormControl('',Validators.required),
     branchAddress: new FormControl('',Validators.required),
     branchEmail: new FormControl('',[Validators.required,Validators.email]),
     branchPerson: new FormControl('',Validators.required),
-    branchNumber: new FormControl('',[Validators.required,Validators.pattern(/^-?(0|[1-9]\d*)?$/)])
+    branchNumber: new FormControl('',[Validators.required,Validators.pattern(/^-?(0|[1-9]\d*)?$/)]),
+    adminId: new FormControl('')
   });
   courseForm = new FormGroup({
     courseName: new FormControl('',Validators.required),
@@ -46,9 +52,11 @@ export class MastersComponent implements OnInit {
   userForm = new FormGroup({
     userName: new FormControl('',Validators.required),
     userEmail: new FormControl('',[Validators.required,Validators.email]),
-    userPassword: new FormControl('',[Validators.required, Validators.minLength(6)]), 
-    userContactPerson: new FormControl('',Validators.required),
-    userContactNumber: new FormControl('',[Validators.required,Validators.pattern(/^-?(0|[1-9]\d*)?$/)])
+    userPassword: new FormControl('',[Validators.required, Validators.pattern(/^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/)]), 
+    //userContactNumber: new FormControl('',[Validators.required,Validators.pattern(/^-?(0|[1-9]\d*)?$/)] ),
+    userRoleId: new FormControl('',Validators.required),
+    branchId: new FormControl('')
+   
     
   });
 
@@ -63,9 +71,7 @@ export class MastersComponent implements OnInit {
     private route: Router
   ) {
    
-    this.branchForm.patchValue({
-      branchName: 'Akhil 2'
-    })
+    
   }
 
   ngOnInit() {
@@ -76,8 +82,7 @@ export class MastersComponent implements OnInit {
     this.getCourses();
     this.getUsers();
     this.getUserRoles();
-   
-    
+
     
   }
 
@@ -92,8 +97,6 @@ export class MastersComponent implements OnInit {
     this.loading = true; 
     this.service.get(Constants.user).subscribe(resp => {
       this.bindUsers(resp.data);
-      console.log(resp.data);
-      console.log(resp);
       this.loading = false; 
     });
   }
@@ -125,18 +128,18 @@ export class MastersComponent implements OnInit {
   }
 
   bindUserRoles(data: Array<UserRole>) {
+ 
     this.userRoles = data;
   }
 
   saveBranchDetails() {
     this.btnBranchSubmited = true;
-    console.log(this.branchForm);
-    console.log(this.branchForm.status);
     if (this.branchForm.valid) {
       this.loading = true;
       this.branchForm.value;
+      this.branch.adminId = this.branchForm.controls.adminId.value;
+      console.log(this.branchForm.controls.adminId);
       this.service.post(Constants.branch, this.branch).subscribe(resp => {
-        console.log(resp);
         this.getBranches();
         this.loading = false;
         this.modalReference.close();
@@ -164,15 +167,14 @@ export class MastersComponent implements OnInit {
 
   saveUserDetails() {
 
-    // console.log(this.userForm.value);
-    // console.log(this.userForm.status);
     this.btnUserSubmited = true;
     if (this.userForm.valid) {
       const userId = +this.auth.getUserId();
       this.user.createdBy = userId;
       this.user.updatedBy = userId;
-      console.log(this.user);
-      console.log(this.userForm.controls.userRoleId);
+      this.user.userRoleId = this.userForm.controls.userRoleId.value;
+      this.user.branchId = this.userForm.controls.branchId.value;
+      console.log(this.userForm.controls.branchId.value );
       this.service.post(Constants.user, this.user).subscribe(resp => {
         this.getUsers();
         this.loading = false; 
@@ -181,13 +183,36 @@ export class MastersComponent implements OnInit {
       });
     }
 
+
   }
 
-  onModalClick(content) {
+  onUserModalClick(content,type:number) {
+    if(type==1)
+    {
+      this.user = new User();
+      this.branchIdSelected=2;
+      this.userRoleIdSelected=2;
+    }
     this.modalReference = this.modalService.open(content);
     
   }
-
+  onBranchModalClick(content,type:number) {
+    if(type==1)
+    {
+      this.branch = new Branch();
+      this.adminIdSelected=2;
+    }
+    this.modalReference = this.modalService.open(content);
+    
+  }
+  onCourseModalClick(content,type:number) {
+    if(type==1)
+    {
+      this.course = new Course();
+    }
+    this.modalReference = this.modalService.open(content);
+    
+  }
   onDeleteModalClick(content: any, deleteobject: any, url: string) {
     this.modalReference = this.modalService.open(content);
     this.deleteobject = deleteobject;
@@ -202,17 +227,26 @@ export class MastersComponent implements OnInit {
     this.service.delete(this.url, this.deleteobject).subscribe(resp => {
       this.getCourses();
       this.getBranches();
+      this.getUsers();
       this.modalReference.close();
     });
   }
 
   onBranchEditModalClick(content: any, id: number) {
     this.branch = this.branches.find(x => x.id === id);
-    this.onModalClick(content);
+    this.onBranchModalClick(content,2);
+    this.adminIdSelected=this.branches.find(x => x.id === id).adminId;
   }
 
   onCourseEditModalClick(content: any, id: number) {
     this.course = this.courses.find(x => x.id === id);
-    this.onModalClick(content);
+    this.onCourseModalClick(content,2);
+  }
+  onUserEditModalClick (content: any, id: number) {
+    this.user = this.users.find(x => x.id === id);
+    this.branchIdSelected=this.users.find(x => x.id === id).branchId;
+    this.userRoleIdSelected=this.users.find(x => x.id === id).userRoleId;
+    console.log(content);
+    this.onUserModalClick(content,2);
   }
 }
