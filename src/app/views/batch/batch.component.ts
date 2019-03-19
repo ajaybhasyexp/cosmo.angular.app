@@ -19,7 +19,7 @@ export class BatchComponent implements OnInit {
     private modalService: NgbModal,
     public auth: AuthService,
     private route: Router
-  ) {}
+  ) { }
 
   modalReference: NgbModalRef;
   loading: boolean;
@@ -28,7 +28,8 @@ export class BatchComponent implements OnInit {
   deleteObject = new Batch();
 
   batchForm = new FormGroup({
-    batchName: new FormControl('', Validators.required)
+    batchName: new FormControl('', Validators.required),
+    description: new FormControl('', Validators.required)
   });
 
   ngOnInit() {

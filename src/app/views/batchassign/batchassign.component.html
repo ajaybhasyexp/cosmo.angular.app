@@ -1,35 +1,69 @@
-<div *ngIf="auth.isSuperAdmin()" class="row">
-    <div class="col-lg-12">
-      <div class="loading" *ngIf="loading">
-        <img src="assets/loading.gif" />
+<div class="row">
+  <div class="col-lg-12">
+    <div class="loading" *ngIf="loading">
+      <img src="assets/loading.gif" />
+    </div>
+    <div class="card">
+      <div class="card-header">
+        <i class="fa fa-align-justify"></i> Batch&nbsp;
+        <i (click)="onModalClick(assignModal)" class="fa fa-plus"></i>
       </div>
-      <div class="card">
-        <div class="card-header">
-          <i class="fa fa-align-justify"></i> Batch&nbsp;
-          <i (click)="onModalClick(batchModal)" class="fa fa-plus"></i>
-        </div>
-        <div class="card-body">
-          <table class="table table-bordered">
-            <thead>
-              <tr>
-                <th>Batch Name</th>
-                <th>Description</th>
-                <th>Actions</th>
-              </tr>
-            </thead>
-            <tbody *ngFor="let batch of batches">
-              <tr>
-                <td>{{batch.batchName}}</td>
-                <td>{{batch.description}}</td>
-                <td>
-                  <!-- <span class="badge badge-success">Active</span> -->
-                  <i class="fa fa-trash" (click)="onDelete(deleteModal,batch)"></i> &nbsp;
-                  <i (click)="onEdit(batchModal,batch.id)" class="fa fa-pencil"></i>
-                </td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
+      <div class="card-body">
+        <table class="table table-bordered">
+          <thead>
+            <tr>
+              <th>Branch </th>
+              <th>Course </th>
+              <th>Batch</th>
+            </tr>
+          </thead>
+          <tbody *ngFor="let assign of batchAssigns">
+            <tr>
+              <td>{{batch.batchName}}</td>
+              <td>{{batch.description}}</td>
+              <td>
+                <!-- <span class="badge badge-success">Active</span> -->
+                <i class="fa fa-trash" (click)="onDelete(deleteModal,batch)"></i> &nbsp;
+                <i (click)="onEdit(batchModal,batch.id)" class="fa fa-pencil"></i>
+              </td>
+            </tr>
+          </tbody>
+        </table>
       </div>
     </div>
   </div>
+</div>
+
+<ng-template #assignModal let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title">Assign Course</h4>
+  </div>
+  <div class="modal-body">
+    <div class="card-body">
+      <div class="form-group">
+        <label for="city">Branch</label>
+        <select [(ngModel)]="batchAssign.branchId" class="form-control" name="branch">
+          <option [ngValue]="branch.id" *ngFor="let branch of branches">
+            {{branch.branchName}}</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label for="city">Course</label>
+        <select [(ngModel)]="batchAssign.courseId" class="form-control" name="course">
+          <option  [ngValue]="course.id" *ngFor="let course of courses">
+            {{course.courseName}}</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label for="city">Batch</label>
+        <select [(ngModel)]="batchAssign.batchId" class="form-control" name="batch">
+          <option  [ngValue]="batch.id" *ngFor="let batch of batches">
+            {{batch.batchName}}</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <button (click)="saveBatchAssignmentDetails()" class="btn btn-primary" type="submit">Submit</button>
+      </div>
+    </div>
+  </div>
+</ng-template>
