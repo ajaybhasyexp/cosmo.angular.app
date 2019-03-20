@@ -11,6 +11,7 @@ import { Router } from '@angular/router';
 import { User } from '../../models/user';
 import { UserRole } from '../../models/userrole';
 import { debug } from 'util';
+import Swal from 'sweetalert2'
 
 
 
@@ -82,8 +83,6 @@ export class MastersComponent implements OnInit {
     this.getCourses();
     this.getUsers();
     this.getUserRoles();
-
-    
   }
 
   getBranches(): any {
@@ -144,6 +143,11 @@ export class MastersComponent implements OnInit {
         this.loading = false;
         this.modalReference.close();
         this.btnBranchSubmited = false;
+        Swal.fire(
+          'Successfully Saved!!',
+          '',
+          'success'
+        )
       });
     }
 
@@ -156,10 +160,17 @@ export class MastersComponent implements OnInit {
       this.course.createdBy = userId;
       this.course.updatedBy = userId;
       this.service.post(Constants.course, this.course).subscribe(resp => {
+        console.log(resp);
+        console.log(resp);
         this.getCourses();
         this.loading = false; 
         this.modalReference.close();
         this.btnCourseSubmited = false;
+        Swal.fire(
+          'Successfully Saved!!',
+          '',
+          'success'
+        )
       });
     }
    
@@ -180,6 +191,11 @@ export class MastersComponent implements OnInit {
         this.loading = false; 
         this.modalReference.close();
         this.btnUserSubmited = false;
+        Swal.fire(
+          'Successfully Saved!!',
+          '',
+          'success'
+        )
       });
     }
 
@@ -214,9 +230,23 @@ export class MastersComponent implements OnInit {
     
   }
   onDeleteModalClick(content: any, deleteobject: any, url: string) {
-    this.modalReference = this.modalService.open(content);
-    this.deleteobject = deleteobject;
-    this.url = url;
+    Swal.fire({
+      title: 'Are you sure?',
+      text: "You won't be able to revert this!",
+      type: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Yes, delete it!'
+    }).then((result) => {
+      if (result.value) {
+        //this.modalReference = this.modalService.open(content);
+        this.deleteobject = deleteobject;
+        this.url = url;
+        this.deleteItem();
+      }
+    })
+    
   }
   closeModal() {
     this.modalReference.close();
@@ -225,10 +255,16 @@ export class MastersComponent implements OnInit {
 
   deleteItem() {
     this.service.delete(this.url, this.deleteobject).subscribe(resp => {
+      Swal.fire(
+        'Deleted!!',
+        '',
+        'success'
+      )
       this.getCourses();
-      this.getBranches();
+      this.getBranches(); 
       this.getUsers();
-      this.modalReference.close();
+      //this.modalReference.close();
+     
     });
   }
 
