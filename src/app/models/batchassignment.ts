@@ -5,6 +5,7 @@ export class BatchAssignment {
   courseId: number;
   course: string;
   batchId: number;
+  batch: string;
   createdBy: number;
   updatedBy: number;
   createdDate: string;

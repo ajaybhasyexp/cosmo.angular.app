@@ -47,10 +47,6 @@ export class BatchassignComponent implements OnInit {
 
   }
 
-  // getAssigns() {
-  //   this.service.get
-  // }cisco
-
   getBranches() {
     if (this.auth.isSuperAdmin()) {
       this.service.get(Constants.branch).subscribe(p => {
