@@ -42,7 +42,7 @@ export class BatchassignComponent implements OnInit {
       Validators.required
     ),
     assignCourse: new FormControl(null, Validators.required),
-    assignBatch: new FormControl(null,Validators.required )
+    assignBatch: new FormControl(null, Validators.required)
   });
 
   ngOnInit() {
@@ -80,7 +80,6 @@ export class BatchassignComponent implements OnInit {
     } else {
       url = url + '/' + this.auth.getBranchId();
     }
-    console.log(url);
     this.service.get(url).subscribe(p => {
       this.bindBatchAssigns(p.data);
     });
@@ -112,6 +111,11 @@ export class BatchassignComponent implements OnInit {
 
   bindBatchAssigns(data: Array<BatchAssignment>) {
     this.batchAssigns = data;
+    console.log(data);
+  }
+
+  bindEditBatchAssign(data: BatchAssignment) {
+    this.batchAssign = data;
   }
 
   onModalClick(content: any) {
@@ -120,18 +124,30 @@ export class BatchassignComponent implements OnInit {
     this.getBatches();
     this.modalReference = this.modalService.open(content);
   }
+  onEdit(content: any, id: number) {
+    console.log(id);
+    this.service.get(Constants.batchassign + '/' + id).subscribe(resp => {
+      this.batchAssignForm.controls['assignCourse'].setValue(
+        resp.data.courseId
+      );
+      this.batchAssignForm.controls['assignBranch'].setValue(
+        resp.data.branchId
+      );
+      this.modalReference = this.modalService.open(content);
+    });
+  }
 
   saveBatchAssignmentDetails() {
     if (this.batchAssignForm.valid) {
       const userId = +this.auth.getUserId();
-      this.batchAssign.createdBy = userId;
-      this.batchAssign.updatedBy = userId;
-      this.batchAssign.batches = this.selectedBatches;
-      this.batchAssign.isBranchWise = !this.auth.isSuperAdmin();
-      this.batchAssign.courseId = this.batchAssignForm.get('assignCourse').value;
-      this.batchAssign.branchId = this.batchAssignForm.get('assignBranch').value;
-      console.log(this.batchAssign);
-      this.service.post('batchassignment', this.batchAssign).subscribe(resp => {
+      const batchAssign = new BatchAssignment();
+      batchAssign.createdBy = userId;
+      batchAssign.updatedBy = userId;
+      batchAssign.batches = this.selectedBatches;
+      batchAssign.isBranchWise = !this.auth.isSuperAdmin();
+      batchAssign.courseId = this.batchAssignForm.get('assignCourse').value;
+      batchAssign.branchId = this.batchAssignForm.get('assignBranch').value;
+      this.service.post('batchassignment', batchAssign).subscribe(resp => {
         Swal.fire('Successfully Saved!!', '', 'success');
         this.modalReference.close();
         this.getBatchAssigns();
