@@ -7,7 +7,7 @@
       <div class="card">
         <div class="card-header">
           <i class="fa fa-align-justify"></i> Branch&nbsp;
-          <i (click)="onModalClick(content)" class="fa fa-plus"></i>
+          <i (click)="onBranchModalClick(branchModal,1);" class="fa fa-plus"></i>
         </div>
         <div class="card-body">
           <table class="table table-bordered">
@@ -29,105 +29,18 @@
                 <td>
                   <!-- <span class="badge badge-success">Active</span> -->
                   <i class="fa fa-trash" (click)="onDeleteModalClick(deleteModal,branch,'branch')"></i> &nbsp;
-                  <i (click)="onBranchEditModalClick(content,branch.id)" class="fa fa-pencil"></i>
+                  <i (click)="onBranchEditModalClick(branchModal,branch.id)" class="fa fa-pencil"></i>
                 </td>
               </tr>
             </tbody>
           </table>
-          <!-- <ul class="pagination">
-            <li class="page-item"><a class="page-link" href="#">Prev</a></li>
-            <li class="page-item active">
-              <a class="page-link" href="#">1</a>
-            </li>
-            <li class="page-item"><a class="page-link" href="#">2</a></li>
-            <li class="page-item"><a class="page-link" href="#">3</a></li>
-            <li class="page-item"><a class="page-link" href="#">4</a></li>
-            <li class="page-item"><a class="page-link" href="#">Next</a></li>
-          </ul> -->
-        </div>
-      </div>
-    </div>
-    <!--/.col-->
-    <!-- <div class="col-lg-4">
-      <div class="card">
-        <div class="card-header">
-          <i class="fa fa-align-justify"></i> Course
-        </div>
-        <div class="card-body">
-          <table class="table table-striped">
-            <thead>
-              <tr>
-                <th>Username</th>
-                <th>Date registered</th>
-                <th>Role</th>
-                <th>Status</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td>Yiorgos Avraamu</td>
-                <td>2012/01/01</td>
-                <td>Member</td>
-                <td>
-                  <span class="badge badge-success">Active</span>
-                </td>
-              </tr>
-              <tr>
-                <td>Avram Tarasios</td>
-                <td>2012/02/01</td>
-                <td>Staff</td>
-                <td>
-                  <span class="badge badge-danger">Banned</span>
-                </td>
-              </tr>
-              <tr>
-                <td>Quintin Ed</td>
-                <td>2012/02/01</td>
-                <td>Admin</td>
-                <td>
-                  <span class="badge badge-secondary">Inactive</span>
-                </td>
-              </tr>
-              <tr>
-                <td>Enéas Kwadwo</td>
-                <td>2012/03/01</td>
-                <td>Member</td>
-                <td>
-                  <span class="badge badge-warning">Pending</span>
-                </td>
-              </tr>
-              <tr>
-                <td>Agapetus Tadeáš</td>
-                <td>2012/01/21</td>
-                <td>Staff</td>
-                <td>
-                  <span class="badge badge-success">Active</span>
-                </td>
-              </tr>
-            </tbody>
-          </table>
-          <ul class="pagination">
-            <li class="page-item"><a class="page-link" href="#">Prev</a></li>
-            <li class="page-item active">
-              <a class="page-link" href="#">1</a>
-            </li>
-            <li class="page-item"><a class="page-link" href="#">2</a></li>
-            <li class="page-item"><a class="page-link" href="#">3</a></li>
-            <li class="page-item"><a class="page-link" href="#">4</a></li>
-            <li class="page-item"><a class="page-link" href="#">Next</a></li>
-          </ul>
-        </div>
-      </div>
-    </div> -->
-    <!--/.col-->
-  </div>
-  <!--/.row-->
+    
   <div *ngIf="auth.isSuperAdmin()" class="row">
     <div class="col-lg-6">
       <div class="card">
         <div class="card-header">
           <i class="fa fa-align-justify"></i> Course &nbsp;
-          <i (click)="onModalClick(courseModal)" class="fa fa-plus"></i>
+          <i (click)="onCourseModalClick(courseModal,1)" class="fa fa-plus"></i>
         </div>
         <div class="card-body">
           <table class="table table-bordered">
@@ -148,164 +61,46 @@
             </tbody>
           </table>
         </div>
-      </div>
+      </div> 
     </div>
     <!--/.col-->
     <div class="col-lg-6">
       <div class="card">
         <div class="card-header">
           <i class="fa fa-align-justify"></i> User &nbsp;
-          <i (click)="onModalClick(userModal)" class="fa fa-plus"></i>
+          <i (click)="onUserModalClick(userModal,1)" class="fa fa-plus"></i>
         </div>
         <div class="card-body">
           <table class="table table-bordered">
             <thead>
               <tr>
-                <th>Username</th>
+                <th>User Name</th>
                 <th>Email</th>
                 <th>Branch</th>
                 <th>User Role</th>
+                <th>Actions</th>
+
               </tr>
             </thead>
             <tbody *ngFor="let user of users">
               <tr>
-                <td>Pompeius René</td>
-                <td>2012/01/01</td>
-                <td>Member</td>
-                <td>
-                  <span class="badge badge-success">Active</span>
-                </td>
-              </tr>
-              <tr>
-                <td>Paĉjo Jadon</td>
-                <td>2012/02/01</td>
-                <td>Staff</td>
-                <td>
-                  <span class="badge badge-danger">Banned</span>
-                </td>
-              </tr>
-              <tr>
-                <td>Micheal Mercurius</td>
-                <td>2012/02/01</td>
-                <td>Admin</td>
-                <td>
-                  <span class="badge badge-secondary">Inactive</span>
-                </td>
-              </tr>
-              <tr>
-                <td>Ganesha Dubhghall</td>
-                <td>2012/03/01</td>
-                <td>Member</td>
-                <td>
-                  <span class="badge badge-warning">Pending</span>
-                </td>
-              </tr>
-              <tr>
-                <td>Hiroto Šimun</td>
-                <td>2012/01/21</td>
-                <td>Staff</td>
-                <td>
-                  <span class="badge badge-success">Active</span>
-                </td>
+                <td>{{user.userName}}</td>
+                <td>{{user.email}}</td>
+                <td>{{user.branchId}}</td>
+                <td>{{user.userRoleId}}</td>
+                <td><i class="fa fa-trash" (click)="onDeleteModalClick(deleteModal,user,'user')"></i> &nbsp;
+                  <i (click)="onUserEditModalClick(userModal,user.id)" class="fa fa-pencil"></i></td>
               </tr>
             </tbody>
           </table>
-          <ul class="pagination">
-            <li class="page-item"><a class="page-link" href="#">Prev</a></li>
-            <li class="page-item active">
-              <a class="page-link" href="#">1</a>
-            </li>
-            <li class="page-item"><a class="page-link" href="#">2</a></li>
-            <li class="page-item"><a class="page-link" href="#">3</a></li>
-            <li class="page-item"><a class="page-link" href="#">4</a></li>
-            <li class="page-item"><a class="page-link" href="#">Next</a></li>
-          </ul>
         </div>
       </div>
     </div>
     <!--/.col-->
   </div>
   <!--/.row-->
-  <div class="row">
-    <div class="col-lg-12">
-      <div class="card">
-        <div class="card-header">
-          <i class="fa fa-align-justify"></i> Combined All Table
-        </div>
-        <div class="card-body">
-          <table class=" table table-bordered">
-            <thead>
-              <tr>
-                <th>Username</th>
-                <th>Date registered</th>
-                <th>Role</th>
-                <th>Status</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td>Vishnu Serghei</td>
-                <td>2012/01/01</td>
-                <td>Member</td>
-                <td>
-                  <span class="badge badge-success">Active</span>
-                </td>
-              </tr>
-              <tr>
-                <td>Zbyněk Phoibos</td>
-                <td>2012/02/01</td>
-                <td>Staff</td>
-                <td>
-                  <span class="badge badge-danger">Banned</span>
-                </td>
-              </tr>
-              <tr>
-                <td>Einar Randall</td>
-                <td>2012/02/01</td>
-                <td>Admin</td>
-                <td>
-                  <span class="badge badge-secondary">Inactive</span>
-                </td>
-              </tr>
-              <tr>
-                <td>Félix Troels</td>
-                <td>2012/03/01</td>
-                <td>Member</td>
-                <td>
-                  <span class="badge badge-warning">Pending</span>
-                </td>
-              </tr>
-              <tr>
-                <td>Aulus Agmundr</td>
-                <td>2012/01/21</td>
-                <td>Staff</td>
-                <td>
-                  <span class="badge badge-success">Active</span>
-                </td>
-              </tr>
-            </tbody>
-          </table>
-          <nav>
-            <ul class="pagination">
-              <li class="page-item"><a class="page-link" href="#">Prev</a></li>
-              <li class="page-item active">
-                <a class="page-link" href="#">1</a>
-              </li>
-              <li class="page-item"><a class="page-link" href="#">2</a></li>
-              <li class="page-item"><a class="page-link" href="#">3</a></li>
-              <li class="page-item"><a class="page-link" href="#">4</a></li>
-              <li class="page-item"><a class="page-link" href="#">Next</a></li>
-            </ul>
-          </nav>
-        </div>
-      </div>
-    </div>
-    <!--/.col-->
-  </div>
-  <!--/.row-->
-</div>
-
-<ng-template #content let-modal>
+  
+<ng-template #branchModal let-modal>
   <div class="modal-header">
     <h4 class="modal-title" id="modal-basic-title">Add Branch</h4>
     <!-- <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
@@ -317,29 +112,68 @@
       <form [formGroup]="branchForm" (ngSubmit)="saveBranchDetails()">
         <div class="form-group">
           <label for="company">Name</label>
-          <input [(ngModel)]="branch.branchName" formControlName="branchName" type="text" class="form-control" id="Name"
-            placeholder="Name of the branch">
-
+          <input [(ngModel)]="branch.branchName" formControlName="branchName" type="text" class="form-control" id="Name" maxlength="25" placeholder="Name of the branch">
+          <div *ngIf="branchForm.controls.branchName.hasError('required') && btnBranchSubmited">  
+            <div class="alert alert-danger">
+              Name is required.
+            </div>
+          </div>
         </div>
         <div class="form-group">
           <label for="vat">Branch Address</label>
-          <input [(ngModel)]="branch.branchAddress" formControlName="branchAddress" type="text" class="form-control" id="address"
+          <input [(ngModel)]="branch.branchAddress"  maxlength="40" formControlName="branchAddress" type="text" class="form-control" id="address"
             placeholder="Address of the branch">
+            <div *ngIf="branchForm.controls.branchAddress.hasError('required') && btnBranchSubmited">  
+              <div class="alert alert-danger">
+                Address is required.
+              </div>
+            </div>
         </div>
         <div class="form-group">
           <label for="postal-code">Branch Email</label>
-          <input [(ngModel)]="branch.branchEmail" formControlName="branchEmail" type="text" class="form-control" id="email"
+          <input [(ngModel)]="branch.branchEmail"  maxlength="20" formControlName="branchEmail" type="text" class="form-control" id="email"
             placeholder="Email address">
+            <div *ngIf="branchForm.controls.branchEmail.hasError('required') && btnBranchSubmited">  
+              <div class="alert alert-danger">
+                Email is Required.
+              </div>
+            </div>
+            <div *ngIf="branchForm.controls.branchEmail.hasError('email') && btnBranchSubmited">  
+              <div class="alert alert-danger">
+                Invalid email format.
+              </div>
+            </div>
         </div>
         <div class="form-group">
           <label for="street">Contact Person</label>
-          <input [(ngModel)]="branch.contactPerson" formControlName="branchPerson" type="text" class="form-control" id="contPerson"
+          <input [(ngModel)]="branch.contactPerson"  maxlength="20" formControlName="branchPerson" type="text" class="form-control" id="contPerson"
             placeholder="Contact person">
+            <div *ngIf="branchForm.controls.branchPerson.hasError('required') && btnBranchSubmited">  
+              <div class="alert alert-danger">
+               Contact Person is Required.
+              </div>
+            </div>
         </div>
         <div class="form-group">
           <label for="city">Contact Number</label>
-          <input [(ngModel)]="branch.contactNumber" formControlName="branchNumber" type="text" class="form-control" id="city"
+          <input [(ngModel)]="branch.contactNumber"  maxlength="12" formControlName="branchNumber" type="number" min="0" class="form-control" id="city"
             placeholder="Contact number">
+            <div *ngIf="branchForm.controls.branchNumber.hasError('required') && btnBranchSubmited">  
+              <div class="alert alert-danger">
+                Contact Number is Required.
+              </div>
+            </div>
+            <div *ngIf="branchForm.controls.branchNumber.hasError('pattern') && btnBranchSubmited">  
+              <div class="alert alert-danger">
+                Invalid Contact Number.
+              </div>
+            </div>
+        </div>
+        <div class="form-group">
+          <label for="city">Admin</label>
+          <select [(ngModel)]="adminIdSelected"  formControlName="adminId"   class="form-control" id="adminId">
+            <option  *ngFor="let user of users" [value]=user.id >{{user.userName}}</option>            
+          </select>
         </div>
         <div class="form-group">
           <button class="btn btn-primary" type="submit">Submit</button>
@@ -359,12 +193,22 @@
     <div class="card-body">
       <form [formGroup]="courseForm" (ngSubmit)="saveCourseDetails()">
         <div class="form-group">
-          <input [(ngModel)]="course.courseName" formControlName="courseName" type="text" class="form-control" id="Name"
+          <input [(ngModel)]="course.courseName" maxlength="20" formControlName="courseName" type="text" class="form-control" id="Name"
             placeholder="Course Name">
+            <div *ngIf="courseForm.controls.courseName.hasError('required') && btnCourseSubmited">  
+              <div class="alert alert-danger">
+                Course Name is Required.
+              </div>
+            </div>
         </div>
         <div class="form-group">
-          <input [(ngModel)]="course.description" formControlName="courseDescription" type="text" class="form-control"
+          <input [(ngModel)]="course.description" maxlength="30" formControlName="courseDescription" type="text" class="form-control"
             id="address" placeholder="Description">
+            <div *ngIf="courseForm.controls.courseDescription.hasError('required') && btnCourseSubmited">  
+              <div class="alert alert-danger">
+                Description is Required.
+              </div>
+            </div>
         </div>
         <div class="form-group">
           <button class="btn btn-primary" type="submit">Submit</button>
@@ -387,33 +231,49 @@
       <form [formGroup]="userForm" (ngSubmit)="saveUserDetails()">
         <div class="form-group">
           <label for="company">Name</label>
-          <input [(ngModel)]="user.userName" formControlName="userName" type="text" class="form-control" id="Name"
+          <input [(ngModel)]="user.userName" formControlName="userName"  maxlength="20" type="text" class="form-control" id="Name"
             placeholder="Name of the user">
+            <div *ngIf="userForm.controls.userName.hasError('required') && btnUserSubmited">  
+              <div class="alert alert-danger">
+                Username is Required.
+              </div>
+            </div>
         </div>
         <div class="form-group">
           <label for="company">Email</label>
-          <input [(ngModel)]="user.email" formControlName="userEmail" type="text" class="form-control" id="email"
+          <input [(ngModel)]="user.email" formControlName="userEmail"  maxlength="20" type="text" class="form-control" id="email"
             placeholder="Email of the user">
+            <div *ngIf="userForm.controls.userEmail.hasError('required') && btnUserSubmited">  
+              <div class="alert alert-danger">
+                User Email is Required.
+              </div>
+            </div>
         </div>
         <div class="form-group">
           <label for="street">Password</label>
-          <input [(ngModel)]="user.password" formControlName="userPassword" type="password" class="form-control" id="password"
+          <input [(ngModel)]="user.password"  maxlength="12" formControlName="userPassword" type="text" class="form-control" id="password"
             placeholder="User Password">
-        </div>
-        <div class="form-group">
-          <label for="street">Contact Person</label>
-          <input [(ngModel)]="branch.contactPerson" formControlName="userContactPerson" type="text" class="form-control"
-            id="contPerson" placeholder="Contact person">
-        </div>
-        <div class="form-group">
-          <label for="city">Contact Number</label>
-          <input [(ngModel)]="branch.contactNumber" formControlName="userContactNumber" type="text" class="form-control"
-            id="city" placeholder="Contact number">
+            <div *ngIf="userForm.controls.userPassword.hasError('required') && btnUserSubmited">  
+              <div class="alert alert-danger">
+                Password is Required.
+              </div>
+            </div>
+            <div *ngIf="userForm.controls.userPassword.hasError('pattern') && btnUserSubmited">  
+              <div class="alert alert-danger">
+                Minimum eight characters, at least one letter and one number , special characters not allowed:
+              </div>
+            </div>
         </div>
         <div class="form-group">
           <label for="city">User Role</label>
-          <select class="form-control" id="ccmonth">
-            <option *ngFor="let role of userRoles" id="{{role.id}}">{{role.role}}</option>
+          <select [(ngModel)]="userRoleIdSelected"  formControlName="userRoleId"   class="form-control" id="userRoleId">
+            <option  *ngFor="let role of userRoles" [value]="role.id" >{{role.role}}</option>            
+          </select>
+        </div>
+        <div class="form-group">
+          <label for="city">Branch</label>
+          <select [(ngModel)]="branchIdSelected"  formControlName="branchId"   class="form-control" id="branchId">
+            <option  *ngFor="let branch of branches" [value]="branch.id" >{{branch.branchName}}</option>            
           </select>
         </div>
         <div class="form-group">
