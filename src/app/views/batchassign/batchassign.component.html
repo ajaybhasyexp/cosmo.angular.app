@@ -20,9 +20,9 @@
           </thead>
           <tbody *ngFor="let assign of batchAssigns">
             <tr>
-              <td>{{assign.batch}}</td>
-              <td>{{assign.course}}</td>
               <td>{{assign.branch}}</td>
+              <td>{{assign.course}}</td>
+              <td>{{assign.batch}}</td>
               <td>
                 <i class="fa fa-trash" (click)="onDelete(deleteModal,batch)"></i> &nbsp;
                 <i (click)="onEdit(batchModal,batch.id)" class="fa fa-pencil"></i>
@@ -45,7 +45,6 @@
         <div class="form-group">
           <label for="city">Branch</label>
           <select formControlName="assignBranch" class="form-control" name="branch">
-            <option [ngValue]="null">Choose a Branch</option>
             <option [ngValue]="branch.id" *ngFor="let branch of branches">
               {{branch.branchName}}</option>
           </select>
@@ -60,7 +59,7 @@
         </div>
         <div class="form-group">
           <label for="city">Batch</label>
-          <ng-multiselect-dropdown [placeholder]="'Select batches'" [data]="batches" [(ngModel)]="selectedBatches"
+          <ng-multiselect-dropdown formControlName="assignBatch" [placeholder]="'Select batches'" [data]="batches" [(ngModel)]="selectedBatches"
             [settings]="dropdownSettings">
           </ng-multiselect-dropdown>
         </div>

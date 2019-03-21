@@ -11,7 +11,7 @@ import { Router } from '@angular/router';
 import { User } from '../../models/user';
 import { UserRole } from '../../models/userrole';
 import { debug } from 'util';
-import Swal from 'sweetalert2'
+import Swal from 'sweetalert2';
 
 
 
@@ -146,7 +146,7 @@ export class MastersComponent implements OnInit {
           'Successfully Saved!!',
           '',
           'success'
-        )
+        );
       });
     }
 
@@ -169,7 +169,7 @@ export class MastersComponent implements OnInit {
           'Successfully Saved!!',
           '',
           'success'
-        )
+        );
       });
     }
 
@@ -194,7 +194,7 @@ export class MastersComponent implements OnInit {
           'Successfully Saved!!',
           '',
           'success'
-        )
+        );
       });
     }
 
@@ -202,7 +202,7 @@ export class MastersComponent implements OnInit {
   }
 
   onUserModalClick(content, type: number) {
-    if (type == 1) {
+    if (type === 1) {
       this.user = new User();
       this.branchIdSelected = 2;
       this.userRoleIdSelected = 2;
@@ -211,7 +211,7 @@ export class MastersComponent implements OnInit {
 
   }
   onBranchModalClick(content, type: number) {
-    if (type == 1) {
+    if (type === 1) {
       this.branch = new Branch();
       this.adminIdSelected = 2;
     }
@@ -219,7 +219,7 @@ export class MastersComponent implements OnInit {
 
   }
   onCourseModalClick(content, type: number) {
-    if (type == 1) {
+    if (type === 1) {
       this.course = new Course();
     }
     this.modalReference = this.modalService.open(content);
@@ -228,7 +228,7 @@ export class MastersComponent implements OnInit {
   onDeleteModalClick(content: any, deleteobject: any, url: string) {
     Swal.fire({
       title: 'Are you sure?',
-      text: "You won't be able to revert this!",
+      text: 'You won\'t be able to revert this!',
       type: 'warning',
       showCancelButton: true,
       confirmButtonColor: '#3085d6',
@@ -236,12 +236,12 @@ export class MastersComponent implements OnInit {
       confirmButtonText: 'Yes, delete it!'
     }).then((result) => {
       if (result.value) {
-        //this.modalReference = this.modalService.open(content);
+        // this.modalReference = this.modalService.open(content);
         this.deleteobject = deleteobject;
         this.url = url;
         this.deleteItem();
       }
-    })
+    });
 
   }
   closeModal() {
@@ -255,11 +255,11 @@ export class MastersComponent implements OnInit {
         'Deleted!!',
         '',
         'success'
-      )
+      );
       this.getCourses();
       this.getBranches();
       this.getUsers();
-      //this.modalReference.close();
+      // this.modalReference.close();
 
     });
   }

@@ -1,3 +1,4 @@
+import { Batch } from './batch';
 export class BatchAssignment {
   id: number;
   branchId: number;
@@ -10,4 +11,6 @@ export class BatchAssignment {
   updatedBy: number;
   createdDate: string;
   updatedDate: string;
+  batches: Array<Batch>;
+  isBranchWise: boolean;
 }

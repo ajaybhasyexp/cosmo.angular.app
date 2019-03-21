@@ -4,7 +4,7 @@ import { Router } from '@angular/router';
 
 @Injectable()
 export class AuthService {
-  constructor(private route: Router) { }
+  constructor(private route: Router) {}
 
   login(data) {
     localStorage.setItem(Constants.tokenKey, data.token);
@@ -35,8 +35,9 @@ export class AuthService {
   getUserId() {
     return localStorage.getItem(Constants.userId);
   }
+
   getBranchId() {
-    return localStorage.getItem(Constants.branch);
+    return JSON.parse(localStorage.getItem(Constants.branch)).id;
   }
 
   isSuperAdmin(): boolean {
