@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { ChartsModule } from 'ng2-charts/ng2-charts';
 import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
+import { NgMultiSelectDropDownModule } from 'ng-multiselect-dropdown';
 import { CommonModule } from '@angular/common';
 import {
   FormGroup,
@@ -8,6 +9,7 @@ import {
   ReactiveFormsModule,
   FormsModule
 } from '@angular/forms';
+import { BrowserModule } from '@angular/platform-browser';
 
 import { BatchassignComponent } from './batchassign.component';
 
@@ -17,7 +19,9 @@ import { BatchassignComponent } from './batchassign.component';
     BsDropdownModule,
     CommonModule,
     FormsModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    NgMultiSelectDropDownModule,
+    BrowserModule
   ],
   declarations: [BatchassignComponent]
 })

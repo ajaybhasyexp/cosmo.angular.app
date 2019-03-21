@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
+import { NgMultiSelectDropDownModule } from 'ng-multiselect-dropdown';
 
 import { ApiService } from '../../services/api.service';
 import { AuthService } from '../../services/auth.service';
@@ -32,17 +33,25 @@ export class BatchassignComponent implements OnInit {
   branches = new Array<Branch>();
   courses = new Array<Course>();
   batches = new Array<Batch>();
+  selectedBatches = new Array<Batch>();
+  dropdownSettings = {};
 
-  // batchAssignForm = new FormGroup({
-  // });
+  batchAssignForm = new FormGroup({
+  });
 
   ngOnInit() {
     if (this.auth.isLoggedIn() !== true) {
       this.route.navigate(['login']);
     } else {
-      this.getBranches();
-      this.getCourses();
-      this.getBatches();
+      this.dropdownSettings = {
+        singleSelection: false,
+        idField: 'id',
+        textField: 'batchName',
+        selectAllText: 'Select All',
+        unSelectAllText: 'UnSelect All',
+        itemsShowLimit: 3,
+        allowSearchFilter: true
+      };
     }
 
   }
@@ -87,6 +96,9 @@ export class BatchassignComponent implements OnInit {
   }
 
   onModalClick(content: any) {
+    this.getBranches();
+    this.getCourses();
+    this.getBatches();
     this.modalReference = this.modalService.open(content);
   }
 
