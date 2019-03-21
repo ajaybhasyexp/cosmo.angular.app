@@ -41,10 +41,10 @@
   </div>
   <div class="modal-body">
     <div class="card-body">
-      <form [formGroup]="userForm" (ngSubmit)="saveUserDetails()">
+      <form [formGroup]="batchAssignForm" (ngSubmit)="saveBatchAssignmentDetails()">
         <div class="form-group">
           <label for="city">Branch</label>
-          <select [(ngModel)]="batchAssign.branchId" formControlName="category" class="form-control" name="branch">
+          <select formControlName="assignBranch" class="form-control" name="branch">
             <option [ngValue]="null">Choose a Branch</option>
             <option [ngValue]="branch.id" *ngFor="let branch of branches">
               {{branch.branchName}}</option>
@@ -52,7 +52,7 @@
         </div>
         <div class="form-group">
           <label for="city">Course</label>
-          <select [(ngModel)]="batchAssign.courseId" class="form-control" name="course">
+          <select formControlName="assignCourse" class="form-control" name="course">
             <option [ngValue]="null">Choose a Course</option>
             <option [ngValue]="course.id" *ngFor="let course of courses">
               {{course.courseName}}</option>
@@ -65,9 +65,10 @@
           </ng-multiselect-dropdown>
         </div>
         <div class="form-group">
-          <button (click)="saveBatchAssignmentDetails()" class="btn btn-primary" type="submit">Submit</button>
+          <button [disabled]="!batchAssignForm.valid" class="btn btn-primary" type="submit">Submit</button>
         </div>
-        <form [formGroup]="userForm" (ngSubmit)="saveUserDetails()">
+      </form>
     </div>
   </div>
+
 </ng-template>

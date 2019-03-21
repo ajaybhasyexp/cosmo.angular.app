@@ -37,6 +37,8 @@ export class BatchassignComponent implements OnInit {
   dropdownSettings = {};
 
   batchAssignForm = new FormGroup({
+    assignBranch: new FormControl(null, Validators.required),
+    assignCourse: new FormControl(null, Validators.required)
   });
 
   ngOnInit() {
@@ -103,8 +105,12 @@ export class BatchassignComponent implements OnInit {
   }
 
   saveBatchAssignmentDetails() {
-    this.service.post('batchassignment', this.batchAssign).subscribe(resp => {
-      this.getBatchAssigns();
-    });
+    if (this.batchAssignForm.valid) {
+      this.service.post('batchassignment', this.batchAssign).subscribe(resp => {
+        this.getBatchAssigns();
+      });
+
+    }
+
   }
 }
