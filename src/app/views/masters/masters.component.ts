@@ -155,6 +155,8 @@ export class MastersComponent implements OnInit {
 
   saveCourseDetails() {
     this.btnCourseSubmited = true; 
+    //this.loading = true;
+    console.log(this.courseForm.valid);
     if (this.courseForm.valid) {
       const userId = +this.auth.getUserId();
       this.course.createdBy = userId;
@@ -179,6 +181,7 @@ export class MastersComponent implements OnInit {
   saveUserDetails() {
 
     this.btnUserSubmited = true;
+    this.loading = true; 
     if (this.userForm.valid) {
       const userId = +this.auth.getUserId();
       this.user.createdBy = userId;
@@ -269,20 +272,42 @@ export class MastersComponent implements OnInit {
   }
 
   onBranchEditModalClick(content: any, id: number) {
-    this.branch = this.branches.find(x => x.id === id);
+    this.branch=null;
+    this.loading = true; 
+    this.service.get(Constants.branch+'/'+id).subscribe(resp => {
+      this.branch=resp.data;
+      this.adminIdSelected=resp.data.adminId;
+      this.loading = false; 
+    }); 
+    //this.branch = this.branches.find(x => x.id === id);
     this.onBranchModalClick(content,2);
-    this.adminIdSelected=this.branches.find(x => x.id === id).adminId;
+    
+    //this.adminIdSelected=this.branches.find(x => x.id === id).adminId;
   }
 
   onCourseEditModalClick(content: any, id: number) {
-    this.course = this.courses.find(x => x.id === id);
+    this.course=null;
+    this.loading = true; 
+    this.service.get(Constants.course+'/'+id).subscribe(resp => {
+      this.course=resp.data;
+      this.loading = false; 
+    });
+   // this.course = this.courses.find(x => x.id === id);
     this.onCourseModalClick(content,2);
   }
   onUserEditModalClick (content: any, id: number) {
-    this.user = this.users.find(x => x.id === id);
-    this.branchIdSelected=this.users.find(x => x.id === id).branchId;
-    this.userRoleIdSelected=this.users.find(x => x.id === id).userRoleId;
-    console.log(content);
+    this.user=null;
+    this.loading = true; 
+    this.service.get(Constants.user+'/'+id).subscribe(resp => {
+      this.user=resp.data;
+      this.branchIdSelected=resp.data.branchId;
+      this.userRoleIdSelected=resp.data.userRoleId;
+      this.loading = false; 
+    });
+   // this.user = this.users.find(x => x.id === id);
+    // this.branchIdSelected=this.users.find(x => x.id === id).branchId;
+    // this.userRoleIdSelected=this.users.find(x => x.id === id).userRoleId;
+    // console.log(content);
     this.onUserModalClick(content,2);
   }
 }
