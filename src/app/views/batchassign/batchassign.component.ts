@@ -29,11 +29,9 @@ export class BatchassignComponent implements OnInit {
   loading: boolean;
   batchAssigns: Array<BatchAssignment> = new Array<BatchAssignment>();
   batchAssign = new BatchAssignment();
-  deleteObject = new BatchAssignment();
   branches = new Array<Branch>();
   courses = new Array<Course>();
   batches = new Array<Batch>();
-  selectedBatches = new Array<Batch>();
   dropdownSettings = {};
 
   batchAssignForm = new FormGroup({
@@ -50,15 +48,9 @@ export class BatchassignComponent implements OnInit {
       this.route.navigate(['login']);
     } else {
       this.getBatchAssigns();
-      this.dropdownSettings = {
-        singleSelection: false,
-        idField: 'id',
-        textField: 'batchName',
-        selectAllText: 'Select All',
-        unSelectAllText: 'UnSelect All',
-        itemsShowLimit: 3,
-        allowSearchFilter: true
-      };
+      this.getBranches();
+      this.getCourses();
+      this.getBatches();
     }
   }
 
@@ -111,47 +103,66 @@ export class BatchassignComponent implements OnInit {
 
   bindBatchAssigns(data: Array<BatchAssignment>) {
     this.batchAssigns = data;
-    console.log(data);
   }
 
-  bindEditBatchAssign(data: BatchAssignment) {
-    this.batchAssign = data;
+  batchAssignFormReset() {
+    this.batchAssignForm = new FormGroup({
+      assignBranch: new FormControl(
+        this.auth.getBranch().id,
+        Validators.required
+      ),
+      assignCourse: new FormControl(null, Validators.required),
+      assignBatch: new FormControl(null, Validators.required)
+    });
   }
 
   onModalClick(content: any) {
-    this.getBranches();
-    this.getCourses();
-    this.getBatches();
     this.modalReference = this.modalService.open(content);
-  }
-  onEdit(content: any, id: number) {
-    console.log(id);
-    this.service.get(Constants.batchassign + '/' + id).subscribe(resp => {
-      this.batchAssignForm.controls['assignCourse'].setValue(
-        resp.data.courseId
-      );
-      this.batchAssignForm.controls['assignBranch'].setValue(
-        resp.data.branchId
-      );
-      this.modalReference = this.modalService.open(content);
-    });
   }
 
   saveBatchAssignmentDetails() {
     if (this.batchAssignForm.valid) {
       const userId = +this.auth.getUserId();
-      const batchAssign = new BatchAssignment();
-      batchAssign.createdBy = userId;
-      batchAssign.updatedBy = userId;
-      batchAssign.batches = this.selectedBatches;
-      batchAssign.isBranchWise = !this.auth.isSuperAdmin();
-      batchAssign.courseId = this.batchAssignForm.get('assignCourse').value;
-      batchAssign.branchId = this.batchAssignForm.get('assignBranch').value;
-      this.service.post('batchassignment', batchAssign).subscribe(resp => {
-        Swal.fire('Successfully Saved!!', '', 'success');
-        this.modalReference.close();
-        this.getBatchAssigns();
-      });
+      this.batchAssign.createdBy = userId;
+      this.batchAssign.updatedBy = userId;
+      this.batchAssign.isBranchWise = !this.auth.isSuperAdmin();
+      this.batchAssign.courseId = this.batchAssignForm.get(
+        'assignCourse'
+      ).value;
+      this.batchAssign.branchId = this.batchAssignForm.get(
+        'assignBranch'
+      ).value;
+      this.batchAssign.courseId = this.batchAssignForm.get('assignBatch').value;
+      this.service
+        .post(Constants.batchassign, this.batchAssign)
+        .subscribe(resp => {
+          Swal.fire('Successfully Saved!!', '', 'success');
+          this.modalReference.close();
+          this.getBatchAssigns();
+        });
     }
+  }
+
+  onDeleteModalClick(deleteobject: BatchAssignment) {
+    Swal.fire({
+      title: 'Are you sure?',
+      text: 'You won\'t be able to revert this!',
+      type: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Yes, delete it!'
+    }).then(result => {
+      if (result.value) {
+        this.deleteItem(deleteobject);
+      }
+    });
+  }
+
+  deleteItem(deleteObject: BatchAssignment) {
+    this.service.delete(Constants.batchassign, deleteObject).subscribe(() => {
+      Swal.fire('Deleted!!', '', 'success');
+      this.getBatchAssigns();
+    });
   }
 }

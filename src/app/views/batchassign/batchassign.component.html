@@ -24,8 +24,7 @@
               <td>{{assign.course}}</td>
               <td>{{assign.batch}}</td>
               <td>
-                <i class="fa fa-trash" (click)="onDelete(deleteModal,batch)"></i> &nbsp;
-                <i (click)="onEdit(assignModal,assign.id)" class="fa fa-pencil"></i>
+                <i class="fa fa-trash" (click)="onDeleteModalClick(assign)"></i>
               </td>
             </tr>
           </tbody>
@@ -59,9 +58,12 @@
         </div>
         <div class="form-group">
           <label for="city">Batch</label>
-          <ng-multiselect-dropdown formControlName="assignBatch" [placeholder]="'Select batches'" [data]="batches" [(ngModel)]="selectedBatches"
-            [settings]="dropdownSettings">
-          </ng-multiselect-dropdown>
+          <select formControlName="assignBatch" class="form-control" name="course">
+            <option [ngValue]="null">Choose a Batch</option>
+            <option [ngValue]="batch.id" *ngFor="let batch of batches">
+              {{batch.batchName}}</option>
+          </select>
+
         </div>
         <div class="form-group">
           <button [disabled]="!batchAssignForm.valid" class="btn btn-primary" type="submit">Submit</button>
