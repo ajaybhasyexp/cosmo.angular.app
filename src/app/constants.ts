@@ -2,7 +2,9 @@ export class Constants {
     static readonly course = 'course';
     static readonly branch = 'branch';
     static readonly user = 'user';
-    
+    static readonly batch = 'batch';
+    static readonly batchassign = 'batchassignment';
+    static readonly batchassignall = 'batchassignment/all';
 
     static readonly tokenKey = 'tokenKey';
     static readonly userId = 'userId';

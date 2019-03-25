@@ -39,7 +39,12 @@ export class LoginComponent implements OnInit {
     this.user.userName = this.form.value.username;
     this.user.password = this.form.value.password;
     this.apiService.post(Constants.login, this.user).subscribe(data => {
-      this.auth.login(data);
+      if (this.auth.login(data)) {
+        this.apiService.get(Constants.branch + '/' + data.branchId).subscribe(resp => {
+          this.auth.setBranch(resp.data);
+        });
+        this.route.navigate(['masters']);
+      }
       this.loading = false;
     });
 
