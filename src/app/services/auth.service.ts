@@ -1,11 +1,12 @@
 import { Injectable } from '@angular/core';
 import { Constants } from '../constants';
 import { Router } from '@angular/router';
+import Swal from 'sweetalert2';
 
 @Injectable()
 export class AuthService {
   constructor(private route: Router) {}
-
+  loading:boolean;
   login(data) {
     localStorage.setItem(Constants.tokenKey, data.token);
     localStorage.setItem(Constants.userId, data.userId);
@@ -45,6 +46,27 @@ export class AuthService {
       return true;
     } else {
       return false;
+    }
+  }
+
+  ShowResponse(response : any)
+  {
+    console.log(response);
+    if(response.isSuccess==true) {
+      this.loading = false; 
+      Swal.fire(
+        response.message,
+        '',
+        'success'
+      )
+    }
+    else {
+      this.loading = false; 
+      Swal.fire(
+        response.message,
+        '',
+        'error'
+      )
     }
   }
 }
