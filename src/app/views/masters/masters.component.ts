@@ -34,6 +34,7 @@ export class MastersComponent implements OnInit {
   modalReference: NgbModalRef;
   loading: boolean;
   deleteobject: any;
+  auth: any;
   url: string;
   userRoleIdSelected: number;
   adminIdSelected: number;
@@ -68,11 +69,10 @@ export class MastersComponent implements OnInit {
   constructor(
     private service: ApiService,
     private modalService: NgbModal,
-    private auth: AuthService,
+    authService: AuthService,
     private route: Router
   ) {
-
-
+    this.auth = authService;
   }
 
   ngOnInit() {
@@ -180,7 +180,7 @@ export class MastersComponent implements OnInit {
   saveUserDetails() {
 
     this.btnUserSubmited = true;
-    this.loading = true; 
+    this.loading = true;
     if (this.userForm.valid) {
       const userId = +this.auth.getUserId();
       this.user.createdBy = userId;
@@ -268,39 +268,39 @@ export class MastersComponent implements OnInit {
   }
 
   onBranchEditModalClick(content: any, id: number) {
-    this.branch=null;
-    this.loading = true; 
-    this.service.get(Constants.branch+'/'+id).subscribe(resp => {
-      this.branch=resp.data;
-      this.adminIdSelected=resp.data.adminId;
-      this.loading = false; 
-    }); 
+    this.branch = null;
+    this.loading = true;
+    this.service.get(Constants.branch + '/' + id).subscribe(resp => {
+      this.branch = resp.data;
+      this.adminIdSelected = resp.data.adminId;
+      this.loading = false;
+    });
     //this.branch = this.branches.find(x => x.id === id);
-    this.onBranchModalClick(content,2);
-    
+    this.onBranchModalClick(content, 2);
+
     //this.adminIdSelected=this.branches.find(x => x.id === id).adminId;
   }
 
   onCourseEditModalClick(content: any, id: number) {
-    this.course=null;
-    this.loading = true; 
-    this.service.get(Constants.course+'/'+id).subscribe(resp => {
-      this.course=resp.data;
-      this.loading = false; 
+    this.course = null;
+    this.loading = true;
+    this.service.get(Constants.course + '/' + id).subscribe(resp => {
+      this.course = resp.data;
+      this.loading = false;
     });
-   // this.course = this.courses.find(x => x.id === id);
+    // this.course = this.courses.find(x => x.id === id);
     this.onCourseModalClick(content, 2);
   }
   onUserEditModalClick(content: any, id: number) {
-    this.user=null;
-    this.loading = true; 
-    this.service.get(Constants.user+'/'+id).subscribe(resp => {
-      this.user=resp.data;
-      this.branchIdSelected=resp.data.branchId;
-      this.userRoleIdSelected=resp.data.userRoleId;
-      this.loading = false; 
+    this.user = null;
+    this.loading = true;
+    this.service.get(Constants.user + '/' + id).subscribe(resp => {
+      this.user = resp.data;
+      this.branchIdSelected = resp.data.branchId;
+      this.userRoleIdSelected = resp.data.userRoleId;
+      this.loading = false;
     });
-   // this.user = this.users.find(x => x.id === id);
+    // this.user = this.users.find(x => x.id === id);
     // this.branchIdSelected=this.users.find(x => x.id === id).branchId;
     // this.userRoleIdSelected=this.users.find(x => x.id === id).userRoleId;
     // console.log(content);
