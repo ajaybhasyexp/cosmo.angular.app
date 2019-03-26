@@ -15,6 +15,7 @@ import Swal from 'sweetalert2'
 
 
 
+
 @Component({
   selector: 'app-masters',
   templateUrl: './masters.component.html',
@@ -138,16 +139,11 @@ export class MastersComponent implements OnInit {
       this.branchForm.value;
       this.branch.adminId = this.branchForm.controls.adminId.value;
       console.log(this.branchForm.controls.adminId);
-      this.service.post(Constants.branch, this.branch).subscribe(resp => {
-        this.getBranches();
-        this.loading = false;
+      this.service.post(Constants.branch, this.branch).subscribe(resp => {       
         this.modalReference.close();
         this.btnBranchSubmited = false;
-        Swal.fire(
-          'Successfully Saved!!',
-          '',
-          'success'
-        )
+        this.ShowResponse(resp);
+        this.getBranches();
       });
     }
 
@@ -155,24 +151,19 @@ export class MastersComponent implements OnInit {
 
   saveCourseDetails() {
     this.btnCourseSubmited = true; 
-    //this.loading = true;
     console.log(this.courseForm.valid);
     if (this.courseForm.valid) {
+      this.loading = true;
       const userId = +this.auth.getUserId();
       this.course.createdBy = userId;
       this.course.updatedBy = userId;
       this.service.post(Constants.course, this.course).subscribe(resp => {
         console.log(resp);
-        console.log(resp);
-        this.getCourses();
-        this.loading = false; 
+        console.log(resp.isSuccess);      
         this.modalReference.close();
         this.btnCourseSubmited = false;
-        Swal.fire(
-          'Successfully Saved!!',
-          '',
-          'success'
-        )
+        this.ShowResponse(resp);
+        this.getCourses();
       });
     }
    
@@ -180,25 +171,19 @@ export class MastersComponent implements OnInit {
 
   saveUserDetails() {
 
-    this.btnUserSubmited = true;
-    this.loading = true; 
+    this.btnUserSubmited = true;   
     if (this.userForm.valid) {
+      this.loading = true; 
       const userId = +this.auth.getUserId();
       this.user.createdBy = userId;
       this.user.updatedBy = userId;
       this.user.userRoleId = this.userForm.controls.userRoleId.value;
-      this.user.branchId = this.userForm.controls.branchId.value;
-      console.log(this.userForm.controls.branchId.value );
-      this.service.post(Constants.user, this.user).subscribe(resp => {
-        this.getUsers();
-        this.loading = false; 
+      this.user.branchId = this.userForm.controls.branchId.value;     
+      this.service.post(Constants.user, this.user).subscribe(resp => {       
         this.modalReference.close();
         this.btnUserSubmited = false;
-        Swal.fire(
-          'Successfully Saved!!',
-          '',
-          'success'
-        )
+        this.ShowResponse(resp);
+        this.getUsers();
       });
     }
 
@@ -286,7 +271,7 @@ export class MastersComponent implements OnInit {
   }
 
   onCourseEditModalClick(content: any, id: number) {
-    this.course=null;
+    //this.course=null;
     this.loading = true; 
     this.service.get(Constants.course+'/'+id).subscribe(resp => {
       this.course=resp.data;
@@ -310,4 +295,26 @@ export class MastersComponent implements OnInit {
     // console.log(content);
     this.onUserModalClick(content,2);
   }
+
+  ShowResponse(response : any)
+  {
+    console.log(response);
+    if(response.isSuccess==true) {
+      this.loading = false; 
+      Swal.fire(
+        response.message,
+        '',
+        'success'
+      )
+    }
+    else {
+      this.loading = false; 
+      Swal.fire(
+        response.message,
+        '',
+        'error'
+      )
+    }
+  }
+  
 }

@@ -193,7 +193,7 @@
     <div class="card-body">
       <form [formGroup]="courseForm" (ngSubmit)="saveCourseDetails()">
         <div class="form-group">
-          <input [(ngModel)]="course.courseName" maxlength="20" formControlName="courseName" type="text" class="form-control" id="Name"
+          <input [(ngModel)]="course.courseName" maxlength="25" formControlName="courseName" type="text" class="form-control" id="Name"
             placeholder="Course Name">
             <div *ngIf="courseForm.controls.courseName.hasError('required') && btnCourseSubmited">  
               <div class="alert alert-danger">
