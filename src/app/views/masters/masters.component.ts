@@ -1,7 +1,7 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { ModalDirective } from 'ngx-bootstrap/modal';
-import { FormGroup, FormControl ,Validators} from '@angular/forms';
+import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { Branch } from '../../models/branch';
 import { Course } from '../../models/course';
 import { ApiService } from '../../services/api.service';
@@ -11,7 +11,7 @@ import { Router } from '@angular/router';
 import { User } from '../../models/user';
 import { UserRole } from '../../models/userrole';
 import { debug } from 'util';
-import Swal from 'sweetalert2'
+import Swal from 'sweetalert2';
 
 
 
@@ -33,33 +33,33 @@ export class MastersComponent implements OnInit {
   userRole = new UserRole();
   closeResult: string;
   modalReference: NgbModalRef;
-  loading:boolean;
+  loading: boolean;
   deleteobject: any;
   url: string;
-  userRoleIdSelected:number;
-  adminIdSelected:number;
-  branchIdSelected:number;
+  userRoleIdSelected: number;
+  adminIdSelected: number;
+  branchIdSelected: number;
   branchForm = new FormGroup({
-    branchName: new FormControl('',Validators.required),
-    branchAddress: new FormControl('',Validators.required),
-    branchEmail: new FormControl('',[Validators.required,Validators.email]),
-    branchPerson: new FormControl('',Validators.required),
-    branchNumber: new FormControl('',[Validators.required,Validators.pattern(/^-?(0|[1-9]\d*)?$/)]),
+    branchName: new FormControl('', Validators.required),
+    branchAddress: new FormControl('', Validators.required),
+    branchEmail: new FormControl('', [Validators.required, Validators.email]),
+    branchPerson: new FormControl('', Validators.required),
+    branchNumber: new FormControl('', [Validators.required, Validators.pattern(/^-?(0|[1-9]\d*)?$/)]),
     adminId: new FormControl('')
   });
   courseForm = new FormGroup({
-    courseName: new FormControl('',Validators.required),
-    courseDescription: new FormControl('',Validators.required)
+    courseName: new FormControl('', Validators.required),
+    courseDescription: new FormControl('', Validators.required)
   });
   userForm = new FormGroup({
-    userName: new FormControl('',Validators.required),
-    userEmail: new FormControl('',[Validators.required,Validators.email]),
-    userPassword: new FormControl('',[Validators.required, Validators.pattern(/^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/)]), 
-    //userContactNumber: new FormControl('',[Validators.required,Validators.pattern(/^-?(0|[1-9]\d*)?$/)] ),
-    userRoleId: new FormControl('',Validators.required),
+    userName: new FormControl('', Validators.required),
+    userEmail: new FormControl('', [Validators.required, Validators.email]),
+    userPassword: new FormControl('', [Validators.required, Validators.pattern(/^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/)]),
+    // userContactNumber: new FormControl('',[Validators.required,Validators.pattern(/^-?(0|[1-9]\d*)?$/)] ),
+    userRoleId: new FormControl('', Validators.required),
     branchId: new FormControl('')
-   
-    
+
+
   });
 
   public btnBranchSubmited = false;
@@ -72,8 +72,8 @@ export class MastersComponent implements OnInit {
     private auth: AuthService,
     private route: Router
   ) {
-   
-    
+
+
   }
 
   ngOnInit() {
@@ -87,25 +87,25 @@ export class MastersComponent implements OnInit {
   }
 
   getBranches(): any {
-    this.loading = true; 
+    this.loading = true;
     this.service.get(Constants.branch).subscribe(resp => {
       this.bindBranches(resp.data);
-      this.loading = false; 
+      this.loading = false;
     });
   }
   getUsers(): any {
-    this.loading = true; 
+    this.loading = true;
     this.service.get(Constants.user).subscribe(resp => {
       this.bindUsers(resp.data);
-      this.loading = false; 
+      this.loading = false;
     });
   }
 
   getCourses(): any {
-    this.loading = true; 
+    this.loading = true;
     this.service.get(Constants.course).subscribe(resp => {
       this.bindCourses(resp.data);
-      this.loading = false; 
+      this.loading = false;
     });
   }
 
@@ -128,7 +128,7 @@ export class MastersComponent implements OnInit {
   }
 
   bindUserRoles(data: Array<UserRole>) {
- 
+
     this.userRoles = data;
   }
 
@@ -136,7 +136,6 @@ export class MastersComponent implements OnInit {
     this.btnBranchSubmited = true;
     if (this.branchForm.valid) {
       this.loading = true;
-      this.branchForm.value;
       this.branch.adminId = this.branchForm.controls.adminId.value;
       console.log(this.branchForm.controls.adminId);
       this.service.post(Constants.branch, this.branch).subscribe(resp => {       
@@ -150,7 +149,7 @@ export class MastersComponent implements OnInit {
   }
 
   saveCourseDetails() {
-    this.btnCourseSubmited = true; 
+    this.btnCourseSubmited = true;
     console.log(this.courseForm.valid);
     if (this.courseForm.valid) {
       this.loading = true;
@@ -166,7 +165,7 @@ export class MastersComponent implements OnInit {
         this.getCourses();
       });
     }
-   
+
   }
 
   saveUserDetails() {
@@ -190,37 +189,34 @@ export class MastersComponent implements OnInit {
 
   }
 
-  onUserModalClick(content,type:number) {
-    if(type==1)
-    {
+  onUserModalClick(content, type: number) {
+    if (type === 1) {
       this.user = new User();
-      this.branchIdSelected=2;
-      this.userRoleIdSelected=2;
+      this.branchIdSelected = 2;
+      this.userRoleIdSelected = 2;
     }
     this.modalReference = this.modalService.open(content);
-    
+
   }
-  onBranchModalClick(content,type:number) {
-    if(type==1)
-    {
+  onBranchModalClick(content, type: number) {
+    if (type === 1) {
       this.branch = new Branch();
-      this.adminIdSelected=2;
+      this.adminIdSelected = 2;
     }
     this.modalReference = this.modalService.open(content);
-    
+
   }
-  onCourseModalClick(content,type:number) {
-    if(type==1)
-    {
+  onCourseModalClick(content, type: number) {
+    if (type === 1) {
       this.course = new Course();
     }
     this.modalReference = this.modalService.open(content);
-    
+
   }
   onDeleteModalClick(content: any, deleteobject: any, url: string) {
     Swal.fire({
       title: 'Are you sure?',
-      text: "You won't be able to revert this!",
+      text: 'You won\'t be able to revert this!',
       type: 'warning',
       showCancelButton: true,
       confirmButtonColor: '#3085d6',
@@ -228,31 +224,31 @@ export class MastersComponent implements OnInit {
       confirmButtonText: 'Yes, delete it!'
     }).then((result) => {
       if (result.value) {
-        //this.modalReference = this.modalService.open(content);
+        // this.modalReference = this.modalService.open(content);
         this.deleteobject = deleteobject;
         this.url = url;
         this.deleteItem();
       }
-    })
-    
+    });
+
   }
   closeModal() {
     this.modalReference.close();
-    
+
   }
 
   deleteItem() {
-    this.service.delete(this.url, this.deleteobject).subscribe(resp => {
+    this.service.delete(this.url, this.deleteobject).subscribe(() => {
       Swal.fire(
         'Deleted!!',
         '',
         'success'
-      )
+      );
       this.getCourses();
-      this.getBranches(); 
+      this.getBranches();
       this.getUsers();
-      //this.modalReference.close();
-     
+      // this.modalReference.close();
+
     });
   }
 
@@ -278,9 +274,9 @@ export class MastersComponent implements OnInit {
       this.loading = false; 
     });
    // this.course = this.courses.find(x => x.id === id);
-    this.onCourseModalClick(content,2);
+    this.onCourseModalClick(content, 2);
   }
-  onUserEditModalClick (content: any, id: number) {
+  onUserEditModalClick(content: any, id: number) {
     this.user=null;
     this.loading = true; 
     this.service.get(Constants.user+'/'+id).subscribe(resp => {
@@ -293,7 +289,7 @@ export class MastersComponent implements OnInit {
     // this.branchIdSelected=this.users.find(x => x.id === id).branchId;
     // this.userRoleIdSelected=this.users.find(x => x.id === id).userRoleId;
     // console.log(content);
-    this.onUserModalClick(content,2);
+    this.onUserModalClick(content, 2);
   }
 
   ShowResponse(response : any)
