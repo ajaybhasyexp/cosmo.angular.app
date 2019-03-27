@@ -46,8 +46,11 @@ export class LoginComponent implements OnInit {
       this.apiService.post(Constants.login, this.user).subscribe(data => {
         if (data.isSuccess === true) {
           this.auth.login(data.data);
+          this.apiService.get(Constants.branch + '/' + data.data.branchId).subscribe(resp => {
+            this.auth.setBranch(resp.data);
+          });
           this.loading = false;
-          console.log(data);
+          this.route.navigate(['masters']);
         } else {
           this.loginErrorStatus = true;
           this.loading = false;
@@ -57,19 +60,5 @@ export class LoginComponent implements OnInit {
     } else {
       return Constants.invalid;
     }
-    this.loading = true;
-    this.user = new User();
-    this.user.userName = this.form.value.username;
-    this.user.password = this.form.value.password;
-    this.apiService.post(Constants.login, this.user).subscribe(data => {
-      if (this.auth.login(data)) {
-        this.apiService.get(Constants.branch + '/' + data.branchId).subscribe(resp => {
-          this.auth.setBranch(resp.data);
-        });
-        this.route.navigate(['masters']);
-      }
-      this.loading = false;
-    });
-
   }
 }

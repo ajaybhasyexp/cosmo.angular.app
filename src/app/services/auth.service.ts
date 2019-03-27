@@ -5,8 +5,8 @@ import Swal from 'sweetalert2';
 
 @Injectable()
 export class AuthService {
-  constructor(private route: Router) {}
-  loading:boolean;
+  constructor(private route: Router) { }
+  loading: boolean;
   login(data) {
     localStorage.setItem(Constants.tokenKey, data.token);
     localStorage.setItem(Constants.userId, data.userId);
@@ -49,11 +49,10 @@ export class AuthService {
     }
   }
 
-  ShowResponse(response : any)
-  {
+  ShowResponse(response: any) {
     console.log(response);
-    if(response.isSuccess==true) {
-      this.loading = false; 
+    if (response.isSuccess == true) {
+      this.loading = false;
       Swal.fire(
         response.message,
         '',
@@ -61,7 +60,7 @@ export class AuthService {
       )
     }
     else {
-      this.loading = false; 
+      this.loading = false;
       Swal.fire(
         response.message,
         '',
