@@ -132,7 +132,7 @@ export class BatchassignComponent implements OnInit {
       this.batchAssign.branchId = this.batchAssignForm.get(
         'assignBranch'
       ).value;
-      this.batchAssign.courseId = this.batchAssignForm.get('assignBatch').value;
+      this.batchAssign.batchId = this.batchAssignForm.get('assignBatch').value;
       this.service
         .post(Constants.batchassign, this.batchAssign)
         .subscribe(resp => {

@@ -14,6 +14,7 @@ import { BranchComponent } from './branch.component';
 import { BranchRoutingModule } from './branch-routing.module';
 import { BatchComponent } from '../batch/batch.component';
 import { BatchassignComponent } from '../batchassign/batchassign.component';
+import { CoursefeeComponent } from '../coursefee/coursefee.component';
 
 @NgModule({
   imports: [
@@ -25,6 +26,6 @@ import { BatchassignComponent } from '../batchassign/batchassign.component';
     ReactiveFormsModule,
     NgMultiSelectDropDownModule
   ],
-  declarations: [BranchComponent, BatchComponent, BatchassignComponent]
+  declarations: [BranchComponent, BatchComponent, BatchassignComponent, CoursefeeComponent]
 })
-export class BranchModule {}
+export class BranchModule { }
