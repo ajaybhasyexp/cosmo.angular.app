@@ -1,15 +1,14 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-import { Component } from '@angular/core';
 import { FormControl } from '@angular/forms';
-import { BranchComponent } from './branch.component';
+import { StudentComponent } from './student.component';
 
 const routes: Routes = [
   {
     path: '',
-    component: BranchComponent,
+    component: StudentComponent,
     data: {
-      title: 'Branch'
+      title: 'Student'
     }
   }
 ];
@@ -18,6 +17,6 @@ const routes: Routes = [
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule]
 })
-export class BranchRoutingModule {
+export class StudentRoutingModule {
   name = new FormControl('');
 }

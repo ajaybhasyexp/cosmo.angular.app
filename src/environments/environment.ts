@@ -5,5 +5,5 @@
 
 export const environment = {
   production: false,
-  apiUrl: 'http://localhost:53719/api/'
+  apiUrl: 'https://cosmostaging.herokuapp.com/api/'
 };
