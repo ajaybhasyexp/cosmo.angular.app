@@ -1,3 +1,99 @@
-<p>
-  coursefee works!
-</p>
+<div class="row">
+  <div class="col-lg-12">
+    <div class="loading" *ngIf="loading">
+      <img src="assets/loading.gif" />
+    </div>
+    <div class="card">
+      <div class="card-header">
+        <i class="fa fa-align-justify"></i> Fee Structures&nbsp;
+        <i (click)="onModalClick(coursefeeModal)" class="fa fa-plus"></i>
+      </div>
+      <div class="card-body">
+        <table class="table table-bordered">
+          <thead>
+            <tr>
+              <th>Fee Structure </th>
+              <th>Amount </th>
+              <th>Course</th>
+              <th>Branch</th>
+              <th>Credits</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody *ngFor="let fee of courseFees">
+            <tr>
+              <td>{{fee.feeStructure}}</td>
+              <td>{{fee.amount}}</td>
+              <td>{{fee.courseName}}</td>
+              <td>{{fee.branchName}}</td>
+              <td>{{fee.credits}}</td>
+              <td>
+                <i class="fa fa-trash" (click)="onDeleteModalClick(fee)"></i>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+
+<ng-template #coursefeeModal let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title">Create Fee Structure</h4>
+  </div>
+  <div class="modal-body">
+    <div class="card-body">
+      <form [formGroup]="courseFeeForm" (ngSubmit)="saveCourseFeeStructure()">
+        <div [hidden] = "!auth.isSuperAdmin()" class="form-group">
+          <label for="city">Branch</label>
+          <select formControlName="branchCtrl" class="form-control" name="branch">
+            <option [ngValue]="branch.id" *ngFor="let branch of branches">
+              {{branch.branchName}}</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label for="city">Course</label>
+          <select formControlName="courseCtrl" class="form-control" name="course">
+            <option [ngValue]="null">Choose a Course</option>
+            <option [ngValue]="course.id" *ngFor="let course of courses">
+              {{course.courseName}}</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label for="company">Fee Structure</label>
+          <input formControlName="feeStructureCtrl" maxlength="20" type="text" class="form-control" id="feestructure"
+            placeholder="Name of the fee structure">
+          <div *ngIf="courseFeeForm.controls.feeStructureCtrl.hasError('required')">
+            <!-- <div class="alert alert-danger">
+              Fee Structure is Required.
+            </div> -->
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="company">Fees Amount</label>
+          <input formControlName="amountCtrl" type="text" class="form-control" id="amount"
+            placeholder="The fees amount">
+          <div *ngIf="courseFeeForm.controls.amountCtrl.hasError('required')">
+            <!-- <div class="alert alert-danger">
+              Fee Amount is Required.
+            </div> -->
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="company">Course Credits</label>
+          <input formControlName="creditsCtrl" type="text" class="form-control" id="amount"
+            placeholder="The course credits">
+          <div *ngIf="courseFeeForm.controls.creditsCtrl.hasError('required')">
+            <!-- <div class="alert alert-danger">
+              Course credits is Required.
+            </div> -->
+          </div>
+        </div>
+        <div class="form-group">
+          <button [disabled]="!courseFeeForm.valid" class="btn btn-primary" type="submit">Submit</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</ng-template>

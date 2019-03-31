@@ -27,18 +27,21 @@ export interface NavData {
   class?: string;
   label?: NavLabel;
   wrapper?: NavWrapper;
+  userRole?: string;
 }
 
 export const navItems: NavData[] = [
   {
     name: 'Dashboard',
     url: '/dashboard',
-    icon: 'icon-speedometer'
+    icon: 'icon-speedometer',
+    userRole: 'admin'
   },
   {
     name: 'Masters',
     url: '/masters',
-    icon: 'icon-calculator'
+    icon: 'icon-calculator',
+    userRole: 'superuser'
     // badge: {
     //   variant: 'info',
     //   text: 'NEW'
@@ -47,7 +50,8 @@ export const navItems: NavData[] = [
   {
     name: 'Branch',
     url: '/branch',
-    icon: 'icon-home'
+    icon: 'icon-home',
+    userRole: 'admin'
   },
   // {
   //   name: 'Colors',

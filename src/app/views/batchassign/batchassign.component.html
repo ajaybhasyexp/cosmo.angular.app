@@ -12,7 +12,7 @@
         <table class="table table-bordered">
           <thead>
             <tr>
-              <th>Branch </th>
+              <th [hidden] = "!auth.isSuperAdmin()">Branch </th>
               <th>Course </th>
               <th>Batch</th>
               <th>Actions</th>
@@ -20,7 +20,7 @@
           </thead>
           <tbody *ngFor="let assign of batchAssigns">
             <tr>
-              <td>{{assign.branch}}</td>
+              <td [hidden] = "!auth.isSuperAdmin()">{{assign.branch}}</td>
               <td>{{assign.course}}</td>
               <td>{{assign.batch}}</td>
               <td>
@@ -41,7 +41,7 @@
   <div class="modal-body">
     <div class="card-body">
       <form [formGroup]="batchAssignForm" (ngSubmit)="saveBatchAssignmentDetails()">
-        <div class="form-group">
+        <div [hidden] = "!auth.isSuperAdmin()" class="form-group">
           <label for="city">Branch</label>
           <select formControlName="assignBranch" class="form-control" name="branch">
             <option [ngValue]="branch.id" *ngFor="let branch of branches">

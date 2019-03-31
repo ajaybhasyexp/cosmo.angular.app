@@ -23,7 +23,7 @@ export class BatchassignComponent implements OnInit {
     private modalService: NgbModal,
     public auth: AuthService,
     private route: Router
-  ) {}
+  ) { }
 
   modalReference: NgbModalRef;
   loading: boolean;
@@ -136,7 +136,7 @@ export class BatchassignComponent implements OnInit {
       this.service
         .post(Constants.batchassign, this.batchAssign)
         .subscribe(resp => {
-          Swal.fire('Successfully Saved!!', '', 'success');
+          this.ShowResponse(resp);
           this.modalReference.close();
           this.getBatchAssigns();
         });
@@ -164,5 +164,24 @@ export class BatchassignComponent implements OnInit {
       Swal.fire('Deleted!!', '', 'success');
       this.getBatchAssigns();
     });
+  }
+
+  ShowResponse(response: any) {
+    console.log(response);
+    if (response.isSuccess === true) {
+      this.loading = false;
+      Swal.fire(
+        response.message,
+        '',
+        'success'
+      );
+    } else {
+      this.loading = false;
+      Swal.fire(
+        response.message,
+        '',
+        'error'
+      );
+    }
   }
 }

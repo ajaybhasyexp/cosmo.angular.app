@@ -51,21 +51,20 @@ export class AuthService {
 
   ShowResponse(response: any) {
     console.log(response);
-    if (response.isSuccess == true) {
+    if (response.isSuccess === true) {
       this.loading = false;
       Swal.fire(
         response.message,
         '',
         'success'
-      )
-    }
-    else {
+      );
+    } else {
       this.loading = false;
       Swal.fire(
         response.message,
         '',
         'error'
-      )
+      );
     }
   }
 }

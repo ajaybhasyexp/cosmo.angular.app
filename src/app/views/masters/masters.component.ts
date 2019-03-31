@@ -79,6 +79,11 @@ export class MastersComponent implements OnInit {
   ngOnInit() {
     if (this.auth.isLoggedIn() !== true) {
       this.route.navigate(['login']);
+      //else {
+    //   if (!this.auth.isSuperAdmin()) {
+    //     this.route.navigate(['dashboard']);
+    //   }
+
     }
     this.getBranches();
     this.getCourses();
@@ -138,7 +143,7 @@ export class MastersComponent implements OnInit {
       this.loading = true;
       this.branch.adminId = this.branchForm.controls.adminId.value;
       console.log(this.branchForm.controls.adminId);
-      this.service.post(Constants.branch, this.branch).subscribe(resp => {       
+      this.service.post(Constants.branch, this.branch).subscribe(resp => {
         this.modalReference.close();
         this.btnBranchSubmited = false;
         this.ShowResponse(resp);
@@ -158,7 +163,7 @@ export class MastersComponent implements OnInit {
       this.course.updatedBy = userId;
       this.service.post(Constants.course, this.course).subscribe(resp => {
         console.log(resp);
-        console.log(resp.isSuccess);      
+        console.log(resp.isSuccess);
         this.modalReference.close();
         this.btnCourseSubmited = false;
         this.ShowResponse(resp);
@@ -170,15 +175,15 @@ export class MastersComponent implements OnInit {
 
   saveUserDetails() {
 
-    this.btnUserSubmited = true;   
+    this.btnUserSubmited = true;
     if (this.userForm.valid) {
-      this.loading = true; 
+      this.loading = true;
       const userId = +this.auth.getUserId();
       this.user.createdBy = userId;
       this.user.updatedBy = userId;
       this.user.userRoleId = this.userForm.controls.userRoleId.value;
-      this.user.branchId = this.userForm.controls.branchId.value;     
-      this.service.post(Constants.user, this.user).subscribe(resp => {       
+      this.user.branchId = this.userForm.controls.branchId.value;
+      this.service.post(Constants.user, this.user).subscribe(resp => {
         this.modalReference.close();
         this.btnUserSubmited = false;
         this.ShowResponse(resp);
@@ -260,18 +265,18 @@ export class MastersComponent implements OnInit {
       this.adminIdSelected = resp.data.adminId;
       this.loading = false;
     });
-    //this.branch = this.branches.find(x => x.id === id);
+    // this.branch = this.branches.find(x => x.id === id);
     this.onBranchModalClick(content, 2);
 
-    //this.adminIdSelected=this.branches.find(x => x.id === id).adminId;
+    // this.adminIdSelected=this.branches.find(x => x.id === id).adminId;
   }
 
   onCourseEditModalClick(content: any, id: number) {
-    //this.course=null;
-    this.loading = true; 
-    this.service.get(Constants.course+'/'+id).subscribe(resp => {
-      this.course=resp.data;
-      this.loading = false; 
+    // this.course=null;
+    this.loading = true;
+    this.service.get(Constants.course + '/' + id).subscribe(resp => {
+      this.course = resp.data;
+      this.loading = false;
     });
     // this.course = this.courses.find(x => x.id === id);
     this.onCourseModalClick(content, 2);
@@ -292,25 +297,23 @@ export class MastersComponent implements OnInit {
     this.onUserModalClick(content, 2);
   }
 
-  ShowResponse(response : any)
-  {
+  ShowResponse(response: any) {
     console.log(response);
-    if(response.isSuccess==true) {
-      this.loading = false; 
+    if (response.isSuccess === true) {
+      this.loading = false;
       Swal.fire(
         response.message,
         '',
         'success'
-      )
-    }
-    else {
-      this.loading = false; 
+      );
+    } else {
+      this.loading = false;
       Swal.fire(
         response.message,
         '',
         'error'
-      )
+      );
     }
   }
-  
+
 }

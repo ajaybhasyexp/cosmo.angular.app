@@ -50,7 +50,11 @@ export class LoginComponent implements OnInit {
             this.auth.setBranch(resp.data);
           });
           this.loading = false;
-          this.route.navigate(['masters']);
+          if (this.auth.isSuperAdmin()) {
+            this.route.navigate(['masters']);
+          } else {
+            this.route.navigate(['dashboard']);
+          }
         } else {
           this.loginErrorStatus = true;
           this.loading = false;
