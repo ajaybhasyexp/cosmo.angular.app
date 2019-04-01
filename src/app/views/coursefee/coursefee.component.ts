@@ -147,6 +147,7 @@ export class CoursefeeComponent implements OnInit {
 
   saveCourseFeeStructure() {
     if (this.courseFeeForm.valid) {
+      this.loading = true;
       const userId = +this.auth.getUserId();
       this.courseFee.createdBy = userId;
       this.courseFee.updatedBy = userId;
@@ -163,6 +164,7 @@ export class CoursefeeComponent implements OnInit {
           this.ShowResponse(resp);
           this.modalReference.close();
           this.getCourseFee();
+          this.loading = false;
         });
     }
   }
