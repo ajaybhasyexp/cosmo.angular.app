@@ -15,7 +15,7 @@
               <th>Fee Structure </th>
               <th>Amount </th>
               <th>Course</th>
-              <th>Branch</th>
+              <th [hidden]="!auth.isSuperAdmin()">Branch</th>
               <th>Credits</th>
               <th>Actions</th>
             </tr>
@@ -25,7 +25,7 @@
               <td>{{fee.feeStructure}}</td>
               <td>{{fee.amount}}</td>
               <td>{{fee.courseName}}</td>
-              <td>{{fee.branchName}}</td>
+              <td [hidden]="!auth.isSuperAdmin()">{{fee.branchName}}</td>
               <td>{{fee.credits}}</td>
               <td>
                 <i class="fa fa-trash" (click)="onDeleteModalClick(fee)"></i>
@@ -45,7 +45,7 @@
   <div class="modal-body">
     <div class="card-body">
       <form [formGroup]="courseFeeForm" (ngSubmit)="saveCourseFeeStructure()">
-        <div [hidden] = "!auth.isSuperAdmin()" class="form-group">
+        <div [hidden]="!auth.isSuperAdmin()" class="form-group">
           <label for="city">Branch</label>
           <select formControlName="branchCtrl" class="form-control" name="branch">
             <option [ngValue]="branch.id" *ngFor="let branch of branches">
