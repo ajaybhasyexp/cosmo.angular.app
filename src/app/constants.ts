@@ -4,6 +4,7 @@ export class Constants {
     static readonly user = 'user';
     static readonly batch = 'batch';
     static readonly batchassign = 'batchassignment';
+    static readonly students = 'students';
     static readonly batchassignall = 'batchassignment/all';
     static readonly coursefee = 'coursefee';
     static readonly coursefeeall = 'coursefee/all';

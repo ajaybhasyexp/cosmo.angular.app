@@ -32,7 +32,7 @@ export class BatchassignComponent implements OnInit {
   branches = new Array<Branch>();
   courses = new Array<Course>();
   batches = new Array<Batch>();
-  dropdownSettings = {};
+  dropdownSettings = {}; 
 
   batchAssignForm = new FormGroup({
     assignBranch: new FormControl(

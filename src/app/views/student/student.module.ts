@@ -9,6 +9,7 @@ import {
     FormsModule
 } from '@angular/forms';
 import { } from '../studentview/studentview.component';
+import { FormWizardModule } from 'angular2-wizard';
 
 import { StudentComponent } from './student.component';
 import { StudentRoutingModule } from './student-routing.module';
@@ -23,7 +24,8 @@ import { StudentviewComponent } from '../studentview/studentview.component';
         BsDropdownModule,
         CommonModule,
         FormsModule,
-        ReactiveFormsModule
+        ReactiveFormsModule,
+        FormWizardModule
     ],
     declarations: [StudentComponent, StudentviewComponent]
 })

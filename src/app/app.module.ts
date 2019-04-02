@@ -4,10 +4,12 @@ import { LocationStrategy, HashLocationStrategy } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
 import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
+import { FormWizardModule } from 'angular2-wizard';
 
 import { PerfectScrollbarModule } from 'ngx-perfect-scrollbar';
 import { PERFECT_SCROLLBAR_CONFIG } from 'ngx-perfect-scrollbar';
 import { PerfectScrollbarConfigInterface } from 'ngx-perfect-scrollbar';
+import Swal from 'sweetalert2'
 
 const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
   suppressScrollX: true
@@ -61,7 +63,8 @@ import { ChartsModule } from 'ng2-charts/ng2-charts';
     TabsModule.forRoot(),
     ChartsModule,
     HttpModule,
-    NgbModule
+    NgbModule,
+    FormWizardModule
   ],
   declarations: [
     AppComponent,

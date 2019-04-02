@@ -55,7 +55,7 @@ export const navItems: NavData[] = [
   },
   {
     name: 'Student',
-    url: '/student',
+    url: '/student',  
     icon: 'icon-home',
     userRole: 'admin'
   },
