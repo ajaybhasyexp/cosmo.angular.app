@@ -10,6 +10,7 @@
           <i (click)="onBranchModalClick(branchModal,1);" class="fa fa-plus"></i>
         </div>
         <div class="card-body">
+        <div style="height: 400px;overflow:scroll">
           <table class="table table-bordered">
             <thead>
               <tr>
@@ -35,6 +36,7 @@
             </tbody>
           </table>
         </div>
+        </div>
       </div>
       <div *ngIf="auth.isSuperAdmin()" class="row">
         <div class="col-lg-6">
@@ -44,6 +46,7 @@
               <i (click)="onCourseModalClick(courseModal,1)" class="fa fa-plus"></i>
             </div>
             <div class="card-body">
+            <div style="height: 300px;overflow:scroll">
               <table class="table table-bordered">
                 <thead>
                   <tr>
@@ -61,6 +64,7 @@
                   </tr>
                 </tbody>
               </table>
+              </div>
             </div>
           </div>
         </div>
@@ -72,7 +76,8 @@
               <i (click)="onUserModalClick(userModal,1)" class="fa fa-plus"></i>
             </div>
             <div class="card-body">
-              <table class="table table-bordered">
+            <div style="height: 300px;overflow:scroll">
+              <table class="table table-bordered ">
                 <thead>
                   <tr>
                     <th>User Name</th>
@@ -94,6 +99,7 @@
                   </tr>
                 </tbody>
               </table>
+              </div>
             </div>
           </div>
         </div>
@@ -123,7 +129,7 @@
               </div>
               <div class="form-group">
                 <label for="vat">Branch Address</label>
-                <input [(ngModel)]="branch.branchAddress" maxlength="40" formControlName="branchAddress" type="text"
+                <input [(ngModel)]="branch.branchAddress" maxlength="50" formControlName="branchAddress" type="text"
                   class="form-control" id="address" placeholder="Address of the branch">
                 <div *ngIf="branchForm.controls.branchAddress.hasError('required') && btnBranchSubmited">
                   <div class="alert alert-danger">
@@ -133,7 +139,7 @@
               </div>
               <div class="form-group">
                 <label for="postal-code">Branch Email</label>
-                <input [(ngModel)]="branch.branchEmail" maxlength="20" formControlName="branchEmail" type="text"
+                <input [(ngModel)]="branch.branchEmail" maxlength="30" formControlName="branchEmail" type="text"
                   class="form-control" id="email" placeholder="Email address">
                 <div *ngIf="branchForm.controls.branchEmail.hasError('required') && btnBranchSubmited">
                   <div class="alert alert-danger">
@@ -148,7 +154,7 @@
               </div>
               <div class="form-group">
                 <label for="street">Contact Person</label>
-                <input [(ngModel)]="branch.contactPerson" maxlength="20" formControlName="branchPerson" type="text"
+                <input [(ngModel)]="branch.contactPerson" maxlength="30" formControlName="branchPerson" type="text"
                   class="form-control" id="contPerson" placeholder="Contact person">
                 <div *ngIf="branchForm.controls.branchPerson.hasError('required') && btnBranchSubmited">
                   <div class="alert alert-danger">
@@ -195,7 +201,7 @@
           <div class="card-body">
             <form [formGroup]="courseForm" (ngSubmit)="saveCourseDetails()">
               <div class="form-group">
-                <input [(ngModel)]="course.courseName" maxlength="25" formControlName="courseName" type="text"
+                <input [(ngModel)]="course.courseName" maxlength="30" formControlName="courseName" type="text"
                   class="form-control" id="Name" placeholder="Course Name">
                 <div *ngIf="courseForm.controls.courseName.hasError('required') && btnCourseSubmited">
                   <div class="alert alert-danger">
@@ -204,7 +210,7 @@
                 </div>
               </div>
               <div class="form-group">
-                <input [(ngModel)]="course.description" maxlength="40" formControlName="courseDescription" type="text"
+                <input [(ngModel)]="course.description" maxlength="50" formControlName="courseDescription" type="text"
                   class="form-control" id="address" placeholder="Description">
                 <div *ngIf="courseForm.controls.courseDescription.hasError('required') && btnCourseSubmited">
                   <div class="alert alert-danger">

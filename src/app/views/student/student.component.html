@@ -7,33 +7,75 @@
       <div class="card">
         <div class="card-header">
           <i class="fa fa-align-justify"></i> Students &nbsp;
-          <i (click)="onStudentModalClick(studentModal,1);" class="fa fa-plus"></i>
+          <i (click)="onStudentModalClick(studentModal,1,0);" class="fa fa-plus"></i>
         </div>
         <div class="card-body">
-          <table class="table table-bordered">
+          <div style="height:400px; overflow: scroll">
+          <table datatable class="table  table-bordered">
             <thead>
               <tr>
                 <th>Student Name</th>
                 <th>Contact Number</th>
                 <th>Email Id</th>
-                <th>Batch Assigned</th>
                 <th>Address</th>
+                <th>Qualification</th>
+                <th>Profession</th>
                 <th>Actions</th>
               </tr>
             </thead>
-            <!-- <tbody *ngFor="let branch of branches">
+            <tbody *ngFor="let student of students">
               <tr>
-                <td>{{branch.branchName}}</td>
-                <td>{{branch.branchAddress}}</td>
-                <td>{{branch.contactPerson}}</td>
-                <td>{{branch.contactNumber}}</td>
+                <td>{{student.studentName}}</td>
+                <td>{{student.contactNumber}}</td>
+                <td>{{student. email}}</td>
+                <td>{{student.address}}</td>
+                <td>{{student.qualificationName}}</td>
+                <td>{{student.professionName}}</td>
                 <td>
-                  <i class="fa fa-trash" (click)="onDeleteModalClick(deleteModal,branch,'branch')"></i> &nbsp;
-                  <i (click)="onBranchEditModalClick(branchModal,branch.id)" class="fa fa-pencil"></i>
+                  <i class="fa fa-trash" (click)="onDeleteModalClick(deleteModal,student,'student')"></i> &nbsp;
+                  <i (click)="onStudentModalClick(studentModal,2,student.id)" class="fa fa-pencil"></i>
                 </td>
               </tr>
-            </tbody> -->
+            </tbody>
           </table>
+        </div>
+        </div>
+      </div>    
+    </div>  
+    <div class="col-lg-12">
+      <div class="loading" *ngIf="loading">
+        <img src="assets/loading.gif" />
+      </div>
+      <div class="card">
+        <div class="card-header">
+          <i class="fa fa-align-justify"></i> Enrolments &nbsp;
+          <i (click)="onStudentAssignmentModalClick(enrolmentModal,1,0);" class="fa fa-plus"></i>
+        </div>
+        <div class="card-body">
+         <div style="height:400px; overflow: scroll">
+          <table class="table table-bordered">
+            <thead>
+              <tr>
+                <th>Student Name</th>
+                <th>Course</th>
+                <th>Batch</th>
+                <th>Fee Structure</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody *ngFor="let studentAssignment of studentAssignments">
+              <tr>
+                <td>{{studentAssignment.studentName}}</td>
+                <td>{{studentAssignment.courseName}}</td>
+                <td>{{studentAssignment.batchName}}</td>
+                <td>{{studentAssignment.feeStructureName}}</td>
+                <td>
+                  <i class="fa fa-trash" (click)="onDeleteModalClick(deleteModal,studentAssignment,'studentAssignDelete')"></i> &nbsp;
+                </td>
+              </tr>
+            </tbody>
+          </table>
+          </div>
         </div>
       </div>    
     </div>    
@@ -54,17 +96,29 @@
           <form [formGroup]="studentForm" >
               <div class="form-group">
                   <label for="company">Name</label>
-                  <input formControlName="studentName"  maxlength="20" type="text" class="form-control" id="name" placeholder="Name of the Student">
+                  <input formControlName="studentName"  maxlength="30" type="text" class="form-control" id="name" placeholder="Name of the Student">
                     <div *ngIf="studentForm.controls.studentName.hasError('required') && btnSubmited ">  
                       <div class="alert alert-danger">
                         Student Name is Required.
                       </div>
                     </div>
               </div>
+              <div class="form-group">
+                  <label for="company" style="width: 10%;">Gender</label>
+                  <label class="radio-inline">
+                      <input type="radio"  formControlName="gender" value="Male" > Male
+                      <input type="radio" formControlName="gender" value="Female"> Female
+                    </label>
+                  <div *ngIf="studentForm.controls.gender.hasError('required') && btnSubmited ">  
+                    <div class="alert alert-danger">
+                      Student Name is Required.
+                    </div>
+                  </div>
+              </div>
               <div class="form-group row" style="margin-left:0%;margin-right: 0%;">
                 <div class="form-group" style="width: 45%;">
                     <label for="company">Email</label>
-                    <input formControlName="studentEmail"  maxlength="20" type="text" class="form-control" id="email"
+                    <input formControlName="studentEmail"  maxlength="30" type="text" class="form-control" id="email"
                       placeholder="Email of the user">
                       <div *ngIf="studentForm.controls.studentEmail.hasError('required')  && btnSubmited  ">  
                         <div class="alert alert-danger">
@@ -75,46 +129,32 @@
                   <div class="form-group" style="width: 10%;"></div>
                   <div class="form-group" style="width: 45%;">
                       <label for="city">Contact Number</label>
-                      <input maxlength="12" formControlName="studentContactNo" type="number" min="0" class="form-control" id="contactNo"
+                      <input maxlength="12" formControlName="studentContactNo" type="text"  class="form-control" id="contactNo"
                         placeholder="Contact number">
                         <div *ngIf="studentForm.controls.studentContactNo.hasError('required')  && btnSubmited ">  
                           <div class="alert alert-danger">
                             Contact Number is Required.
                           </div>
                         </div>
-                        <!-- <div *ngIf="branchForm.controls.studentContactNo.hasError('pattern') && btnBranchSubmited">  
+                        <div *ngIf="studentForm.controls.studentContactNo.hasError('pattern') && btnBranchSubmited">  
                           <div class="alert alert-danger">
                             Invalid Contact Number.
                           </div>
-                        </div> -->
+                        </div>
                   </div>
                 </div>  
                 <div class="form-group">
                     <label for="company">Address</label>
-                    <input formControlName="studentAddress"  maxlength="20" type="text" class="form-control" id="address" placeholder="Address of the Student">
+                    <input formControlName="studentAddress"  maxlength="50" type="text" class="form-control" id="address" placeholder="Address of the Student">
                       <div *ngIf="studentForm.controls.studentAddress.hasError('required')  && btnSubmited  ">  
                         <div class="alert alert-danger">
                           Address is Required.
                         </div>
                       </div>
                 </div>
-               
-
-              <!-- <div class="form-group">
-                <label for="exampleInputEmail1">Student Name </label>
-                <input type="text" class="form-control" id="exampleInputEmail1" name="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter email"
-                  [(ngModel)]="data.email" required>
-                
-              </div> -->
           </form>
       </div>
       </wizard-step>
-      <!-- <wizard-step [title]="'Step2'" (onNext)="onStep2Next($event)">
-        <h1>Step2</h1>
-      </wizard-step>
-      <wizard-step [title]="'Step3'" (onNext)="onStep3Next($event)">
-        <h1>Step3</h1>
-      </wizard-step> -->
       <wizard-step [title]="'Step2'" [isValid]="studentDetailsForm.valid"  (onComplete)="SaveStudentDetails($event)">
         <div style="margin-left: 5%;margin-right: 5%;">
           <form [formGroup]="studentDetailsForm" >
@@ -123,23 +163,17 @@
                   <label for="company">Qualification</label>
                     <select  formControlName="studentQualification"   class="form-control" id="studentQualification">
                     <!-- <option  *ngFor="let user of users" [value]=user.id >{{user.userName}}</option>             -->
-                    <option [value]=1 >BTech</option>
-                    <option [value]=2>Bsc</option>
-                    <option [value]=3>BA</option>
-                    <option [value]=4>Others</option>
+                    <option [ngValue]="null">Choose a Qualification</option>
+                    <option [ngValue]="qualification.id" *ngFor="let qualification of qualifications">{{qualification.qualificationName}}</option>
                   </select>
               </div>
+              
               <div class="form-group" style="width: 10%;"></div>
               <div class="form-group" style="width: 45%;">
                   <label for="company">Profession</label>
                   <select  formControlName="studentProfession"   class="form-control" id="studentProfession">
-                    <!-- <option  *ngFor="let user of users" [value]=user.id >{{user.userName}}</option>             -->
-                    <option [value]=1 >Government Employee</option>
-                    <option [value]=2>IT Sector</option>
-                    <option [value]=3>Business</option>
-                    <option [value]=4>Self Employment</option>
-                    <option [value]=5>Students</option>
-                    <option [value]=6>Others</option>
+                  <option [ngValue]="null">Choose a Profession</option>
+                  <option [ngValue]="profession.id" *ngFor="let profession of professions">{{profession.professionName}}</option>
                   </select>
               </div>
             </div>
@@ -147,22 +181,10 @@
                 <label for="company">Source</label>
                 <select  formControlName="studentSourceId"   class="form-control" id="studentSourceId">
                   <!-- <option  *ngFor="let user of users" [value]=user.id >{{user.userName}}</option>             -->
-                  <option [value]=1 >Friends</option>
-                  <option [value]=2>Social Media</option>
-                  <option [value]=3>Newspaper</option>
-                  <option [value]=4>Advertisment</option>
-                  <option [value]=5>Others</option>
+                  <option [ngValue]="null">Choose a Source</option>
+                  <option [ngValue]="source.id" *ngFor="let source of sources">{{source.sourceName}}</option>
                 </select>
       
-            </div>
-            <div class="form-group">
-                <label for="company">Fee Paid</label>
-                <input formControlName="studentFeesPaid"  maxlength="12"  min="0" type="number" class="form-control" id="feePaid" placeholder="">
-                  <div *ngIf="studentDetailsForm.controls.studentFeesPaid.hasError('required')  && btnSubmited ">  
-                    <div class="alert alert-danger">
-                      Fee is Required.
-                    </div>
-                  </div>
             </div>
           </form>
         </div>    
@@ -171,3 +193,65 @@
   </div>
 </ng-template>
 
+<ng-template #enrolmentModal let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title">Enrolment</h4>
+  </div>
+  <div class="modal-body">
+    <div class="card-body">
+        <form [formGroup]="studentAssignmentForm" (ngSubmit)="SaveEnrolmentDetails()" >
+            <div class="form-group">
+                <label for="company">Student</label>
+                  <select  formControlName="studentId"   class="form-control" id="studentId">
+                    <option [ngValue]="null">Choose a Student</option>
+                    <option  value={{student.id}}  [ngValue]="student.id" *ngFor="let student of students">{{student.studentName}}</option>
+                  </select>
+                  <div *ngIf="studentAssignmentForm.controls.studentId.hasError('required')  && btnEnrolmentSubmited ">  
+                    <div class="alert alert-danger">
+                      Student is Required.
+                    </div>
+                  </div>
+            </div>
+          <div class="form-group">
+              <label for="company">Course</label>
+                <select  formControlName="courseId"   class="form-control" id="courseId" (change)="onChangeCourse($event.target.value)">
+                  <option value="0" [ngValue]="null">Choose a Course</option>
+                  <option  value={{course.id}}  [ngValue]="course.id" *ngFor="let course of courses">{{course.courseName}}</option>
+                </select>
+                <div *ngIf="studentAssignmentForm.controls.courseId.hasError('required')  && btnEnrolmentSubmited ">  
+                  <div class="alert alert-danger">
+                    Course is Required.
+                  </div>
+                </div>
+          </div>
+          <div class="form-group">
+            <label for="company">Batch</label>
+             <select  formControlName="batchId"   class="form-control" id="batchId">
+              <option [ngValue]="null">Choose a Batch</option>           -->
+              <option [ngValue]="batch.id" *ngFor="let batch of batchs">{{batch.batchName}}</option>
+            </select>
+            <div *ngIf="studentAssignmentForm.controls.batchId.hasError('required')  && btnEnrolmentSubmited ">  
+              <div class="alert alert-danger">
+                Batch is Required.
+              </div>
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="company">Fee Structure</label>
+             <select  formControlName="courseFeeId"   class="form-control" id="courseFeeId">
+              <option [ngValue]="null">Choose a Course Fee</option>            -->
+              <option [ngValue]="courseFee.id" *ngFor="let courseFee of courseFees">{{courseFee.feeStructure}} ({{courseFee.amount}})</option>
+            </select>
+            <div *ngIf="studentAssignmentForm.controls.courseFeeId.hasError('required')  && btnEnrolmentSubmited ">  
+              <div class="alert alert-danger">
+                Course Fee Type is Required.
+              </div>
+            </div>
+        </div>
+        <div class="form-group">
+          <button class="btn btn-primary" type="submit">Submit</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</ng-template>

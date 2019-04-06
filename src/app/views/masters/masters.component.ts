@@ -135,10 +135,9 @@ export class MastersComponent implements OnInit {
   saveBranchDetails() {
     this.btnBranchSubmited = true;
     if (this.branchForm.valid) {
-      this.loading = true;
-      this.branchForm.value;
+     // this.branchForm.value;
       this.branch.adminId = this.branchForm.controls.adminId.value;
-      console.log(this.branchForm.controls.adminId);
+      this.loading = true;
       this.service.post(Constants.branch, this.branch).subscribe(resp => {       
         this.modalReference.close();
         this.btnBranchSubmited = false;
@@ -151,15 +150,12 @@ export class MastersComponent implements OnInit {
 
   saveCourseDetails() {
     this.btnCourseSubmited = true; 
-    console.log(this.courseForm.valid);
     if (this.courseForm.valid) {
       this.loading = true;
       const userId = +this.auth.getUserId();
       this.course.createdBy = userId;
       this.course.updatedBy = userId;
-      this.service.post(Constants.course, this.course).subscribe(resp => {
-        console.log(resp);
-        console.log(resp.isSuccess);      
+      this.service.post(Constants.course, this.course).subscribe(resp => {   
         this.modalReference.close();
         this.btnCourseSubmited = false;
         this.ShowResponse(resp);

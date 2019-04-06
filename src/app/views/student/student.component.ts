@@ -10,10 +10,15 @@ import Swal from 'sweetalert2'
 
 //models
 import { Student } from '../../models/student';
-import { StudentAssignments } from '../../models/studentAssignments';
+import { StudentAssignment } from '../../models/studentAssignment';
 import { Branch } from '../../models/branch';
 import { Course } from '../../models/course';
 import { Batch } from '../../models/batch';
+import { CourseFee } from '../../models/courseFee';
+import { Profession } from '../../models/profession';
+import { Qualification } from '../../models/qualification';
+import { Source } from '../../models/source';
+
 
 @Component({
   selector: 'app-student',
@@ -24,35 +29,51 @@ export class StudentComponent implements OnInit {
 
   loading:boolean;
   url: string;
+  deleteobject: any;
   modalReference: NgbModalRef;
   
   branch = new Branch();
   course = new Course();
   student = new Student();
   batch = new Batch();
-  studentAssignments = new StudentAssignments();
+  courseFee =new CourseFee();
+  studentAssignment = new StudentAssignment(); 
+  profession=new Profession();
+  qualification=new Qualification();
+  source=new Source();
+
+  courses: Array<Course> = new Array<Course>();
+  batchs: Array<Batch> = new Array<Batch>();
+  students: Array<Student> = new Array<Student>();
+  courseFees: Array<CourseFee> = new Array<CourseFee>();
+  professions: Array<Profession> = new Array<Profession>();
+  qualifications: Array<Qualification> = new Array<Qualification>();
+  sources: Array<Source> = new Array<Source>();
+  studentAssignments: Array<StudentAssignment> = new Array<StudentAssignment>();
 
   studentForm = new FormGroup({
     studentName: new FormControl('',Validators.required),
-    studentEmail: new FormControl('',Validators.required),
+    studentEmail: new FormControl('',[Validators.required,Validators.email]),
     studentContactNo:new FormControl('',Validators.required),
-    studentAddress: new FormControl('',Validators.required)
+    studentAddress: new FormControl('',Validators.required),
+    gender: new FormControl('',Validators.required)
 
   });
-
-  studentDetailsForm = new FormGroup({
-    studentQualification: new FormControl(1),
-    studentProfession: new FormControl(1),
-    studentSourceId: new FormControl(1),
-    studentFeesPaid:new FormControl('',Validators.required)
+  
+  studentDetailsForm = new FormGroup({   
+    studentQualification: new FormControl(null,Validators.required),
+    studentProfession: new FormControl(null,Validators.required),
+    studentSourceId: new FormControl(null,Validators.required)
   });
   studentAssignmentForm = new FormGroup({
-    courseId: new FormControl(1),
-    batchId: new FormControl(1),
-    courseFeeId: new FormControl(1)
+    studentId: new FormControl(null,Validators.required),
+    courseId: new FormControl(0,Validators.required),
+    batchId: new FormControl(null,Validators.required),
+    courseFeeId: new FormControl(null,Validators.required)
   });
 
   public btnSubmited = false;
+  public btnEnrolmentSubmited=false;
   constructor( 
     private service: ApiService,
     private modalService: NgbModal,
@@ -64,76 +85,270 @@ export class StudentComponent implements OnInit {
     if (this.auth.isLoggedIn() !== true) {
       this.route.navigate(['login']);
     }
-    this.getstudent();
+    this.GetStudent();
+    this.GetStudentAssignments();
+    this.GetAssignedCourse();
+    this.GetProfession();
+    this.GetSource();
+    this.GetQualifications();
+    console.log(this.auth.getBranchId());
+  }
+
+  GetStudentAssignments()
+  {
+    this.loading = true; 
+    this.service.get(Constants.studentAssign.replace('branchId', this.auth.getBranchId())).subscribe(resp => {
+      console.log(resp);
+      this.BindStudentAssignments(resp.data);
+      this.loading = false; 
+    });
+  }
+  BindStudentAssignments(data: Array<StudentAssignment>)
+  {
+    this.studentAssignments=data;
+  }
+  GetSource()
+  {
+    this.loading = true; 
+    this.service.get(Constants.sources).subscribe(resp => {
+      console.log(resp);
+      this.BindSource(resp.data);
+      this.loading = false; 
+    });
+  }
+
+  BindSource(data: Array<Source>) {
+    this.sources = data;
+  }
+  GetQualifications()
+  {
+    this.loading = true; 
+    this.service.get(Constants.qualifications).subscribe(resp => {
+      console.log(resp);
+      this.BindQualifications(resp.data);
+      this.loading = false; 
+    });
+  }
+
+  BindQualifications(data: Array<Qualification>) {
+    this.qualifications = data;
+  }
+
+  GetProfession()
+  {
+    this.loading = true; 
+    this.service.get(Constants.professions).subscribe(resp => {
+      console.log(resp);
+      this.BindProfession(resp.data);
+      this.loading = false; 
+    });
+  }
+
+  BindProfession(data: Array<Profession>) {
+    this.professions = data;
   }
 
 
-  getstudent()
+  
+  GetStudent()
   {
     this.loading = true; 
-    this.service.get(Constants.user).subscribe(resp => {
+    this.service.get(Constants.student.replace('branchId', this.auth.getBranchId())).subscribe(resp => {
+      console.log(resp);
       this.bindStudents(resp.data);
       this.loading = false; 
     });
   }
 
-  bindStudents(data)
-  {
-
+  bindStudents(data: Array<Student>) {
+    this.students = data;
   }
 
-  onStudentModalClick(content,type:number) {
-    this.modalReference = this.modalService.open(content,{ size: 'lg' });
+  onStudentModalClick(content,type:number,id:number) {
+    this.studentForm.reset();
+    this.studentDetailsForm.reset();
+    this.student.id=0;
+    if(type==2) //edit
+    {    
+      this.loading = true; 
+      this.service.get(Constants.studentPost+'/'+id).subscribe(resp => {
+      this.BindStudent(resp.data);
+      this.student=resp.data;
+      this.loading = false; 
+      });
+    }
+   
+    this.modalReference = this.modalService.open(content,{ size: 'lg' });   
+  }
+  BindStudent(data:Student)
+  {
+  this.studentForm.setValue({
+    studentName: data.studentName,
+    studentEmail: data.email,
+    studentContactNo:data.contactNumber,
+    studentAddress:data.address,
+    gender: data.gender,
+
+  });
+
+  this.studentDetailsForm.setValue({
+    studentQualification: data.qualificationId,
+    studentProfession: data.professionId,
+    studentSourceId:data.sourceId,
+
+
+  });
+
+  }
+  onStudentAssignmentModalClick(content,type:number,id :number) {
+    this.studentAssignmentForm.reset();
+    this.studentAssignmentForm.controls.courseId.setValue('0');
+    if(type==2) //edit
+    {    
+     // this.loading = true; 
+      // this.service.get(Constants.student+'/'+id).subscribe(resp => {
+      // this.loading = false; 
+      // });
+    }
+    this.modalReference = this.modalService.open(content);
     
   }
 
   onStep1Next(data){
     this.btnSubmited = true;   
     if (this.studentForm.valid) {
-      console.log('Proceed');
       this.btnSubmited = false;  
     }
   }
 
   SaveStudentDetails(data){
+    
   const userId = +this.auth.getUserId();
+  if (this.studentForm.valid) {
+      this.student.studentName=this.studentForm.get('studentName').value;
+      this.student.email=this.studentForm.get('studentEmail').value;
+      this.student.contactNumber=this.studentForm.get('studentContactNo').value;
+      this.student.address=this.studentForm.get('studentAddress').value;
+      this.student.qualificationId=this.studentDetailsForm.get('studentQualification').value;
+      this.student.professionId=this.studentDetailsForm.get('studentProfession').value;
+      this.student.sourceId=this.studentDetailsForm.get('studentSourceId').value; 
+      this.student.createdBy = userId;
+      this.student.updatedBy = userId;
+      this.student.branchId=this.auth.getBranchId();
+      this.student.gender=this.studentForm.get('gender').value;
+      this.loading = true;
+      this.service.post(Constants.studentPost, this.student)
+      .subscribe(resp => {
+        this.ShowResponse(resp);
+        this.GetStudent();
+      });
+      this.modalReference.close();
+    }
+  }
 
-   this.student.studentName=this.studentForm.get('studentName').value;
-   this.student.email=this.studentForm.get('studentEmail').value;
-   this.student.contactNumber=this.studentForm.get('studentContactNo').value;
-   this.student.address=this.studentForm.get('studentAddress').value;
-   this.student.qualificationId=this.studentDetailsForm.get('studentQualification').value;
-   this.student.professionId=this.studentDetailsForm.get('studentProfession').value;
-   this.student.sourceId=this.studentDetailsForm.get('studentSourceId').value;
-   this.student.feesPaid=this.studentDetailsForm.get('studentFeesPaid').value; 
-   this.student.createdBy = userId;
-   this.student.updatedBy = userId;
-
-  //  this.studentAssignments.courseId=this.studentAssignmentForm.get('courseId').value;
-  //  this.studentAssignments.batchId=this.studentAssignmentForm.get('batchId').value;
-  //  this.studentAssignments.courseFeeId=this.studentAssignmentForm.get('courseFeeId').value;
-  //  this.studentAssignments.createdBy = userId;
-  //  this.studentAssignments.updatedBy = userId;
-
-   console.log(this.student);
-   return false;
-   this.service.post(Constants.batchassign, this.student)
-   .subscribe(resp => {
-          this.ShowResponse(resp);
-          this.modalReference.close();
-        });
-   this.modalReference.close();
+  SaveEnrolmentDetails()
+  {
+    this.btnEnrolmentSubmited = true;
+    const userId = +this.auth.getUserId();
+    if (this.studentAssignmentForm.valid) {
+      this.studentAssignment.studentId=this.studentAssignmentForm.get('studentId').value;
+      this.studentAssignment.courseId=this.studentAssignmentForm.get('courseId').value;
+      this.studentAssignment.batchId=this.studentAssignmentForm.get('batchId').value;
+      this.studentAssignment.courseFeeId=this.studentAssignmentForm.get('courseFeeId').value;
+      this.studentAssignment.createdBy = userId;
+      this.studentAssignment.updatedBy = userId;
+      this.studentAssignment.branchId=this.auth.getBranchId();
+      this.loading = true;
+      this.service.post(Constants.studentAssignSave, this.studentAssignment)
+      .subscribe(resp => {
+        console.log(resp);
+              this.ShowResponse(resp);
+              this.GetStudentAssignments();
+            });
+      this.modalReference.close();
+    }
   }
   onChangeCourse(event)
   {
-    alert('sasa');
+    this.GetAssignedbatchs(event);
+    this.GetAssignedCourseFee(event);
     console.log(event);
   }
+  GetAssignedbatchs(courseId)
+  {
+    this.loading = true; 
+    this.service.get("batch/"+this.auth.getBranchId()+"/assigned/"+ courseId).subscribe(resp => {
+      this.loading = false; 
+      this.BindAssignedBatchs(resp.data);
+    });
+  }
+  GetAssignedCourseFee(courseId)
+  {
+    this.loading = true; 
+    this.service.get("courseFee/"+this.auth.getBranchId()+"/course/"+ courseId).subscribe(resp => {
+      this.loading = false; 
+      console.log(resp);
+      this.BindAssignedCourseFee(resp.data);
+    });
+  }
+  GetAssignedCourse(): any {
+    this.loading = true; 
+    this.service.get(Constants.assignedcourse.replace('id', this.auth.getBranchId())).subscribe(resp => {
+      this.loading = false; 
+      this.BindAssignedCourses(resp.data);
+      
+    });
+  }
+  BindAssignedCourses(data: Array<Course>) {
+    this.courses = data;
+  }
+  BindAssignedBatchs(data: Array<Batch>) {
+    this.batchs = data;
+  }
+  BindAssignedCourseFee(data: Array<CourseFee>) {
+    this.courseFees = data;
+  }
+  // onStudentEditModalClick(content: any, id: number) { 
+  //   this.loading = true; 
+  //   this.service.get(Constants.student+'/'+id).subscribe(resp => {
+  //     this.loading = false; 
+  //   }); 
 
-
-
+  // }
+  onDeleteModalClick(content: any, deleteobject: any, url: string) {
+    Swal.fire({
+      title: 'Are you sure?',
+      text: "You won't be able to revert this!",
+      type: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Yes, delete it!'
+    }).then((result) => {
+      if (result.value) {
+        //this.modalReference = this.modalService.open(content);
+        this.deleteobject = deleteobject;
+        this.url = url;
+        this.deleteItem();
+      }
+    })
+    
+  }
+  deleteItem() {
+    this.service.delete(this.url, this.deleteobject).subscribe(resp => {
+      Swal.fire(
+        'Deleted!!',
+        '',
+        'success'
+      )
+      // this.getCourses();
+      // this.getBranches(); 
+      // this.getUsers();
+      //this.modalReference.close();
+     
+    });
+  }
   ShowResponse(response: any) {
-    console.log(response);
     if (response.isSuccess === true) {
       this.loading = false;
       Swal.fire(
