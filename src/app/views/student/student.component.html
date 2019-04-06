@@ -32,7 +32,7 @@
                 <td>{{student.qualificationName}}</td>
                 <td>{{student.professionName}}</td>
                 <td>
-                  <i class="fa fa-trash" (click)="onDeleteModalClick(deleteModal,student,'student')"></i> &nbsp;
+                  <i class="fa fa-trash" (click)="DeleteDetails(student.id,'student',1)"></i> &nbsp;
                   <i (click)="onStudentModalClick(studentModal,2,student.id)" class="fa fa-pencil"></i>
                 </td>
               </tr>
@@ -70,7 +70,7 @@
                 <td>{{studentAssignment.batchName}}</td>
                 <td>{{studentAssignment.feeStructureName}}</td>
                 <td>
-                  <i class="fa fa-trash" (click)="onDeleteModalClick(deleteModal,studentAssignment,'studentAssignDelete')"></i> &nbsp;
+                 <i class="fa fa-trash" (click)="DeleteDetails(studentAssignment.id,'StudentAssign',2)"></i> &nbsp;
                 </td>
               </tr>
             </tbody>
@@ -204,7 +204,7 @@
                 <label for="company">Student</label>
                   <select  formControlName="studentId"   class="form-control" id="studentId">
                     <option [ngValue]="null">Choose a Student</option>
-                    <option  value={{student.id}}  [ngValue]="student.id" *ngFor="let student of students">{{student.studentName}}</option>
+                    <option  [ngValue]="student.id" *ngFor="let student of students">{{student.studentName}}</option>
                   </select>
                   <div *ngIf="studentAssignmentForm.controls.studentId.hasError('required')  && btnEnrolmentSubmited ">  
                     <div class="alert alert-danger">

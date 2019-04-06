@@ -91,14 +91,12 @@ export class StudentComponent implements OnInit {
     this.GetProfession();
     this.GetSource();
     this.GetQualifications();
-    console.log(this.auth.getBranchId());
   }
 
   GetStudentAssignments()
   {
     this.loading = true; 
     this.service.get(Constants.studentAssign.replace('branchId', this.auth.getBranchId())).subscribe(resp => {
-      console.log(resp);
       this.BindStudentAssignments(resp.data);
       this.loading = false; 
     });
@@ -200,19 +198,6 @@ export class StudentComponent implements OnInit {
   });
 
   }
-  onStudentAssignmentModalClick(content,type:number,id :number) {
-    this.studentAssignmentForm.reset();
-    this.studentAssignmentForm.controls.courseId.setValue('0');
-    if(type==2) //edit
-    {    
-     // this.loading = true; 
-      // this.service.get(Constants.student+'/'+id).subscribe(resp => {
-      // this.loading = false; 
-      // });
-    }
-    this.modalReference = this.modalService.open(content);
-    
-  }
 
   onStep1Next(data){
     this.btnSubmited = true;   
@@ -261,18 +246,17 @@ export class StudentComponent implements OnInit {
       this.loading = true;
       this.service.post(Constants.studentAssignSave, this.studentAssignment)
       .subscribe(resp => {
-        console.log(resp);
               this.ShowResponse(resp);
               this.GetStudentAssignments();
             });
       this.modalReference.close();
+      this.btnEnrolmentSubmited = false;
     }
   }
   onChangeCourse(event)
   {
     this.GetAssignedbatchs(event);
     this.GetAssignedCourseFee(event);
-    console.log(event);
   }
   GetAssignedbatchs(courseId)
   {
@@ -287,7 +271,6 @@ export class StudentComponent implements OnInit {
     this.loading = true; 
     this.service.get("courseFee/"+this.auth.getBranchId()+"/course/"+ courseId).subscribe(resp => {
       this.loading = false; 
-      console.log(resp);
       this.BindAssignedCourseFee(resp.data);
     });
   }
@@ -299,6 +282,12 @@ export class StudentComponent implements OnInit {
       
     });
   }
+  onStudentAssignmentModalClick(content,type:number,id :number) {
+    this.studentAssignmentForm.reset();
+    this.studentAssignmentForm.controls.courseId.setValue('0');
+    this.modalReference = this.modalService.open(content);
+    
+  }
   BindAssignedCourses(data: Array<Course>) {
     this.courses = data;
   }
@@ -308,14 +297,9 @@ export class StudentComponent implements OnInit {
   BindAssignedCourseFee(data: Array<CourseFee>) {
     this.courseFees = data;
   }
-  // onStudentEditModalClick(content: any, id: number) { 
-  //   this.loading = true; 
-  //   this.service.get(Constants.student+'/'+id).subscribe(resp => {
-  //     this.loading = false; 
-  //   }); 
 
-  // }
-  onDeleteModalClick(content: any, deleteobject: any, url: string) {
+    DeleteDetails(id: number,  url: string, type:number) {
+     // console.log(id); return false;
     Swal.fire({
       title: 'Are you sure?',
       text: "You won't be able to revert this!",
@@ -326,25 +310,52 @@ export class StudentComponent implements OnInit {
       confirmButtonText: 'Yes, delete it!'
     }).then((result) => {
       if (result.value) {
-        //this.modalReference = this.modalService.open(content);
-        this.deleteobject = deleteobject;
-        this.url = url;
-        this.deleteItem();
+      if(type==1)
+      {
+        this.student.id=id;
+        this.deleteobject=this.student;
+      }
+      else if(type==2)
+      {
+        this.studentAssignment.id=id;
+        this.deleteobject=this.studentAssignment;
+      }
+        
+         this.url = url;
+         this.deleteItem(type);
       }
     })
     
   }
-  deleteItem() {
+  deleteItem(type :number) {
+    //console.log(this.deleteobject); return false;
     this.service.delete(this.url, this.deleteobject).subscribe(resp => {
-      Swal.fire(
-        'Deleted!!',
-        '',
-        'success'
-      )
-      // this.getCourses();
-      // this.getBranches(); 
-      // this.getUsers();
-      //this.modalReference.close();
+      if(resp.isSuccess===true)
+      {
+        Swal.fire(
+          'Deleted Successfully!!',
+          '',
+          'success'
+        )
+        if(type==1)//Delete Student
+        {
+          this.GetStudent();
+        }
+        else if(type==2)//delete assignment
+        {
+          this.GetStudentAssignments();
+        }
+       
+      }
+      else
+      {
+        Swal.fire(
+          'Deletion Failed!!',
+          '',
+          'error'
+        )
+      }
+      
      
     });
   }
