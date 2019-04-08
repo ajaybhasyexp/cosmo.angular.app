@@ -11,7 +11,7 @@ import { Router } from '@angular/router';
 import { User } from '../../models/user';
 import { UserRole } from '../../models/userrole';
 import { debug } from 'util';
-import Swal from 'sweetalert2'
+import Swal from 'sweetalert2';
 import { empty } from 'rxjs';
 
 
@@ -23,7 +23,7 @@ import { empty } from 'rxjs';
 })
 export class MastersComponent implements OnInit {
   @ViewChild('warningModal') public warningModal: ModalDirective;
-  public auth: AuthService;
+  auth: AuthService;
   branches: Array<Branch> = new Array<Branch>();
   courses: Array<Course> = new Array<Course>();
   users: Array<User> = new Array<User>();
@@ -80,6 +80,7 @@ export class MastersComponent implements OnInit {
     if (this.auth.isLoggedIn() !== true) {
       this.route.navigate(['login']);
     }
+    this.loading = true;
     this.getBranches();
     this.getCourses();
     this.getUsers();
@@ -87,25 +88,20 @@ export class MastersComponent implements OnInit {
   }
 
   getBranches(): any {
-    this.loading = true;
     this.service.get(Constants.branch).subscribe(resp => {
       this.bindBranches(resp.data);
-      this.loading = false;
+
     });
   }
   getUsers(): any {
-    this.loading = true;
-    this.service.get(Constants.user).subscribe(resp => {
+    this.service.get(Constants.userall.replace('branchid', this.auth.getBranchId())).subscribe(resp => {
       this.bindUsers(resp.data);
-      this.loading = false;
     });
   }
 
   getCourses(): any {
-    this.loading = true;
     this.service.get(Constants.course).subscribe(resp => {
       this.bindCourses(resp.data);
-      this.loading = false;
     });
   }
 
@@ -128,17 +124,15 @@ export class MastersComponent implements OnInit {
   }
 
   bindUserRoles(data: Array<UserRole>) {
-
     this.userRoles = data;
+    this.loading = false;
   }
 
   saveBranchDetails() {
     this.btnBranchSubmited = true;
     if (this.branchForm.valid) {
-      this.loading = true;
-      this.branchForm.value;
       this.branch.adminId = this.branchForm.controls.adminId.value;
-      console.log(this.branchForm.controls.adminId);
+      this.loading = true;
       this.service.post(Constants.branch, this.branch).subscribe(resp => {
         this.modalReference.close();
         this.btnBranchSubmited = false;
@@ -151,15 +145,12 @@ export class MastersComponent implements OnInit {
 
   saveCourseDetails() {
     this.btnCourseSubmited = true;
-    console.log(this.courseForm.valid);
     if (this.courseForm.valid) {
       this.loading = true;
       const userId = +this.auth.getUserId();
       this.course.createdBy = userId;
       this.course.updatedBy = userId;
       this.service.post(Constants.course, this.course).subscribe(resp => {
-        console.log(resp);
-        console.log(resp.isSuccess);
         this.modalReference.close();
         this.btnCourseSubmited = false;
         this.ShowResponse(resp);
@@ -170,7 +161,6 @@ export class MastersComponent implements OnInit {
   }
 
   saveUserDetails() {
-
     this.btnUserSubmited = true;
     if (this.userForm.valid) {
       this.loading = true;
@@ -191,7 +181,7 @@ export class MastersComponent implements OnInit {
   }
 
   onUserModalClick(content, type: number) {
-    if (type == 1) {
+    if (type === 1) {
       this.user = new User();
       this.branchIdSelected = 2;
       this.userRoleIdSelected = 2;
@@ -200,7 +190,7 @@ export class MastersComponent implements OnInit {
 
   }
   onBranchModalClick(content, type: number) {
-    if (type == 1) {
+    if (type === 1) {
       this.branch = new Branch();
       this.adminIdSelected = 2;
     }
@@ -208,7 +198,7 @@ export class MastersComponent implements OnInit {
 
   }
   onCourseModalClick(content, type: number) {
-    if (type == 1) {
+    if (type === 1) {
       this.course = new Course();
     }
     this.modalReference = this.modalService.open(content);
@@ -217,7 +207,7 @@ export class MastersComponent implements OnInit {
   onDeleteModalClick(content: any, deleteobject: any, url: string) {
     Swal.fire({
       title: 'Are you sure?',
-      text: "You won't be able to revert this!",
+      text: 'You won\'t be able to revert this!',
       type: 'warning',
       showCancelButton: true,
       confirmButtonColor: '#3085d6',
@@ -225,12 +215,12 @@ export class MastersComponent implements OnInit {
       confirmButtonText: 'Yes, delete it!'
     }).then((result) => {
       if (result.value) {
-        //this.modalReference = this.modalService.open(content);
         this.deleteobject = deleteobject;
         this.url = url;
+        this.loading = true;
         this.deleteItem();
       }
-    })
+    });
 
   }
   closeModal() {
@@ -240,16 +230,13 @@ export class MastersComponent implements OnInit {
 
   deleteItem() {
     this.service.delete(this.url, this.deleteobject).subscribe(resp => {
-      Swal.fire(
-        'Deleted!!',
-        '',
-        'success'
-      )
-      this.getCourses();
-      this.getBranches();
-      this.getUsers();
-      //this.modalReference.close();
-
+      this.loading = false;
+      this.deleteResponse(resp);
+      if (resp.isSuccess) {
+        this.getCourses();
+        this.getBranches();
+        this.getUsers();
+      }
     });
   }
 
@@ -261,10 +248,10 @@ export class MastersComponent implements OnInit {
       this.adminIdSelected = resp.data.adminId;
       this.loading = false;
     });
-    //this.branch = this.branches.find(x => x.id === id);
+    // this.branch = this.branches.find(x => x.id === id);
     this.onBranchModalClick(content, 2);
 
-    //this.adminIdSelected=this.branches.find(x => x.id === id).adminId;
+    // this.adminIdSelected=this.branches.find(x => x.id === id).adminId;
   }
 
   onCourseEditModalClick(content: any, id: number) {
@@ -286,14 +273,9 @@ export class MastersComponent implements OnInit {
       this.userRoleIdSelected = resp.data.userRoleId;
       this.loading = false;
     });
-    // this.user = this.users.find(x => x.id === id);
-    // this.branchIdSelected=this.users.find(x => x.id === id).branchId;
-    // this.userRoleIdSelected=this.users.find(x => x.id === id).userRoleId;
-    // console.log(content);
     this.onUserModalClick(content, 2);
   }
   ShowResponse(response: any) {
-    console.log(response);
     if (response.isSuccess === true) {
       this.loading = false;
       Swal.fire(
@@ -310,4 +292,22 @@ export class MastersComponent implements OnInit {
       );
     }
   }
+  deleteResponse(response: any) {
+    if (response.isSuccess) {
+      Swal.fire(
+        'Deleted!!',
+        '',
+        'success'
+      );
+    } else {
+      Swal.fire(
+        response.message,
+        '',
+        'error'
+      );
+    }
+
+  }
 }
+
+

@@ -7,6 +7,7 @@ import { AuthService } from '../../services/auth.service';
 import { Constants } from '../../constants';
 import { Batch } from '../../models/batch';
 import { Router } from '@angular/router';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-batch',
@@ -56,12 +57,27 @@ export class BatchComponent implements OnInit {
   }
 
   onDelete(content: any, deleteobject: Batch) {
-    this.modalReference = this.modalService.open(content);
-    this.deleteObject = deleteobject;
+    Swal.fire({
+      title: 'Are you sure?',
+      text: 'You won\'t be able to revert this!',
+      type: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Yes, delete it!'
+    }).then(result => {
+      if (result.value) {
+        this.deleteItem(deleteobject);
+      }
+    });
   }
 
   onEdit(content: any, id: number) {
-    this.batch = this.batches.find(x => x.id === id);
+    this.loading = true;
+    this.service.get(Constants.batch + '/' + id).subscribe(resp => {
+      this.bindBatch(resp.data);
+      this.loading = false;
+    });
     this.onModalClick(content);
   }
 
@@ -69,9 +85,11 @@ export class BatchComponent implements OnInit {
     this.modalReference.close();
   }
 
-  deleteItem() {
-    this.service.delete(Constants.batch, this.deleteObject).subscribe(() => {
+  deleteItem(deleteobject: Batch) {
+    this.loading = true;
+    this.service.delete(Constants.batch, deleteobject).subscribe(() => {
       this.getBatches();
+      this.loading = false;
       this.modalReference.close();
     });
   }
@@ -84,5 +102,9 @@ export class BatchComponent implements OnInit {
       this.getBatches();
       this.modalReference.close();
     });
+  }
+
+  bindBatch(batch: Batch) {
+    this.batch = batch;
   }
 }

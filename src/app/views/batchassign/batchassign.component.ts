@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
-
 import { ApiService } from '../../services/api.service';
 import { AuthService } from '../../services/auth.service';
 import { Constants } from '../../constants';
@@ -32,7 +31,7 @@ export class BatchassignComponent implements OnInit {
   branches = new Array<Branch>();
   courses = new Array<Course>();
   batches = new Array<Batch>();
-  dropdownSettings = {}; 
+  dropdownSettings = {};
 
   batchAssignForm = new FormGroup({
     assignBranch: new FormControl(
