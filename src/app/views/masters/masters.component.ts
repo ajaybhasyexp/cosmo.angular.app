@@ -1,7 +1,7 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { ModalDirective } from 'ngx-bootstrap/modal';
-import { FormGroup, FormControl ,Validators} from '@angular/forms';
+import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { Branch } from '../../models/branch';
 import { Course } from '../../models/course';
 import { ApiService } from '../../services/api.service';
@@ -23,6 +23,7 @@ import { empty } from 'rxjs';
 })
 export class MastersComponent implements OnInit {
   @ViewChild('warningModal') public warningModal: ModalDirective;
+  public auth: AuthService;
   branches: Array<Branch> = new Array<Branch>();
   courses: Array<Course> = new Array<Course>();
   users: Array<User> = new Array<User>();
@@ -33,33 +34,33 @@ export class MastersComponent implements OnInit {
   userRole = new UserRole();
   closeResult: string;
   modalReference: NgbModalRef;
-  loading:boolean;
+  loading: boolean;
   deleteobject: any;
   url: string;
-  userRoleIdSelected:number;
-  adminIdSelected:number;
-  branchIdSelected:number;
+  userRoleIdSelected: number;
+  adminIdSelected: number;
+  branchIdSelected: number;
   branchForm = new FormGroup({
-    branchName: new FormControl('',Validators.required),
-    branchAddress: new FormControl('',Validators.required),
-    branchEmail: new FormControl('',[Validators.required,Validators.email]),
-    branchPerson: new FormControl('',Validators.required),
-    branchNumber: new FormControl('',[Validators.required,Validators.pattern(/^-?(0|[1-9]\d*)?$/)]),
+    branchName: new FormControl('', Validators.required),
+    branchAddress: new FormControl('', Validators.required),
+    branchEmail: new FormControl('', [Validators.required, Validators.email]),
+    branchPerson: new FormControl('', Validators.required),
+    branchNumber: new FormControl('', [Validators.required, Validators.pattern(/^-?(0|[1-9]\d*)?$/)]),
     adminId: new FormControl('')
   });
   courseForm = new FormGroup({
-    courseName: new FormControl('',Validators.required),
-    courseDescription: new FormControl('',Validators.required)
+    courseName: new FormControl('', Validators.required),
+    courseDescription: new FormControl('', Validators.required)
   });
   userForm = new FormGroup({
-    userName: new FormControl('',Validators.required),
-    userEmail: new FormControl('',[Validators.required,Validators.email]),
-    userPassword: new FormControl('',[Validators.required, Validators.pattern(/^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/)]), 
-    //userContactNumber: new FormControl('',[Validators.required,Validators.pattern(/^-?(0|[1-9]\d*)?$/)] ),
-    userRoleId: new FormControl('',Validators.required),
+    userName: new FormControl('', Validators.required),
+    userEmail: new FormControl('', [Validators.required, Validators.email]),
+    userPassword: new FormControl('', [Validators.required, Validators.pattern(/^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/)]),
+    // userContactNumber: new FormControl('',[Validators.required,Validators.pattern(/^-?(0|[1-9]\d*)?$/)] ),
+    userRoleId: new FormControl('', Validators.required),
     branchId: new FormControl('')
-   
-    
+
+
   });
 
   public btnBranchSubmited = false;
@@ -69,11 +70,10 @@ export class MastersComponent implements OnInit {
   constructor(
     private service: ApiService,
     private modalService: NgbModal,
-    private auth: AuthService,
+    auth: AuthService,
     private route: Router
   ) {
-   
-    
+    this.auth = auth;
   }
 
   ngOnInit() {
@@ -87,25 +87,25 @@ export class MastersComponent implements OnInit {
   }
 
   getBranches(): any {
-    this.loading = true; 
+    this.loading = true;
     this.service.get(Constants.branch).subscribe(resp => {
       this.bindBranches(resp.data);
-      this.loading = false; 
+      this.loading = false;
     });
   }
   getUsers(): any {
-    this.loading = true; 
+    this.loading = true;
     this.service.get(Constants.user).subscribe(resp => {
       this.bindUsers(resp.data);
-      this.loading = false; 
+      this.loading = false;
     });
   }
 
   getCourses(): any {
-    this.loading = true; 
+    this.loading = true;
     this.service.get(Constants.course).subscribe(resp => {
       this.bindCourses(resp.data);
-      this.loading = false; 
+      this.loading = false;
     });
   }
 
@@ -128,7 +128,7 @@ export class MastersComponent implements OnInit {
   }
 
   bindUserRoles(data: Array<UserRole>) {
- 
+
     this.userRoles = data;
   }
 
@@ -139,7 +139,7 @@ export class MastersComponent implements OnInit {
       this.branchForm.value;
       this.branch.adminId = this.branchForm.controls.adminId.value;
       console.log(this.branchForm.controls.adminId);
-      this.service.post(Constants.branch, this.branch).subscribe(resp => {       
+      this.service.post(Constants.branch, this.branch).subscribe(resp => {
         this.modalReference.close();
         this.btnBranchSubmited = false;
         this.ShowResponse(resp);
@@ -150,7 +150,7 @@ export class MastersComponent implements OnInit {
   }
 
   saveCourseDetails() {
-    this.btnCourseSubmited = true; 
+    this.btnCourseSubmited = true;
     console.log(this.courseForm.valid);
     if (this.courseForm.valid) {
       this.loading = true;
@@ -159,27 +159,27 @@ export class MastersComponent implements OnInit {
       this.course.updatedBy = userId;
       this.service.post(Constants.course, this.course).subscribe(resp => {
         console.log(resp);
-        console.log(resp.isSuccess);      
+        console.log(resp.isSuccess);
         this.modalReference.close();
         this.btnCourseSubmited = false;
         this.ShowResponse(resp);
         this.getCourses();
       });
     }
-   
+
   }
 
   saveUserDetails() {
 
-    this.btnUserSubmited = true;   
+    this.btnUserSubmited = true;
     if (this.userForm.valid) {
-      this.loading = true; 
+      this.loading = true;
       const userId = +this.auth.getUserId();
       this.user.createdBy = userId;
       this.user.updatedBy = userId;
       this.user.userRoleId = this.userForm.controls.userRoleId.value;
-      this.user.branchId = this.userForm.controls.branchId.value;     
-      this.service.post(Constants.user, this.user).subscribe(resp => {       
+      this.user.branchId = this.userForm.controls.branchId.value;
+      this.service.post(Constants.user, this.user).subscribe(resp => {
         this.modalReference.close();
         this.btnUserSubmited = false;
         this.ShowResponse(resp);
@@ -190,32 +190,29 @@ export class MastersComponent implements OnInit {
 
   }
 
-  onUserModalClick(content,type:number) {
-    if(type==1)
-    {
+  onUserModalClick(content, type: number) {
+    if (type == 1) {
       this.user = new User();
-      this.branchIdSelected=2;
-      this.userRoleIdSelected=2;
+      this.branchIdSelected = 2;
+      this.userRoleIdSelected = 2;
     }
     this.modalReference = this.modalService.open(content);
-    
+
   }
-  onBranchModalClick(content,type:number) {
-    if(type==1)
-    {
+  onBranchModalClick(content, type: number) {
+    if (type == 1) {
       this.branch = new Branch();
-      this.adminIdSelected=2;
+      this.adminIdSelected = 2;
     }
     this.modalReference = this.modalService.open(content);
-    
+
   }
-  onCourseModalClick(content,type:number) {
-    if(type==1)
-    {
+  onCourseModalClick(content, type: number) {
+    if (type == 1) {
       this.course = new Course();
     }
     this.modalReference = this.modalService.open(content);
-    
+
   }
   onDeleteModalClick(content: any, deleteobject: any, url: string) {
     Swal.fire({
@@ -234,11 +231,11 @@ export class MastersComponent implements OnInit {
         this.deleteItem();
       }
     })
-    
+
   }
   closeModal() {
     this.modalReference.close();
-    
+
   }
 
   deleteItem() {
@@ -249,51 +246,51 @@ export class MastersComponent implements OnInit {
         'success'
       )
       this.getCourses();
-      this.getBranches(); 
+      this.getBranches();
       this.getUsers();
       //this.modalReference.close();
-     
+
     });
   }
 
   onBranchEditModalClick(content: any, id: number) {
-    this.branch=null;
-    this.loading = true; 
-    this.service.get(Constants.branch+'/'+id).subscribe(resp => {
-      this.branch=resp.data;
-      this.adminIdSelected=resp.data.adminId;
-      this.loading = false; 
-    }); 
+    this.branch = null;
+    this.loading = true;
+    this.service.get(Constants.branch + '/' + id).subscribe(resp => {
+      this.branch = resp.data;
+      this.adminIdSelected = resp.data.adminId;
+      this.loading = false;
+    });
     //this.branch = this.branches.find(x => x.id === id);
-    this.onBranchModalClick(content,2);
-    
+    this.onBranchModalClick(content, 2);
+
     //this.adminIdSelected=this.branches.find(x => x.id === id).adminId;
   }
 
   onCourseEditModalClick(content: any, id: number) {
-    this.course=null;
-    this.loading = true; 
-    this.service.get(Constants.course+'/'+id).subscribe(resp => {
-      this.course=resp.data;
-      this.loading = false; 
+    this.course = null;
+    this.loading = true;
+    this.service.get(Constants.course + '/' + id).subscribe(resp => {
+      this.course = resp.data;
+      this.loading = false;
     });
-   // this.course = this.courses.find(x => x.id === id);
-    this.onCourseModalClick(content,2);
+    // this.course = this.courses.find(x => x.id === id);
+    this.onCourseModalClick(content, 2);
   }
-  onUserEditModalClick (content: any, id: number) {
-    this.user=null;
-    this.loading = true; 
-    this.service.get(Constants.user+'/'+id).subscribe(resp => {
-      this.user=resp.data;
-      this.branchIdSelected=resp.data.branchId;
-      this.userRoleIdSelected=resp.data.userRoleId;
-      this.loading = false; 
+  onUserEditModalClick(content: any, id: number) {
+    this.user = null;
+    this.loading = true;
+    this.service.get(Constants.user + '/' + id).subscribe(resp => {
+      this.user = resp.data;
+      this.branchIdSelected = resp.data.branchId;
+      this.userRoleIdSelected = resp.data.userRoleId;
+      this.loading = false;
     });
-   // this.user = this.users.find(x => x.id === id);
+    // this.user = this.users.find(x => x.id === id);
     // this.branchIdSelected=this.users.find(x => x.id === id).branchId;
     // this.userRoleIdSelected=this.users.find(x => x.id === id).userRoleId;
     // console.log(content);
-    this.onUserModalClick(content,2);
+    this.onUserModalClick(content, 2);
   }
   ShowResponse(response: any) {
     console.log(response);
