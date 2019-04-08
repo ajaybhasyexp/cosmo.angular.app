@@ -16,10 +16,11 @@ export class Constants {
     static readonly coursefeeall = 'coursefee/all';
     static readonly assignedcourse = 'course/id/assigned';
     static readonly assignedbatch = 'batch/branchid/assigned/courseId';
+    static readonly userall = 'user/branchid/all';
 
-    static readonly studentAssign ='studentAssign/branchId';
-    static readonly studentAssignDelete ='studentAssign';
-    static readonly studentAssignSave ='studentAssign';
+    static readonly studentAssign = 'studentAssign/branchId';
+    static readonly studentAssignDelete = 'studentAssign';
+    static readonly studentAssignSave = 'studentAssign';
 
     static readonly tokenKey = 'tokenKey';
     static readonly userId = 'userId';
