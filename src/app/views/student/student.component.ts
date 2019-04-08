@@ -14,7 +14,7 @@ import { StudentAssignment } from '../../models/studentAssignment';
 import { Branch } from '../../models/branch';
 import { Course } from '../../models/course';
 import { Batch } from '../../models/batch';
-import { CourseFee } from '../../models/courseFee';
+import { CourseFee } from '../../models/coursefee';
 import { Profession } from '../../models/profession';
 import { Qualification } from '../../models/qualification';
 import { Source } from '../../models/source';

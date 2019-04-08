@@ -94,9 +94,16 @@ export class MastersComponent implements OnInit {
     });
   }
   getUsers(): any {
-    this.service.get(Constants.userall.replace('branchid', this.auth.getBranchId())).subscribe(resp => {
-      this.bindUsers(resp.data);
-    });
+    if (this.auth.isSuperAdmin()) {
+      this.service.get(Constants.userall.replace('branchid', '0')).subscribe(resp => {
+        this.bindUsers(resp.data);
+      });
+
+    } else {
+      this.service.get(Constants.userall.replace('branchid', this.auth.getBranchId())).subscribe(resp => {
+        this.bindUsers(resp.data);
+      });
+    }
   }
 
   getCourses(): any {
