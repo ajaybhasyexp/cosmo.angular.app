@@ -44,6 +44,11 @@ export class BatchComponent implements OnInit {
     this.modalReference = this.modalService.open(content);
   }
 
+  addModalClick(content: any) {
+    this.batch = new Batch();
+    this.modalReference = this.modalService.open(content);
+  }
+
   getBatches(): any {
     this.loading = true;
     this.service.get(Constants.batch).subscribe(resp => {
@@ -77,8 +82,24 @@ export class BatchComponent implements OnInit {
     this.service.get(Constants.batch + '/' + id).subscribe(resp => {
       this.bindBatch(resp.data);
       this.loading = false;
+      this.onModalClick(content);
     });
-    this.onModalClick(content);
+  }
+
+  deleteResponse(response: any) {
+    if (response.isSuccess) {
+      Swal.fire(
+        'Deleted!!',
+        '',
+        'success'
+      );
+    } else {
+      Swal.fire(
+        response.message,
+        '',
+        'error'
+      );
+    }
   }
 
   closeModal() {
@@ -87,7 +108,8 @@ export class BatchComponent implements OnInit {
 
   deleteItem(deleteobject: Batch) {
     this.loading = true;
-    this.service.delete(Constants.batch, deleteobject).subscribe(() => {
+    this.service.delete(Constants.batch, deleteobject).subscribe(resp => {
+      this.deleteResponse(resp);
       this.getBatches();
       this.loading = false;
       this.modalReference.close();

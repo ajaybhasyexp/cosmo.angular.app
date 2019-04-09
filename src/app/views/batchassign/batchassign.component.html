@@ -12,17 +12,17 @@
         <table class="table table-bordered">
           <thead>
             <tr>
-              <th [hidden] = "!auth.isSuperAdmin()">Branch </th>
               <th>Course </th>
               <th>Batch</th>
+              <th [hidden]="!auth.isSuperAdmin()">Branch </th>
               <th>Actions</th>
             </tr>
           </thead>
           <tbody *ngFor="let assign of batchAssigns">
             <tr>
-              <td [hidden] = "!auth.isSuperAdmin()">{{assign.branch}}</td>
               <td>{{assign.course}}</td>
               <td>{{assign.batch}}</td>
+              <td [hidden]="!auth.isSuperAdmin()">{{assign.branch}}</td>
               <td>
                 <i class="fa fa-trash" (click)="onDeleteModalClick(assign)"></i>
               </td>
@@ -41,7 +41,7 @@
   <div class="modal-body">
     <div class="card-body">
       <form [formGroup]="batchAssignForm" (ngSubmit)="saveBatchAssignmentDetails()">
-        <div [hidden] = "!auth.isSuperAdmin()" class="form-group">
+        <div [hidden]="!auth.isSuperAdmin()" class="form-group">
           <label for="city">Branch</label>
           <select formControlName="assignBranch" class="form-control" name="branch">
             <option [ngValue]="branch.id" *ngFor="let branch of branches">
@@ -72,4 +72,4 @@
     </div>
   </div>
 
-</ng-template>  
+</ng-template>
