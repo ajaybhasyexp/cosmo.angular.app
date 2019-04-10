@@ -178,12 +178,6 @@
                 </div>
               </div>
               <div class="form-group">
-                <label for="city">Admin</label>
-                <select [(ngModel)]="adminIdSelected" formControlName="adminId" class="form-control" id="adminId">
-                  <option *ngFor="let user of users" [value]=user.id>{{user.userName}}</option>
-                </select>
-              </div>
-              <div class="form-group">
                 <button class="btn btn-primary" type="submit">Submit</button>
               </div>
             </form>
