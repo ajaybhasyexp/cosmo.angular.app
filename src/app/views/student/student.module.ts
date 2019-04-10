@@ -14,7 +14,6 @@ import { FormWizardModule } from 'angular2-wizard';
 import { StudentComponent } from './student.component';
 import { StudentRoutingModule } from './student-routing.module';
 import { StudentviewComponent } from '../studentview/studentview.component';
-import { DataTablesModule } from 'angular-datatables';
 
 
 @NgModule({
@@ -25,8 +24,7 @@ import { DataTablesModule } from 'angular-datatables';
         CommonModule,
         FormsModule,
         ReactiveFormsModule,
-        FormWizardModule,
-        DataTablesModule
+        FormWizardModule
     ],
     declarations: [StudentComponent, StudentviewComponent]
 })
