@@ -120,6 +120,7 @@ export class BatchassignComponent implements OnInit {
   }
 
   saveBatchAssignmentDetails() {
+    this.loading = true;
     if (this.batchAssignForm.valid) {
       const userId = +this.auth.getUserId();
       this.batchAssign.createdBy = userId;
@@ -138,8 +139,10 @@ export class BatchassignComponent implements OnInit {
           this.ShowResponse(resp);
           this.modalReference.close();
           this.getBatchAssigns();
+          this.loading = false;
         });
     }
+    this.loading = false;
   }
 
   onDeleteModalClick(deleteobject: BatchAssignment) {

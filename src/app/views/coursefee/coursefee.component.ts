@@ -58,10 +58,14 @@ export class CoursefeeComponent implements OnInit {
       this.route.navigate(['login']);
     } else {
       this.userBranch = this.auth.getBranch();
-      this.getCourseFee();
-      this.getBranches();
-      this.getCourses();
     }
+  }
+
+  initLoad() {
+    this.loading = true;
+    this.getCourseFee();
+    this.getBranches();
+    this.getCourses();
   }
 
   getBranches() {
@@ -83,6 +87,7 @@ export class CoursefeeComponent implements OnInit {
     } else {
       this.service.get(Constants.assignedcourse.replace('id', this.userBranch.id.toString())).subscribe(p => {
         this.bindCourses(p.data);
+        this.loading = false;
       });
     }
   }
@@ -101,6 +106,7 @@ export class CoursefeeComponent implements OnInit {
   }
 
   onModalClick(content: any) {
+    this.initLoad();
     this.modalReference = this.modalService.open(content);
     this.courseFeeForm.controls['branchCtrl'].setValue(this.userBranch.id);
   }

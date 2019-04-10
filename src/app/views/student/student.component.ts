@@ -86,6 +86,7 @@ export class StudentComponent implements OnInit {
     if (this.auth.isLoggedIn() !== true) {
       this.route.navigate(['login']);
     }
+    this.loading = true;
     this.GetStudent();
     this.GetStudentAssignments();
     this.GetAssignedCourse();
@@ -117,7 +118,6 @@ export class StudentComponent implements OnInit {
     this.sources = data;
   }
   GetQualifications() {
-    this.loading = true;
     this.service.get(Constants.qualifications).subscribe(resp => {
       this.BindQualifications(resp.data);
       this.loading = false;
