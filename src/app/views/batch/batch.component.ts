@@ -117,13 +117,34 @@ export class BatchComponent implements OnInit {
   }
 
   saveBatchDetails() {
+    this.loading = true;
     const userId = +this.auth.getUserId();
     this.batch.createdBy = userId;
     this.batch.updatedBy = userId;
-    this.service.post(Constants.batch, this.batch).subscribe(() => {
+    this.service.post(Constants.batch, this.batch).subscribe(resp => {
       this.getBatches();
       this.modalReference.close();
+      this.ShowResponse(resp);
+      this.loading = false;
     });
+  }
+
+  ShowResponse(response: any) {
+    if (response.isSuccess === true) {
+      this.loading = false;
+      Swal.fire(
+        response.message,
+        '',
+        'success'
+      );
+    } else {
+      this.loading = false;
+      Swal.fire(
+        response.message,
+        '',
+        'error'
+      );
+    }
   }
 
   bindBatch(batch: Batch) {

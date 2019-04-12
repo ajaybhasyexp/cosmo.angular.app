@@ -58,12 +58,12 @@ export class CoursefeeComponent implements OnInit {
       this.route.navigate(['login']);
     } else {
       this.userBranch = this.auth.getBranch();
+      this.getCourseFee();
     }
   }
 
   initLoad() {
     this.loading = true;
-    this.getCourseFee();
     this.getBranches();
     this.getCourses();
   }
@@ -83,6 +83,7 @@ export class CoursefeeComponent implements OnInit {
     if (this.auth.isSuperAdmin()) {
       this.service.get(Constants.course).subscribe(p => {
         this.bindCourses(p.data);
+        this.loading = false;
       });
     } else {
       this.service.get(Constants.assignedcourse.replace('id', this.userBranch.id.toString())).subscribe(p => {
@@ -101,14 +102,15 @@ export class CoursefeeComponent implements OnInit {
     }
     this.service.get(url).subscribe(p => {
       this.bindCourseFees(p.data);
+      this.loading = false;
     });
 
   }
 
   onModalClick(content: any) {
     this.initLoad();
-    this.modalReference = this.modalService.open(content);
     this.courseFeeForm.controls['branchCtrl'].setValue(this.userBranch.id);
+    this.modalReference = this.modalService.open(content);
   }
 
   onDeleteModalClick(deleteobject: CourseFee) {

@@ -47,9 +47,6 @@ export class BatchassignComponent implements OnInit {
       this.route.navigate(['login']);
     } else {
       this.getBatchAssigns();
-      this.getBranches();
-      this.getCourses();
-      this.getBatches();
     }
   }
 
@@ -98,6 +95,7 @@ export class BatchassignComponent implements OnInit {
 
   bindBatches(data: Array<Batch>) {
     this.batches = data;
+    this.loading = false;
   }
 
   bindBatchAssigns(data: Array<BatchAssignment>) {
@@ -116,6 +114,11 @@ export class BatchassignComponent implements OnInit {
   }
 
   onModalClick(content: any) {
+    this.loading = true;
+      this.getBranches();
+      this.getCourses();
+      this.getBatches();
+      this.batchAssignForm.reset();
     this.modalReference = this.modalService.open(content);
   }
 

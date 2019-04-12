@@ -79,6 +79,10 @@ export class MastersComponent implements OnInit {
   ngOnInit() {
     if (this.auth.isLoggedIn() !== true) {
       this.route.navigate(['login']);
+    } else {
+      if (!this.auth.isSuperAdmin()) {
+        this.route.navigate(['dashboard']);
+      }
     }
     this.loading = true;
     this.getBranches();
