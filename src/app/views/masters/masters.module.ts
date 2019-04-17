@@ -7,6 +7,7 @@ import { FormGroup , FormControl , ReactiveFormsModule , FormsModule } from '@an
 
 import { MastersComponent } from './masters.component';
 import { MastersRoutingModule } from './masters-routing.module';
+import { ExpenseMastersComponent } from '../expense-masters/expense-masters.component';
 
 @NgModule({
   imports: [
@@ -18,6 +19,6 @@ import { MastersRoutingModule } from './masters-routing.module';
     ReactiveFormsModule
     // NgbModal
   ],
-  declarations: [MastersComponent]
+  declarations: [MastersComponent,ExpenseMastersComponent]
 })
 export class MastersModule { }
