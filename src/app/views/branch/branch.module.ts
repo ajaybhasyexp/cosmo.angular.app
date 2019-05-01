@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { ChartsModule } from 'ng2-charts/ng2-charts';
 import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
 import { CommonModule } from '@angular/common'; 
+import { DxDataGridModule } from 'devextreme-angular';
 
 
 import {
@@ -24,7 +25,8 @@ import { CoursefeeComponent } from '../coursefee/coursefee.component';
     BsDropdownModule,
     CommonModule,
     FormsModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    DxDataGridModule
   ],
   declarations: [BranchComponent, BatchComponent, BatchassignComponent, CoursefeeComponent]
 })

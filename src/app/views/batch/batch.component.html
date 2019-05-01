@@ -9,26 +9,10 @@
         <i (click)="addModalClick(batchModal)" class="fa fa-plus"></i>
       </div>
       <div class="card-body">
-        <table class="table table-bordered">
-          <thead>
-            <tr>
-              <th>Batch Name</th>
-              <th>Description</th>
-              <th>Actions</th>
-            </tr>
-          </thead>
-          <tbody *ngFor="let batch of batches">
-            <tr>
-              <td>{{batch.batchName}}</td>
-              <td>{{batch.description}}</td>
-              <td>
-                <!-- <span class="badge badge-success">Active</span> -->
-                <i class="fa fa-trash" (click)="onDelete(deleteModal,batch)"></i> &nbsp;
-                <i (click)="onEdit(batchModal,batch.id)" class="fa fa-pencil"></i>
-              </td>
-            </tr>
-          </tbody>
-        </table>
+        <dx-data-grid id="gridContainer" [dataSource]="batches" [columns]="['batchName', 'description']"
+          [showBorders]="true">
+          <dxo-search-panel [visible]="true" [width]="240" placeholder="Search..."></dxo-search-panel>
+        </dx-data-grid>
       </div>
     </div>
   </div>
@@ -42,14 +26,14 @@
     <div class="card-body">
       <form [formGroup]="batchForm" (ngSubmit)="saveBatchDetails()">
         <div class="form-group">
-            <label>Batch Name</label>
+          <label>Batch Name</label>
           <input [(ngModel)]="batch.batchName" formControlName="batchName" type="text" class="form-control" id="Name"
             placeholder="Batch Name">
         </div>
         <div class="form-group">
-            <label>Description</label>
-          <input [(ngModel)]="batch.description" formControlName="description" type="text" class="form-control" id="Description"
-            placeholder="Description">
+          <label>Description</label>
+          <input [(ngModel)]="batch.description" formControlName="description" type="text" class="form-control"
+            id="Description" placeholder="Description">
         </div>
         <div class="form-group">
           <button class="btn btn-primary" type="submit">Submit</button>
