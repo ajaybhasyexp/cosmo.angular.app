@@ -95,7 +95,7 @@ export const routes: Routes = [
         loadChildren: './views/student/student.module#StudentModule'
       },
       {
-        path: 'fee-payment',
+        path: 'payment',
         loadChildren: './views/fee-payment/fee-payment.module#FeePaymentModule'
       }
     ]

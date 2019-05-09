@@ -61,7 +61,7 @@ export const navItems: NavData[] = [
   },
   {
     name: 'Payment',
-    url: '/fee-payment',
+    url: '/payment',
     icon: 'icon-calculator',
     userRole: 'admin'
   },

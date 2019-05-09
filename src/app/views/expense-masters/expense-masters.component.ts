@@ -1,12 +1,14 @@
 import { Component, OnInit } from '@angular/core';
-
-import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
+import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
+
+import Swal from 'sweetalert2';
+
 import { Router } from '@angular/router';
 import { ApiService } from '../../services/api.service';
 import { AuthService } from '../../services/auth.service';
 import { Constants } from '../../constants';
-import Swal from 'sweetalert2';
+import { IncomeHead } from '../../models/incomehead';
 
 
 @Component({
@@ -15,14 +17,26 @@ import Swal from 'sweetalert2';
   styleUrls: ['./expense-masters.component.scss']
 })
 export class ExpenseMastersComponent implements OnInit {
-  
-  loading:boolean;
+
+  loading: boolean;
   url: string;
   deleteobject: any;
   modalReference: NgbModalRef;
-  
+  incomeHead: IncomeHead;
+  incomeHeads: Array<IncomeHead> = new Array<IncomeHead>();
+
   public btnIncomeHeadSubmited = false;
   public btnExpenseHeadSubmited = false;
+
+  incomeHeadForm = new FormGroup({
+    incomeHeadName: new FormControl(null, Validators.required),
+    incomeHeadDescription: new FormControl(null, Validators.required)
+  });
+  expenseHeadForm = new FormGroup({
+    expenseHeadName: new FormControl(null, Validators.required),
+    expenseHeadDescription: new FormControl(null, Validators.required)
+  });
+
   constructor(
     private service: ApiService,
     private modalService: NgbModal,
@@ -31,48 +45,62 @@ export class ExpenseMastersComponent implements OnInit {
   ) { }
 
   ngOnInit() {
+
   }
 
-  incomeHeadForm = new FormGroup({
-    incomeHeadName: new FormControl(null,Validators.required),
-    incomeHeadDescription: new FormControl(null,Validators.required)
-  });
-  expenseHeadForm = new FormGroup({
-    expenseHeadName: new FormControl(null,Validators.required),
-    expenseHeadDescription: new FormControl(null,Validators.required)
-  });
-  onIncomeHeadModalClick(content,type:number,id:number) {
+  getIncomeHeads() {
+    this.service.get(Constants.incomehead).subscribe(resp => {
+      this.bindIncomeHeads(resp.data);
+    });
+  }
+
+  bindIncomeHeads(data: Array<IncomeHead>) {
+    this.incomeHeads = data;
+  }
+
+  onIncomeHeadModalClick(content, type: number, id: number) {
     this.incomeHeadForm.reset();
-    if(type==2) //edit
-    {    
-      
+    if (type == 2) //edit
+    {
+
     }
     this.modalReference = this.modalService.open(content);
   }
-  onExpenseHeadModalClick(content,type:number,id:number) {
-    this.expenseHeadForm.reset();
-    if(type==2) //edit
-    {    
-      
-      
-    }
-    this.modalReference = this.modalService.open(content);  
-  }
-  saveIncomeHead()
-  {
 
-    this.btnIncomeHeadSubmited = true;   
+  onExpenseHeadModalClick(content: any, type: number, id: number) {
+    this.expenseHeadForm.reset();
+    if (type == 2) //edit
+    {
+
+
+    }
+    this.modalReference = this.modalService.open(content);
+  }
+
+  saveIncomeHead() {
+    this.incomeHead.description = this.incomeHeadForm.get('incomeHeadDescription').value;
+    this.incomeHead.name = this.incomeHeadForm.get('incomeHeadName').value;
+    const userId = +this.auth.getUserId();
+    this.incomeHead.createdBy = userId;
+    this.incomeHead.updatedBy = userId;
+    this.service.post(Constants.incomehead, this.incomeHead).subscribe(resp => {
+      this.modalReference.close();
+      this.incomeHeadForm.reset();
+      this.ShowResponse(resp);
+    });
+    this.btnIncomeHeadSubmited = true;
     if (this.incomeHeadForm.valid) {
       this.btnIncomeHeadSubmited = false;
     }
   }
-  saveExpenseHead()
-  {
-    this.btnExpenseHeadSubmited = true;   
+
+  saveExpenseHead() {
+    this.btnExpenseHeadSubmited = true;
     if (this.expenseHeadForm.valid) {
       this.btnExpenseHeadSubmited = false;
     }
   }
+
   ShowResponse(response: any) {
     console.log(response);
     if (response.isSuccess === true) {
