@@ -8,10 +8,11 @@ import {
   FormsModule
 } from '@angular/forms';
 
-import { FeePaymentComponent } from './fee-payment.component'
+import { FeePaymentComponent } from './fee-payment.component';
+import { ExpenseComponent } from './expense/expense.component';
 
 @NgModule({
-  declarations: [FeePaymentComponent],
+  declarations: [FeePaymentComponent, ExpenseComponent],
   imports: [
     CommonModule,
     FeePaymentRoutingModule,

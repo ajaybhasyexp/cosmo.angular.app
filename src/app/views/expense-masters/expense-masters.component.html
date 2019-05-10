@@ -23,7 +23,7 @@
               <tbody *ngFor="let head of incomeHeads">
                 <tr>
                   <td>{{head.name}}</td>
-                  <td>{{course.description}}</td>
+                  <td>{{head.description}}</td>
                   <td><i class="fa fa-trash" (click)="onDeleteModalClick(deleteModal,course,'course')"></i> &nbsp;
                     <i (click)="onCourseEditModalClick(incomeHeadModal,head.id)" class="fa fa-pencil"></i></td>
                 </tr>

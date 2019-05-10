@@ -22,7 +22,7 @@ export class ExpenseMastersComponent implements OnInit {
   url: string;
   deleteobject: any;
   modalReference: NgbModalRef;
-  incomeHead: IncomeHead;
+  incomeHead: IncomeHead = new IncomeHead();
   incomeHeads: Array<IncomeHead> = new Array<IncomeHead>();
 
   public btnIncomeHeadSubmited = false;
@@ -45,7 +45,7 @@ export class ExpenseMastersComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-
+    this.getIncomeHeads();
   }
 
   getIncomeHeads() {
@@ -86,6 +86,7 @@ export class ExpenseMastersComponent implements OnInit {
     this.service.post(Constants.incomehead, this.incomeHead).subscribe(resp => {
       this.modalReference.close();
       this.incomeHeadForm.reset();
+      this.getIncomeHeads();
       this.ShowResponse(resp);
     });
     this.btnIncomeHeadSubmited = true;

@@ -47,7 +47,6 @@ import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
 import { TabsModule } from 'ngx-bootstrap/tabs';
 import { ChartsModule } from 'ng2-charts/ng2-charts';
 import { DataTablesModule } from 'angular-datatables';
-//import { ExpenseMastersComponent } from './views/expense-masters/expense-masters.component';
 
 @NgModule({
   imports: [
