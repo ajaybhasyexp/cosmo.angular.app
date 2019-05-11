@@ -3,7 +3,10 @@ export class Constants {
     static readonly branch = 'branch';
     static readonly user = 'user';
     static readonly batch = 'batch';
+
     static readonly batchassign = 'batchassignment';
+    static readonly batchassignall = 'batchassignment/all';
+
     static readonly students = 'students';
     static readonly student = 'student/branchId/all';
     static readonly studentById = 'student/studentId';
@@ -11,7 +14,7 @@ export class Constants {
     static readonly professions = 'student/professions';
     static readonly qualifications = 'student/qualifications';
     static readonly sources = 'student/sources';
-    static readonly batchassignall = 'batchassignment/all';
+
     static readonly coursefee = 'coursefee';
     static readonly coursefeeall = 'coursefee/all';
     static readonly assignedcourse = 'course/id/assigned';
@@ -29,5 +32,7 @@ export class Constants {
     static readonly login = 'user/authenticate';
     static readonly roles = 'user/roles';
     static readonly invalid = 'Invalid entry';
+
+    static readonly incomehead = 'incomehead';
 
 }

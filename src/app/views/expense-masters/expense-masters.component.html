@@ -1,0 +1,156 @@
+<div class="animated fadeIn">
+    <div class="col-lg-12">
+      <div class="loading" *ngIf="loading">
+        <img src="assets/loading.gif" />
+      </div>
+      <div class="row">
+      <div class="col-lg-6">
+        <div class="card">
+          <div class="card-header">
+            <i class="fa fa-align-justify"></i> Income Head &nbsp;
+            <i (click)="onIncomeHeadModalClick(incomeHeadModal,1)" class="fa fa-plus"></i>
+          </div>
+          <div class="card-body">
+          <div style="height: 300px;overflow:scroll">
+            <table class="table table-bordered">
+              <thead>
+                <tr>
+                  <th>Income Head</th>
+                  <th>Description</th>
+                  <th>Action</th>
+                </tr>
+              </thead>
+              <tbody *ngFor="let head of incomeHeads">
+                <tr>
+                  <td>{{head.name}}</td>
+                  <td>{{head.description}}</td>
+                  <td><i class="fa fa-trash" (click)="onDeleteModalClick(deleteModal,course,'course')"></i> &nbsp;
+                    <i (click)="onCourseEditModalClick(incomeHeadModal,head.id)" class="fa fa-pencil"></i></td>
+                </tr>
+              </tbody>
+            </table>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!--/.col-->
+      <div class="col-lg-6">
+        <div class="card">
+          <div class="card-header">
+            <i class="fa fa-align-justify"></i> Expense Head &nbsp;
+            <i (click)="onExpenseHeadModalClick(expenseHeadModal,1)" class="fa fa-plus"></i>
+          </div>
+          <div class="card-body">
+          <div style="height: 300px;overflow:scroll">
+            <table class="table table-bordered">
+              <thead>
+                <tr>
+                  <th>Expense Head</th>
+                  <th>Description</th>
+                  <th>Action</th>
+                </tr>
+              </thead>
+              <!-- <tbody *ngFor="let course of courses">
+                <tr>
+                  <td>{{course.courseName}}</td>
+                  <td>{{course.description}}</td>
+                  <td><i class="fa fa-trash" (click)="onDeleteModalClick(deleteModal,course,'course')"></i> &nbsp;
+                    <i (click)="onCourseEditModalClick(courseModal,course.id)" class="fa fa-pencil"></i></td>
+                </tr>
+              </tbody> -->
+            </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<ng-template #incomeHeadModal let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title">Add Income Head</h4>
+  </div>
+  <div class="modal-body">
+    <div class="card-body">
+      <form [formGroup]="incomeHeadForm" (ngSubmit)="saveIncomeHead()">
+        <div class="form-group">
+          <label for="city">Income Head</label>
+          <input  maxlength="30" formControlName="incomeHeadName" type="text"
+            class="form-control" id="incomeHeadName" placeholder="Income Head">
+          <div *ngIf="incomeHeadForm.controls.incomeHeadName.hasError('required') && btnIncomeHeadSubmited">
+            <div class="alert alert-danger">
+              Name is Required.
+            </div>
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="city">Description</label>
+          <input  maxlength="50" formControlName="incomeHeadDescription" type="text"
+            class="form-control" id="incomeHeadDescription" placeholder="Description">
+          <div *ngIf="incomeHeadForm.controls.incomeHeadDescription.hasError('required') && btnIncomeHeadSubmited">
+            <div class="alert alert-danger">
+              Description is Required.
+            </div>
+          </div>
+        </div>
+        <div class="form-group">
+          <button class="btn btn-primary" type="submit">Submit</button>
+        </div>
+
+      </form>
+    </div>
+  </div>
+</ng-template>
+
+<ng-template #expenseHeadModal let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title">Add Expense Head</h4>
+  </div>
+  <div class="modal-body">
+    <div class="card-body">
+      <form [formGroup]="expenseHeadForm" (ngSubmit)="saveExpenseHead()">
+        <div class="form-group">
+          <label for="city">Expense Head</label>
+          <input  maxlength="30" formControlName="expenseHeadName" type="text"
+            class="form-control" id="expenseHeadName" placeholder="Expense Head">
+          <div *ngIf="expenseHeadForm.controls.expenseHeadName.hasError('required') && btnExpenseHeadSubmited">
+            <div class="alert alert-danger">
+              Name is Required.
+            </div>
+          </div>
+        </div>
+        <div class="form-group">
+            <label for="city">Description</label>
+          <input  maxlength="50" formControlName="expenseHeadDescription" type="text"
+            class="form-control" id="expenseHeadDescription" placeholder="Description">
+          <div *ngIf="expenseHeadForm.controls.expenseHeadDescription.hasError('required') && btnExpenseHeadSubmited">
+            <div class="alert alert-danger">
+              Description is Required.
+            </div>
+          </div>
+        </div>
+        <div class="form-group">
+          <button class="btn btn-primary" type="submit">Submit</button>
+        </div>
+
+      </form>
+    </div>
+  </div>
+</ng-template>
+
+<ng-template #deleteModal let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title">Confirmation</h4>
+  </div>
+  <div class="modal-body">
+    <div class="card-body">
+      <div>
+        Are you sure you want to delete?
+      </div>
+    </div>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-secondary" (click)="this.closeModal()">No</button>
+    <button type="button" class="btn btn-primary" (click)="this.deleteItem()">Yes</button>
+  </div>
+</ng-template>

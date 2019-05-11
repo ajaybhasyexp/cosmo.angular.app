@@ -10,32 +10,32 @@
           <i (click)="onBranchModalClick(branchModal,1);" class="fa fa-plus"></i>
         </div>
         <div class="card-body">
-        <div style="height: 400px;overflow:scroll">
-          <table class="table table-bordered">
-            <thead>
-              <tr>
-                <th>Branch Name</th>
-                <th>Address</th>
-                <th>Contact Person</th>
-                <th>Contact Number</th>
-                <th>Actions</th>
-              </tr>
-            </thead>
-            <tbody *ngFor="let branch of branches">
-              <tr>
-                <td>{{branch.branchName}}</td>
-                <td>{{branch.branchAddress}}</td>
-                <td>{{branch.contactPerson}}</td>
-                <td>{{branch.contactNumber}}</td>
-                <td>
-                  <!-- <span class="badge badge-success">Active</span> -->
-                  <i class="fa fa-trash" (click)="onDeleteModalClick(deleteModal,branch,'branch')"></i> &nbsp;
-                  <i (click)="onBranchEditModalClick(branchModal,branch.id)" class="fa fa-pencil"></i>
-                </td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
+          <div style="height: 400px;overflow:scroll">
+            <table class="table table-bordered">
+              <thead>
+                <tr>
+                  <th>Branch Name</th>
+                  <th>Address</th>
+                  <th>Contact Person</th>
+                  <th>Contact Number</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody *ngFor="let branch of branches">
+                <tr>
+                  <td>{{branch.branchName}}</td>
+                  <td>{{branch.branchAddress}}</td>
+                  <td>{{branch.contactPerson}}</td>
+                  <td>{{branch.contactNumber}}</td>
+                  <td>
+                    <!-- <span class="badge badge-success">Active</span> -->
+                    <i class="fa fa-trash" (click)="onDeleteModalClick(deleteModal,branch,'branch')"></i> &nbsp;
+                    <i (click)="onBranchEditModalClick(branchModal,branch.id)" class="fa fa-pencil"></i>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
         </div>
       </div>
       <div *ngIf="auth.isSuperAdmin()" class="">
@@ -46,24 +46,24 @@
               <i (click)="onCourseModalClick(courseModal,1)" class="fa fa-plus"></i>
             </div>
             <div class="card-body">
-            <div style="height: 400px;overflow:scroll">
-              <table class="table table-bordered">
-                <thead>
-                  <tr>
-                    <th>Course Name</th>
-                    <th>Description</th>
-                    <th>Actions</th>
-                  </tr>
-                </thead>
-                <tbody *ngFor="let course of courses">
-                  <tr>
-                    <td>{{course.courseName}}</td>
-                    <td>{{course.description}}</td>
-                    <td><i class="fa fa-trash" (click)="onDeleteModalClick(deleteModal,course,'course')"></i> &nbsp;
-                      <i (click)="onCourseEditModalClick(courseModal,course.id)" class="fa fa-pencil"></i></td>
-                  </tr>
-                </tbody>
-              </table>
+              <div style="height: 300px;overflow:scroll">
+                <table class="table table-bordered">
+                  <thead>
+                    <tr>
+                      <th>Course Name</th>
+                      <th>Description</th>
+                      <th>Actions</th>
+                    </tr>
+                  </thead>
+                  <tbody *ngFor="let course of courses">
+                    <tr>
+                      <td>{{course.courseName}}</td>
+                      <td>{{course.description}}</td>
+                      <td><i class="fa fa-trash" (click)="onDeleteModalClick(deleteModal,course,'course')"></i> &nbsp;
+                        <i (click)="onCourseEditModalClick(courseModal,course.id)" class="fa fa-pencil"></i></td>
+                    </tr>
+                  </tbody>
+                </table>
               </div>
             </div>
           </div>
@@ -76,29 +76,29 @@
               <i (click)="onUserModalClick(userModal,1)" class="fa fa-plus"></i>
             </div>
             <div class="card-body">
-            <div style="height: 400px;overflow:scroll">
-              <table class="table table-bordered ">
-                <thead>
-                  <tr>
-                    <th>User Name</th>
-                    <th>Email</th>
-                    <th>Branch</th>
-                    <th>User Role</th>
-                    <th>Actions</th>
+              <div style="height: 300px;overflow:scroll">
+                <table class="table table-bordered ">
+                  <thead>
+                    <tr>
+                      <th>User Name</th>
+                      <th>Email</th>
+                      <th>Branch</th>
+                      <th>User Role</th>
+                      <th>Actions</th>
 
-                  </tr>
-                </thead>
-                <tbody *ngFor="let user of users">
-                  <tr>
-                    <td>{{user.userName}}</td>
-                    <td>{{user.email}}</td>
-                    <td>{{user.branchName}}</td>
-                    <td>{{user.role}}</td>
-                    <td><i class="fa fa-trash" (click)="onDeleteModalClick(deleteModal,user,'user')"></i> &nbsp;
-                      <i (click)="onUserEditModalClick(userModal,user.id)" class="fa fa-pencil"></i></td>
-                  </tr>
-                </tbody>
-              </table>
+                    </tr>
+                  </thead>
+                  <tbody *ngFor="let user of users">
+                    <tr>
+                      <td>{{user.userName}}</td>
+                      <td>{{user.email}}</td>
+                      <td>{{user.branchId}}</td>
+                      <td>{{user.userRoleId}}</td>
+                      <td><i class="fa fa-trash" (click)="onDeleteModalClick(deleteModal,user,'user')"></i> &nbsp;
+                        <i (click)="onUserEditModalClick(userModal,user.id)" class="fa fa-pencil"></i></td>
+                    </tr>
+                  </tbody>
+                </table>
               </div>
             </div>
           </div>
@@ -106,7 +106,9 @@
         <!--/.col-->
       </div>
       <!--/.row-->
-
+      <div class="animated fadeIn">
+        <app-expense-masters></app-expense-masters>
+      </div>
       <ng-template #branchModal let-modal>
         <div class="modal-header">
           <h4 class="modal-title" id="modal-basic-title">Add Branch</h4>
@@ -303,3 +305,6 @@
           <button type="button" class="btn btn-primary" (click)="deleteItem()">Yes</button>
         </div>
       </ng-template>
+    </div>
+  </div>
+</div>

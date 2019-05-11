@@ -59,11 +59,12 @@ export const navItems: NavData[] = [
     icon: 'icon-home',
     userRole: 'admin'
   },
-  // {
-  //   name: 'Colors',
-  //   url: '/theme/colors',
-  //   icon: 'icon-drop'
-  // },
+  {
+    name: 'Payment',
+    url: '/payment',
+    icon: 'icon-calculator',
+    userRole: 'admin'
+  },
   // {
   //   name: 'Typography',
   //   url: '/theme/typography',

@@ -93,6 +93,10 @@ export const routes: Routes = [
       {
         path: 'student',
         loadChildren: './views/student/student.module#StudentModule'
+      },
+      {
+        path: 'payment',
+        loadChildren: './views/fee-payment/fee-payment.module#FeePaymentModule'
       }
     ]
   },
