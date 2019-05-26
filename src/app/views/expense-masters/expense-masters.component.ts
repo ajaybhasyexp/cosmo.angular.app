@@ -74,6 +74,7 @@ export class ExpenseMastersComponent implements OnInit {
 
   onIncomeHeadModalClick(content, type: number, id: number) {
     this.incomeHeadForm.reset();
+    this.btnIncomeHeadSubmited = false;
     this.incomeHead = new IncomeHead();
     if (type == 2) //edit
     {
@@ -95,12 +96,13 @@ export class ExpenseMastersComponent implements OnInit {
   }
   onExpenseHeadModalClick(content: any, type: number, id: number) {
     this.expenseHeadForm.reset();
+    this.btnExpenseHeadSubmited = false;
     this.expenseHead = new ExpenseHead();
     if (type == 2) //edit
     {
       this.loading = true;
       this.service.get(Constants.expenseHead + '/' + id).subscribe(resp => {
-        this.BindIncomeHead(resp.data);
+        this.BindExpenseHead(resp.data);
         this.expenseHead=resp.data;
         this.loading = false;
       });
@@ -108,7 +110,13 @@ export class ExpenseMastersComponent implements OnInit {
     }
     this.modalReference = this.modalService.open(content);
   }
+  BindExpenseHead(data:ExpenseHead ) {
+    this.expenseHeadForm.setValue({
+      expenseHeadName:data.name,
+      expenseHeadDescription:data.description,
 
+    });
+  }
   saveIncomeHead() {
     this.btnIncomeHeadSubmited = true;
     if (this.incomeHeadForm.valid){
@@ -175,6 +183,7 @@ export class ExpenseMastersComponent implements OnInit {
       this.deleteResponse(resp);
       if (resp.isSuccess) {
         this.getIncomeHeads();
+        this.getExpenseHeads();
       }
     });
   }

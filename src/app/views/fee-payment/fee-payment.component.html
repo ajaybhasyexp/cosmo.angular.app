@@ -4,102 +4,110 @@
       <div class="loading" *ngIf="loading">
         <img src="assets/loading.gif" />
       </div>
-      <div class="col-sm-12 ">
-        <div style="margin-left: 5%;margin-right: 5%;">
-          <form [formGroup]="receiptForm" (ngSubmit)="SaveReceiptDetails()">
-              <div class="form-group row" style="margin-left:0%;margin-right: 0%;">
-                  <div class="form-group  col-sm-6">
-                    <label for="company">Name</label>
-                    <select  formControlName="studentName"   class="form-control" id="studentName">
-                      <option [ngValue]="null">Choose a Student</option>
-                      <option  [ngValue]="student.id" *ngFor="let student of students">{{student.studentName}}</option>
-                    </select>
-                      <div *ngIf="receiptForm.controls.studentName.hasError('required') && btnSubmited ">  
-                        <div class="alert alert-danger">
-                          Student is Required.
-                        </div>
-                      </div>
-                  </div>
-                  <div class="form-group  col-sm-6">
-                  <label for="company">Course</label>
-                    <select  formControlName="courseName"   class="form-control" id="courseName">
-                      <option [ngValue]="null">Choose a Course</option>
-                      <!-- <option  [ngValue]="student.id" *ngFor="let student of students">{{student.studentName}}</option> -->
-                    </select>
-                      <div *ngIf="receiptForm.controls.courseName.hasError('required') && btnSubmited ">  
-                        <div class="alert alert-danger">
-                          Course is Required.
-                        </div>
-                      </div>
-                  </div>
-              </div>
-
-              <div class="form-group row" style="margin-left:0%;margin-right: 0%;">
-                  <div class="form-group  col-sm-6">
-                      <label for="company">Amount</label>
-                      <input maxlength="12" formControlName="amount" type="text"  class="form-control" id="amount" placeholder="Amount">
-                      <div *ngIf="receiptForm.controls.amount.hasError('required') && btnSubmited ">  
-                          <div class="alert alert-danger">
-                            Amount is Required.
-                          </div>
-                        </div>
-                  </div>
-                  
-                  <div class="form-group col-sm-6">
-                      <label for="company">Date</label>
-                      <input maxlength="12" formControlName="date" type="text"  class="form-control" id="date" >
-                      <div *ngIf="receiptForm.controls.date.hasError('required') && btnSubmited ">  
-                          <div class="alert alert-danger">
-                            Date is Required.
-                          </div>
-                        </div>
-                  </div>
-                </div>  
-                <div class="form-group row" style="margin-left:0%;margin-right: 0%;">
-                    <div class="form-group  col-sm-6">
-                        <label for="company">Payment Mode</label>
-                        <select  formControlName="paymentMode"   class="form-control" id="paymentMode">
-                          <option [ngValue]="null">Choose Payment Mode</option>
-                          <option [ngValue]="1">Cash</option>
-                          <option [ngValue]="2">Card</option>
-                          <option [ngValue]="3">Cheque</option>
-                          <option [ngValue]="4">DD</option>
-                          <option [ngValue]="5">UPI</option>
-                          <option [ngValue]="6">Online Banking</option>
-                         
-                        </select>
-                          <div *ngIf="receiptForm.controls.paymentMode.hasError('required') && btnSubmited ">  
-                            <div class="alert alert-danger">
-                              Payment Mode is Required.
+      <div class="card">
+        <div class="card-header">
+          <i class="fa fa-align-justify"></i> Add an Income&nbsp;
+        </div>
+        <div class="card-body">
+            <div class="col-sm-12 ">
+              <div style="margin-left: 5%;margin-right: 5%;">
+                <form [formGroup]="receiptForm" (ngSubmit)="SaveReceiptDetails()">
+                    <div class="form-group row" style="margin-left:0%;margin-right: 0%;">
+                        <div class="form-group  col-sm-6">
+                          <label for="company">Name</label>
+                          <select  formControlName="studentName"   class="form-control" id="studentName">
+                            <option [ngValue]="null">Choose a Student</option>
+                            <option  [ngValue]="student.id" *ngFor="let student of students">{{student.studentName}}</option>
+                          </select>
+                            <div *ngIf="receiptForm.controls.studentName.hasError('required') && btnSubmited ">  
+                              <div class="alert alert-danger">
+                                Student is Required.
+                              </div>
                             </div>
-                          </div>
-                      </div>
-                    
-                    <div class="form-group col-sm-6">
-                        <label for="company">Payment Refrence</label>
-                        <input maxlength="12" formControlName="paymentRefrence" type="text"  class="form-control" id="paymentRefrence" placeholder="Refrence">
-                        <div *ngIf="receiptForm.controls.paymentRefrence.hasError('required')  && btnSubmited  ">  
-                            <div class="alert alert-danger">
-                                Payment Refrence is Required.
+                        </div>
+                        <div class="form-group  col-sm-6">
+                        <label for="company">Course</label>
+                          <select  formControlName="courseName"   class="form-control" id="courseName">
+                            <option [ngValue]="null">Choose a Course</option>
+                            <!-- <option  [ngValue]="student.id" *ngFor="let student of students">{{student.studentName}}</option> -->
+                          </select>
+                            <div *ngIf="receiptForm.controls.courseName.hasError('required') && btnSubmited ">  
+                              <div class="alert alert-danger">
+                                Course is Required.
+                              </div>
                             </div>
-                          </div>
+                        </div>
                     </div>
-                  </div>
-                <div class="form-group">
-                    <label for="company">Remarks</label>
-                    <input formControlName="remarks"  maxlength="50" type="text" class="form-control" id="remarks" placeholder="Remarks">
-                      <div *ngIf="receiptForm.controls.remarks.hasError('required')  && btnSubmited  ">  
-                        <div class="alert alert-danger">
-                          Remark is Required.
+      
+                    <div class="form-group row" style="margin-left:0%;margin-right: 0%;">
+                        <div class="form-group  col-sm-6">
+                            <label for="company">Amount</label>
+                            <input maxlength="12" formControlName="amount" type="text"  class="form-control" id="amount" placeholder="Amount">
+                            <div *ngIf="receiptForm.controls.amount.hasError('required') && btnSubmited ">  
+                                <div class="alert alert-danger">
+                                  Amount is Required.
+                                </div>
+                              </div>
                         </div>
+                        
+                        <div class="form-group col-sm-6">
+                            <label for="company">Date</label>
+                            <input maxlength="12" formControlName="date" type="text"  class="form-control" id="date" >
+                            <div *ngIf="receiptForm.controls.date.hasError('required') && btnSubmited ">  
+                                <div class="alert alert-danger">
+                                  Date is Required.
+                                </div>
+                              </div>
+                        </div>
+                      </div>  
+                      <div class="form-group row" style="margin-left:0%;margin-right: 0%;">
+                          <div class="form-group  col-sm-6">
+                              <label for="company">Payment Mode</label>
+                              <select  formControlName="paymentMode"   class="form-control" id="paymentMode">
+                                <option [ngValue]="null">Choose Payment Mode</option>
+                                <option [ngValue]="1">Cash</option>
+                                <option [ngValue]="2">Card</option>
+                                <option [ngValue]="3">Cheque</option>
+                                <option [ngValue]="4">DD</option>
+                                <option [ngValue]="5">UPI</option>
+                                <option [ngValue]="6">Online Banking</option>
+                               
+                              </select>
+                                <div *ngIf="receiptForm.controls.paymentMode.hasError('required') && btnSubmited ">  
+                                  <div class="alert alert-danger">
+                                    Payment Mode is Required.
+                                  </div>
+                                </div>
+                            </div>
+                          
+                          <div class="form-group col-sm-6">
+                              <label for="company">Payment Refrence</label>
+                              <input maxlength="12" formControlName="paymentRefrence" type="text"  class="form-control" id="paymentRefrence" placeholder="Refrence">
+                              <div *ngIf="receiptForm.controls.paymentRefrence.hasError('required')  && btnSubmited  ">  
+                                  <div class="alert alert-danger">
+                                      Payment Refrence is Required.
+                                  </div>
+                                </div>
+                          </div>
+                        </div>
+                      <div class="form-group">
+                          <label for="company">Remarks</label>
+                          <input formControlName="remarks"  maxlength="50" type="text" class="form-control" id="remarks" placeholder="Remarks">
+                            <div *ngIf="receiptForm.controls.remarks.hasError('required')  && btnSubmited  ">  
+                              <div class="alert alert-danger">
+                                Remark is Required.
+                              </div>
+                            </div>
                       </div>
-                </div>
-                <div class="form-group">
-                    <button class="btn btn-primary" type="submit">Submit</button>
-                </div>
-          </form>
-      </div>
-      </div>
+                      <div class="form-group">
+                          <button class="btn btn-primary" type="submit">Submit</button>
+                      </div>
+                </form>
+            </div>
+            </div>
+        </div>
+      </div>  
+
     </div>
   </div>
 </div>
