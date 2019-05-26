@@ -97,6 +97,10 @@ export const routes: Routes = [
       {
         path: 'payment',
         loadChildren: './views/fee-payment/fee-payment.module#FeePaymentModule'
+      },
+      {
+        path: 'finance',
+        loadChildren: './views/finance-management/finance-management.module#FinanceManagementModule'
       }
     ]
   },

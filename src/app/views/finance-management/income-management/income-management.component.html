@@ -1,0 +1,44 @@
+<div class="row">
+  <div class="col-lg-12">
+    <div class="loading" *ngIf="loading">
+      <img src="assets/loading.gif" />
+    </div>
+    <div class="card">
+      <div class="card-header">
+        <i class="fa fa-align-justify"></i> Add an Income&nbsp;
+      </div>
+      <div class="card-body">
+        <form [formGroup]="incomeAddForm" (ngSubmit)="saveCourseFeeStructure()">
+          <div class="row form-group">
+            <div class="col-4">
+              <label for="incomeHead">Select Income Head</label>
+              <select formControlName="incomeHeadCtrl" class="form-control" name="incomeHead">
+                <option [ngValue]="null">Choose a Income Head</option>
+                <option [ngValue]="incomeHead.id" *ngFor="let incomeHead of incomeHeads">
+                  {{incomeHead.name}}</option>
+              </select>
+            </div>
+            <div class="col-4">
+              <label for="incomeHead">Description</label>
+              <input formControlName="descriptionCtrl" maxlength="20" type="text" class="form-control" id="description"
+                placeholder="Describe the income">
+            </div>
+            <div class="col-4"></div>
+          </div>
+          <div class="row form-group">
+              <div class="col-4">
+                  <label for="incomeHead">Reference</label>
+                  <input formControlName="referenceCtrl" maxlength="20" type="text" class="form-control" id="reference"
+                    placeholder="Reference of payment">
+              </div>
+              <div class="col-4">
+                <label for="amount">Amount</label>
+                <input formControlName="amountCtrl" maxlength="20" type="text" class="form-control" id="amount"
+                    placeholder="Amount paid">
+              </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
