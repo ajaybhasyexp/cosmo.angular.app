@@ -206,7 +206,7 @@
                     <option [ngValue]="null">Choose a Student</option>
                     <option  [ngValue]="student.id" *ngFor="let student of students">{{student.studentName}}</option>
                   </select>
-                  <div *ngIf="studentAssignmentForm.controls.studentId.hasError('required')  && btnEnrolmentSubmited ">  
+                  <div *ngIf="studentAssignmentForm.controls.studentId.hasError('required')  && btnSubmited ">  
                     <div class="alert alert-danger">
                       Student is Required.
                     </div>

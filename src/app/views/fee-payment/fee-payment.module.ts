@@ -3,6 +3,7 @@ import { ChartsModule } from 'ng2-charts/ng2-charts';
 import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
 import { CommonModule } from '@angular/common';
 import { FeePaymentRoutingModule } from './fee-payment-routing.module';
+import { NgDatepickerModule } from 'ng2-datepicker';
 import {
   ReactiveFormsModule,
   FormsModule
@@ -20,7 +21,8 @@ import { ExpenseComponent } from './expense/expense.component';
     BsDropdownModule,
     CommonModule,
     FormsModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    NgDatepickerModule
   ]
 })
 export class FeePaymentModule { }

@@ -8,7 +8,7 @@
         <div class="card">
           <div class="card-header">
             <i class="fa fa-align-justify"></i> Income Head &nbsp;
-            <i (click)="onIncomeHeadModalClick(incomeHeadModal,1)" class="fa fa-plus"></i>
+            <i (click)="onIncomeHeadModalClick(incomeHeadModal,1,0)" class="fa fa-plus"></i>
           </div>
           <div class="card-body">
           <div style="height: 300px;overflow:scroll">
@@ -20,12 +20,12 @@
                   <th>Action</th>
                 </tr>
               </thead>
-              <tbody *ngFor="let head of incomeHeads">
+              <tbody *ngFor="let incomeHead of incomeHeads">
                 <tr>
-                  <td>{{head.name}}</td>
-                  <td>{{head.description}}</td>
-                  <td><i class="fa fa-trash" (click)="onDeleteModalClick(deleteModal,course,'course')"></i> &nbsp;
-                    <i (click)="onCourseEditModalClick(incomeHeadModal,head.id)" class="fa fa-pencil"></i></td>
+                  <td>{{incomeHead.name}}</td>
+                  <td>{{incomeHead.description}}</td>
+                  <td><i class="fa fa-trash" (click)="onDeleteModalClick(incomeHeadModal,incomeHead,'IncomeHead')"></i> &nbsp;
+                    <i (click)="onIncomeHeadModalClick(incomeHeadModal,2,incomeHead.id)" class="fa fa-pencil"></i></td>
                 </tr>
               </tbody>
             </table>
@@ -38,7 +38,7 @@
         <div class="card">
           <div class="card-header">
             <i class="fa fa-align-justify"></i> Expense Head &nbsp;
-            <i (click)="onExpenseHeadModalClick(expenseHeadModal,1)" class="fa fa-plus"></i>
+            <i (click)="onExpenseHeadModalClick(expenseHeadModal,1,0)" class="fa fa-plus"></i>
           </div>
           <div class="card-body">
           <div style="height: 300px;overflow:scroll">
@@ -50,14 +50,14 @@
                   <th>Action</th>
                 </tr>
               </thead>
-              <!-- <tbody *ngFor="let course of courses">
+              <tbody *ngFor="let expenseHead of expenseHeads">
                 <tr>
-                  <td>{{course.courseName}}</td>
-                  <td>{{course.description}}</td>
-                  <td><i class="fa fa-trash" (click)="onDeleteModalClick(deleteModal,course,'course')"></i> &nbsp;
-                    <i (click)="onCourseEditModalClick(courseModal,course.id)" class="fa fa-pencil"></i></td>
+                  <td>{{expenseHead.name}}</td>
+                  <td>{{expenseHead.description}}</td>
+                  <td><i class="fa fa-trash" (click)="onDeleteModalClick(incomeHeadModal,expenseHead,'expenseHead')"></i> &nbsp;
+                    <i (click)="onCourseEditModalClick(incomeHeadModal,2,expenseHead.id)" class="fa fa-pencil"></i></td>
                 </tr>
-              </tbody> -->
+              </tbody>
             </table>
             </div>
           </div>
