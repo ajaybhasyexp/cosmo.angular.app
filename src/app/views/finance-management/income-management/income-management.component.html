@@ -17,11 +17,21 @@
                 <option [ngValue]="incomeHead.id" *ngFor="let incomeHead of incomeHeads">
                   {{incomeHead.name}}</option>
               </select>
+              <div *ngIf="incomeAddForm.controls.incomeHeadCtrl.hasError('required') && btnIncomeSubmited ">  
+                <div class="alert alert-danger">
+                  Income Head is Required.
+                </div>
+              </div>
             </div>
             <div class="col-6">
               <label for="incomeHead">Description</label>
-              <input formControlName="descriptionCtrl" maxlength="20" type="text" class="form-control" id="description"
+              <input formControlName="descriptionCtrl" maxlength="100" type="text" class="form-control" id="description"
                 placeholder="Describe the income">
+                <div *ngIf="incomeAddForm.controls.descriptionCtrl.hasError('required') && btnIncomeSubmited ">  
+                  <div class="alert alert-danger">
+                    Description is Required.
+                  </div>
+                </div>
             </div>
           </div>
           <div class="row form-group">
@@ -37,23 +47,43 @@
                 <option [ngValue]="6">Online Banking</option>
                
               </select>
+              <div *ngIf="incomeAddForm.controls.incomeHeadPaymentMode.hasError('required') && btnIncomeSubmited ">  
+                <div class="alert alert-danger">
+                  Payment Mode is Required.
+                </div>
+              </div>
             </div>
             <div class="col-6">
               <label for="incomeHead">Date</label>
               <input formControlName="incomeHeadDate" maxlength="20" type="text" class="form-control" id="description"
                 placeholder="Date">
+                <div *ngIf="incomeAddForm.controls.incomeHeadDate.hasError('required') && btnIncomeSubmited ">  
+                  <div class="alert alert-danger">
+                    Date is Required.
+                  </div>
+                </div>
             </div>
           </div>  
           <div class="row form-group">
               <div class="col-6">
                   <label for="incomeHead">Reference</label>
-                  <input formControlName="referenceCtrl" maxlength="20" type="text" class="form-control" id="reference"
+                  <input formControlName="referenceCtrl" maxlength="50" type="text" class="form-control" id="reference"
                     placeholder="Reference of payment">
+                    <div *ngIf="incomeAddForm.controls.referenceCtrl.hasError('required') && btnIncomeSubmited ">  
+                      <div class="alert alert-danger">
+                        Payment Refrence is Required.
+                      </div>
+                    </div>
               </div>
               <div class="col-6">
                 <label for="amount">Amount</label>
                 <input formControlName="amountCtrl" maxlength="20" type="text" class="form-control" id="amount"
                     placeholder="Amount paid">
+                <div *ngIf="incomeAddForm.controls.amountCtrl.hasError('required') && btnIncomeSubmited ">  
+                  <div class="alert alert-danger">
+                    Amount is Required.
+                  </div>
+                </div>
               </div>
           </div>
           <div class="form-group">
