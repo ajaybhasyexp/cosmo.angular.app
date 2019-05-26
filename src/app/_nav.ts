@@ -55,7 +55,7 @@ export const navItems: NavData[] = [
   },
   {
     name: 'Student',
-    url: '/student',  
+    url: '/student',
     icon: 'icon-home',
     userRole: 'admin'
   },
@@ -63,6 +63,12 @@ export const navItems: NavData[] = [
     name: 'Payment',
     url: '/payment',
     icon: 'icon-calculator',
+    userRole: 'admin'
+  },
+  {
+    name: 'Finance',
+    url: '/finance',
+    icon: 'icon-credit-card',
     userRole: 'admin'
   },
   // {
