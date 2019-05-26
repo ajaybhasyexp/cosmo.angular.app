@@ -4,6 +4,8 @@ import { ApiService } from '../../../services/api.service';
 import { AuthService } from '../../../services/auth.service';
 import { Constants } from '../../../constants';
 import Swal from 'sweetalert2';
+import { ExpenseHead } from '../../../models/expensehead';
+import { ExpenseDetails } from '../../../models/expenseDetails';
 
 @Component({
   selector: 'app-expense-management',
@@ -12,8 +14,10 @@ import Swal from 'sweetalert2';
 })
 export class ExpenseManagementComponent implements OnInit {
   loading: boolean;
- 
+
   public btnExpenseSubmited = false;
+  expenseDetails: ExpenseDetails = new ExpenseDetails();
+  expenseHeads: Array<ExpenseHead> = new Array<ExpenseHead>();
 
   expenseAddForm = new FormGroup({
     expenseHeadCtrl: new FormControl(null, Validators.required),
@@ -24,20 +28,33 @@ export class ExpenseManagementComponent implements OnInit {
     amountCtrl: new FormControl(null, [
       Validators.required,
       Validators.pattern('^[0-9]*$'),
-      Validators.maxLength(5),
+      Validators.maxLength(10),
     ]),
-    
+
   });
   constructor(public auth: AuthService, private service: ApiService) { }
 
   ngOnInit() {
+    this.loadExpenseHead();
   }
-  saveIncome()
-  {
-    this.btnExpenseSubmited=true;
-    if (this.expenseAddForm.valid){
-    /*  this.expenseDetails.description = this.expenseAddForm.get('descriptionCtrl').value;
-      this.expenseDetails.incomeHeadId = this.expenseAddForm.get('incomeHeadCtrl').value;
+  loadExpenseHead() {
+    this.loading = true;
+    this.service.get(Constants.expenseHead).subscribe(p => {
+      this.bindExpenseHeads(p.data);
+      this.loading = false;
+    });
+  }
+
+  bindExpenseHeads(data: Array<ExpenseHead>) {
+    console.log(data);
+    this.expenseHeads = data;
+  }
+  saveExpense() {
+    this.btnExpenseSubmited = true;
+    console.log(this.expenseAddForm.valid);
+    if (this.expenseAddForm.valid) {
+      this.expenseDetails.description = this.expenseAddForm.get('descriptionCtrl').value;
+      this.expenseDetails.expenseHeadId = this.expenseAddForm.get('expenseHeadCtrl').value;
       //this.incomeDetails.paymentModeId = this.expenseAddForm.get('expenseHeadPaymentMode').value;
       //this.incomeDetails.transDate = this.incomeAddForm.get('expenseHeadDate').value;
       this.expenseDetails.reference = this.expenseAddForm.get('referenceCtrl').value;
@@ -45,16 +62,20 @@ export class ExpenseManagementComponent implements OnInit {
       const userId = +this.auth.getUserId();
       this.expenseDetails.createdBy = userId;
       this.expenseDetails.updatedBy = userId;
-      this.expenseDetails.branchId=this.auth.getBranchId();
-      console.log(this.expenseDetails); return false;
+      this.expenseDetails.branchId = this.auth.getBranchId();
+     // console.log(this.expenseDetails); return false;
       this.loading = true;
-      this.service.post(Constants.income, this.expenseDetails).subscribe(resp => {
-      console.log(resp);
-        this.expenseAddForm.reset();
+      this.service.post(Constants.expense, this.expenseDetails).subscribe(resp => {
+        console.log(resp);
+        //this.expenseAddForm.reset();
         this.ShowResponse(resp);
       });
-      this.btnExpenseSubmited=false;*/
+      this.btnExpenseSubmited = false;
     }
+  }
+  ResetExpense() {
+    this.expenseAddForm.reset();
+    this.btnExpenseSubmited = false;
   }
   ShowResponse(response: any) {
     console.log(response);
@@ -65,6 +86,7 @@ export class ExpenseManagementComponent implements OnInit {
         '',
         'success'
       );
+      this.expenseAddForm.reset();
     } else {
       this.loading = false;
       Swal.fire(

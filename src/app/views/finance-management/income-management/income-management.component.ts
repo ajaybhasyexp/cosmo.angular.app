@@ -39,8 +39,10 @@ export class IncomeManagementComponent implements OnInit {
   }
 
   loadIncomeHead() {
+    this.loading = true;
     this.service.get(Constants.incomehead).subscribe(p => {
       this.bindIncomeHeads(p.data);
+      this.loading = false;
     });
   }
 
@@ -71,7 +73,7 @@ export class IncomeManagementComponent implements OnInit {
       this.loading = true;
       this.service.post(Constants.income, this.incomeDetails).subscribe(resp => {
       console.log(resp);
-        this.incomeAddForm.reset();
+        // this.incomeAddForm.reset();
         this.ShowResponse(resp);
       });
       this.btnIncomeSubmited=false;
@@ -86,6 +88,7 @@ export class IncomeManagementComponent implements OnInit {
         '',
         'success'
       );
+      this.incomeAddForm.reset();
     } else {
       this.loading = false;
       Swal.fire(

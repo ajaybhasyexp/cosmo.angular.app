@@ -11,27 +11,27 @@
         <form [formGroup]="expenseAddForm" (ngSubmit)="saveExpense()">
           <div class="row form-group">
             <div class="col-6">
-              <label for="expenseHead">Income Head</label>
+              <label for="expenseHead">Expense Head</label>
               <select formControlName="expenseHeadCtrl" class="form-control" name="expenseHead">
                 <option [ngValue]="null">Choose a Expense Head</option>
-                <option [ngValue]="incomeHead.id" *ngFor="let incomeHead of incomeHeads">
-                  {{incomeHead.name}}</option>
+                <option [ngValue]="expenseHead.id" *ngFor="let expenseHead of expenseHeads">
+                  {{expenseHead.name}}</option>
               </select>
-              <!-- <div *ngIf="incomeAddForm.controls.incomeHeadCtrl.hasError('required') && btnIncomeSubmited ">
+              <div *ngIf="expenseAddForm.controls.expenseHeadCtrl.hasError('required') && btnExpenseSubmited ">
                 <div class="alert alert-danger">
-                  Income Head is Required.
+                  Expense Head is Required.
                 </div>
-              </div> -->
+              </div>
             </div>
             <div class="col-6">
               <label for="expenseHead">Description</label>
               <input formControlName="descriptionCtrl" maxlength="100" type="text" class="form-control" id="description"
-                placeholder="Describe the income">
-              <!-- <div *ngIf="incomeAddForm.controls.descriptionCtrl.hasError('required') && btnIncomeSubmited ">
+                placeholder="Describe the Expense">
+              <div *ngIf="expenseAddForm.controls.descriptionCtrl.hasError('required') && btnExpenseSubmited ">
                 <div class="alert alert-danger">
                   Description is Required.
                 </div>
-              </div> -->
+              </div>
             </div>
           </div>
           <div class="row form-group">
@@ -47,21 +47,21 @@
                 <option [ngValue]="6">Online Banking</option>
 
               </select>
-              <!-- <div *ngIf="incomeAddForm.controls.incomeHeadPaymentMode.hasError('required') && btnIncomeSubmited ">
+              <div *ngIf="expenseAddForm.controls.expenseHeadPaymentMode.hasError('required') && btnExpenseSubmited ">
                 <div class="alert alert-danger">
                   Payment Mode is Required.
                 </div>
-              </div> -->
+              </div>
             </div>
             <div class="col-6">
               <label for="incomeHead">Date</label>
               <input formControlName="expenseHeadDate" maxlength="20" type="text" class="form-control" id="description"
                 placeholder="Date">
-              <!-- <div *ngIf="incomeAddForm.controls.incomeHeadDate.hasError('required') && btnIncomeSubmited ">
+              <div *ngIf="expenseAddForm.controls.expenseHeadDate.hasError('required') && btnExpenseSubmited ">
                 <div class="alert alert-danger">
                   Date is Required.
                 </div>
-              </div> -->
+              </div>
             </div>
           </div>
           <div class="row form-group">
@@ -69,21 +69,21 @@
               <label for="incomeHead">Reference</label>
               <input formControlName="referenceCtrl" maxlength="50" type="text" class="form-control" id="reference"
                 placeholder="Reference of payment">
-              <!-- <div *ngIf="incomeAddForm.controls.referenceCtrl.hasError('required') && btnIncomeSubmited ">
+              <div *ngIf="expenseAddForm.controls.referenceCtrl.hasError('required') && btnExpenseSubmited ">
                 <div class="alert alert-danger">
                   Payment Refrence is Required.
                 </div>
-              </div> -->
+              </div>
             </div>
             <div class="col-6">
               <label for="amount">Amount</label>
               <input formControlName="amountCtrl" maxlength="20" type="text" class="form-control" id="amount"
                 placeholder="Amount paid">
-              <!-- <div *ngIf="incomeAddForm.controls.amountCtrl.hasError('required') && btnIncomeSubmited ">
+              <div *ngIf="expenseAddForm.controls.amountCtrl.hasError('required') && btnExpenseSubmited ">
                 <div class="alert alert-danger">
                   Amount is Required.
                 </div>
-              </div> -->
+              </div>
             </div>
           </div>
           <div class="form-group">
