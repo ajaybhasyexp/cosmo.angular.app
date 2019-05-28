@@ -4,6 +4,7 @@ import { FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { FinanceManagementComponent } from './finance-management.component';
 import { IncomeManagementComponent } from './income-management/income-management.component';
 import { CommonModule } from '@angular/common';
+import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
 
 const routes: Routes = [
   {
@@ -17,7 +18,7 @@ const routes: Routes = [
 
 @NgModule({
   declarations: [FinanceManagementComponent, IncomeManagementComponent],
-  imports: [RouterModule.forChild(routes), CommonModule, FormsModule, ReactiveFormsModule],
+  imports: [RouterModule.forChild(routes), CommonModule, FormsModule, ReactiveFormsModule, NgbModule],
   exports: [RouterModule]
 })
 export class FinanceManagementModule {

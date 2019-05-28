@@ -6,6 +6,8 @@ import { Constants } from '../../../constants';
 import { IncomeHead } from '../../../models/incomehead';
 import { IncomeDetails } from '../../../models/incomeDetails';
 import Swal from 'sweetalert2';
+import { NgbDateStruct, NgbCalendar } from '@ng-bootstrap/ng-bootstrap';
+
 @Component({
   selector: 'app-income-management',
   templateUrl: './income-management.component.html',
@@ -14,6 +16,9 @@ import Swal from 'sweetalert2';
 export class IncomeManagementComponent implements OnInit {
 
   loading: boolean;
+  model: NgbDateStruct;
+  date: { year: number, month: number };
+
   incomeAddForm = new FormGroup({
     incomeHeadCtrl: new FormControl(null, Validators.required),
     descriptionCtrl: new FormControl(null, Validators.required),
@@ -28,7 +33,7 @@ export class IncomeManagementComponent implements OnInit {
   });
   incomeDetails: IncomeDetails = new IncomeDetails();
   incomeHeads: Array<IncomeHead> = new Array<IncomeHead>();
-  constructor(public auth: AuthService, private service: ApiService) { }
+  constructor(public auth: AuthService, private service: ApiService, private calendar: NgbCalendar) { }
 
   ngOnInit() {
     this.loadIncomeHead();
@@ -44,12 +49,16 @@ export class IncomeManagementComponent implements OnInit {
     console.log(data);
     this.incomeHeads = data;
   }
-  ResetIncome()
-  {
-    this.incomeAddForm.reset(); 
+
+  selectToday() {
+    this.model = this.calendar.getToday();
   }
-  saveIncome()
-  {
+
+  ResetIncome() {
+    this.incomeAddForm.reset();
+  }
+
+  saveIncome() {
     this.incomeDetails.description = this.incomeAddForm.get('descriptionCtrl').value;
     this.incomeDetails.incomeHeadId = this.incomeAddForm.get('incomeHeadCtrl').value;
     this.incomeDetails.paymentModeId = this.incomeAddForm.get('incomeHeadPaymentMode').value;
@@ -59,15 +68,15 @@ export class IncomeManagementComponent implements OnInit {
     const userId = +this.auth.getUserId();
     this.incomeDetails.createdBy = userId;
     this.incomeDetails.updatedBy = userId;
-    this.incomeDetails.branchId=this.auth.getBranchId();
+    this.incomeDetails.branchId = this.auth.getBranchId();
     console.log(this.incomeDetails); return false;
     this.loading = true;
     this.service.post(Constants.incomehead, this.incomeDetails).subscribe(resp => {
-     
+
       this.incomeAddForm.reset();
       this.ShowResponse(resp);
     });
-  
+
   }
   ShowResponse(response: any) {
     console.log(response);
