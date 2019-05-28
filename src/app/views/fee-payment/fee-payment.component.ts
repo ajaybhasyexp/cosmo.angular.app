@@ -57,6 +57,10 @@ export class FeePaymentComponent implements OnInit {
   bindStudents(data: Array<Student>) {
     this.students = data;
   }
+  ResetForm() {
+    this.receiptForm.reset();
+    this.btnSubmited = false;
+  }
   SaveReceiptDetails()
   {
     const userId = +this.auth.getUserId();

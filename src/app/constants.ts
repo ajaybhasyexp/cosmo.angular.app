@@ -27,7 +27,10 @@ export class Constants {
 
     static readonly incomeHead = 'incomeHead';
     static readonly expenseHead = 'expenseHead';
-
+    
+    static readonly income = 'income';
+    static readonly expense = 'expense';
+    
     static readonly tokenKey = 'tokenKey';
     static readonly userId = 'userId';
     static readonly role = 'role';
