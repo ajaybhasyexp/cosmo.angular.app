@@ -54,9 +54,13 @@
               </div>
             </div>
             <div class="col-6">
-              <label for="incomeHead">Date</label>
-              <input formControlName="expenseHeadDate" maxlength="20" type="text" class="form-control" id="description"
-                placeholder="Date">
+              <label for="expenseDate">Date</label>
+              <div class="input-group">
+                <input class="form-control" formControlName="expenseHeadDate" placeholder="yyyy-mm-dd" name="dp" ngbDatepicker #d="ngbDatepicker">
+                <div class="input-group-append">
+                  <button class="btn btn-outline-secondary calendar" (click)="d.toggle()" type="button"><i class="fa fa-calendar"></i></button>
+                </div>
+              </div>
               <div *ngIf="expenseAddForm.controls.expenseHeadDate.hasError('required') && btnExpenseSubmited ">
                 <div class="alert alert-danger">
                   Date is Required.

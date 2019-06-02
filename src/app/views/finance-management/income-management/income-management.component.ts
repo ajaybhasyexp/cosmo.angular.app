@@ -33,7 +33,6 @@ export class IncomeManagementComponent implements OnInit {
       Validators.pattern('^[0-9]*$'),
       Validators.maxLength(5),
     ]),
-    
   });
   incomeDetails: IncomeDetails = new IncomeDetails();
   incomeHeads: Array<IncomeHead> = new Array<IncomeHead>();
@@ -58,7 +57,7 @@ export class IncomeManagementComponent implements OnInit {
 
   selectToday() {
     this.model = this.calendar.getToday();
-    this.btnIncomeSubmited=false;
+    this.btnIncomeSubmited = false;
   }
 
   ResetIncome() {
@@ -66,26 +65,25 @@ export class IncomeManagementComponent implements OnInit {
   }
 
   saveIncome() {
-    this.btnIncomeSubmited=true;
-    if (this.incomeAddForm.valid){
+    this.btnIncomeSubmited = true;
+    if (this.incomeAddForm.valid) {
       this.incomeDetails.description = this.incomeAddForm.get('descriptionCtrl').value;
       this.incomeDetails.incomeHeadId = this.incomeAddForm.get('incomeHeadCtrl').value;
-      //this.incomeDetails.paymentModeId = this.incomeAddForm.get('incomeHeadPaymentMode').value;
-      //this.incomeDetails.transDate = this.incomeAddForm.get('incomeHeadDate').value;
+      this.incomeDetails.paymentModeId = this.incomeAddForm.get('incomeHeadPaymentMode').value;
+      this.incomeDetails.transDate = this.incomeAddForm.get('incomeHeadDate').value;
       this.incomeDetails.reference = this.incomeAddForm.get('referenceCtrl').value;
       this.incomeDetails.amount = this.incomeAddForm.get('amountCtrl').value;
       const userId = +this.auth.getUserId();
       this.incomeDetails.createdBy = userId;
       this.incomeDetails.updatedBy = userId;
-      this.incomeDetails.branchId=this.auth.getBranchId();
-      //console.log(this.incomeDetails); return false;
+      this.incomeDetails.branchId = this.auth.getBranchId();
       this.loading = true;
       this.service.post(Constants.income, this.incomeDetails).subscribe(resp => {
-      console.log(resp);
-        // this.incomeAddForm.reset();
+        console.log(resp);
+        this.incomeAddForm.reset();
         this.ShowResponse(resp);
       });
-      this.btnIncomeSubmited=false;
+      this.btnIncomeSubmited = false;
     }
   }
   ShowResponse(response: any) {

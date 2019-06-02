@@ -59,7 +59,7 @@
                 placeholder="Date"> -->
               <!-- 2. datepicker in the popup -->
               <div class="input-group">
-                <input class="form-control" placeholder="yyyy-mm-dd" name="dp" ngbDatepicker #d="ngbDatepicker">
+                <input formControlName="incomeHeadDate" class="form-control" formControl placeholder="yyyy-mm-dd" name="dp" ngbDatepicker #d="ngbDatepicker">
                 <div class="input-group-append">
                   <button class="btn btn-outline-secondary calendar" (click)="d.toggle()" type="button"><i class="fa fa-calendar"></i></button>
                 </div>
@@ -95,7 +95,7 @@
               </div>
           </div>
           <div class="form-group">
-            <button class="btn btn-primary" type="submit">Submit</button>
+            <button class="btn btn-primary" (click)="saveIncome()" type="submit">Submit</button>
             <button class="btn btn-primary" (click)="ResetIncome();" type="button">Reset</button>
           </div>
         </form>
