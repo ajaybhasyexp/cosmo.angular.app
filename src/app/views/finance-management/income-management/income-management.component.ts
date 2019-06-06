@@ -51,7 +51,6 @@ export class IncomeManagementComponent implements OnInit {
   }
 
   bindIncomeHeads(data: Array<IncomeHead>) {
-    console.log(data);
     this.incomeHeads = data;
   }
 
@@ -79,7 +78,6 @@ export class IncomeManagementComponent implements OnInit {
       this.incomeDetails.branchId = this.auth.getBranchId();
       this.loading = true;
       this.service.post(Constants.income, this.incomeDetails).subscribe(resp => {
-        console.log(resp);
         this.incomeAddForm.reset();
         this.ShowResponse(resp);
       });
@@ -87,7 +85,6 @@ export class IncomeManagementComponent implements OnInit {
     }
   }
   ShowResponse(response: any) {
-    console.log(response);
     if (response.isSuccess === true) {
       this.loading = false;
       Swal.fire(

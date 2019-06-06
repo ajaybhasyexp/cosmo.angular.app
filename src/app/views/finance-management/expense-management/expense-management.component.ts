@@ -46,28 +46,24 @@ export class ExpenseManagementComponent implements OnInit {
   }
 
   bindExpenseHeads(data: Array<ExpenseHead>) {
-    console.log(data);
     this.expenseHeads = data;
   }
   saveExpense() {
     this.btnExpenseSubmited = true;
-    console.log(this.expenseAddForm.valid);
     if (this.expenseAddForm.valid) {
       this.expenseDetails.description = this.expenseAddForm.get('descriptionCtrl').value;
       this.expenseDetails.expenseHeadId = this.expenseAddForm.get('expenseHeadCtrl').value;
-      //this.incomeDetails.paymentModeId = this.expenseAddForm.get('expenseHeadPaymentMode').value;
-      //this.incomeDetails.transDate = this.incomeAddForm.get('expenseHeadDate').value;
+      this.expenseDetails.paymentModeId = this.expenseAddForm.get('expenseHeadPaymentMode').value;
+      //this.expenseDetails.transDate = this.expenseAddForm.get('expenseHeadDate').value;
       this.expenseDetails.reference = this.expenseAddForm.get('referenceCtrl').value;
       this.expenseDetails.amount = this.expenseAddForm.get('amountCtrl').value;
       const userId = +this.auth.getUserId();
       this.expenseDetails.createdBy = userId;
       this.expenseDetails.updatedBy = userId;
       this.expenseDetails.branchId = this.auth.getBranchId();
-     // console.log(this.expenseDetails); return false;
       this.loading = true;
       this.service.post(Constants.expense, this.expenseDetails).subscribe(resp => {
-        console.log(resp);
-        //this.expenseAddForm.reset();
+        this.expenseAddForm.reset();
         this.ShowResponse(resp);
       });
       this.btnExpenseSubmited = false;
@@ -78,7 +74,6 @@ export class ExpenseManagementComponent implements OnInit {
     this.btnExpenseSubmited = false;
   }
   ShowResponse(response: any) {
-    console.log(response);
     if (response.isSuccess === true) {
       this.loading = false;
       Swal.fire(
