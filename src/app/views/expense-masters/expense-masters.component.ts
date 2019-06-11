@@ -9,7 +9,7 @@ import { ApiService } from '../../services/api.service';
 import { AuthService } from '../../services/auth.service';
 import { Constants } from '../../constants';
 import { IncomeHead } from '../../models/incomehead';
-import { ExpenseHead } from '../../models/expenseHead';
+import { ExpenseHead } from '../../models/expensehead';
 
 @Component({
   selector: 'app-expense-masters',
