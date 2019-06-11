@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { DatePipe } from '@angular/common';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { ApiService } from '../../../services/api.service';
 import { AuthService } from '../../../services/auth.service';
@@ -7,6 +8,7 @@ import { IncomeHead } from '../../../models/incomehead';
 import { IncomeDetails } from '../../../models/incomeDetails';
 import Swal from 'sweetalert2';
 import { NgbDateStruct, NgbCalendar } from '@ng-bootstrap/ng-bootstrap';
+import { NgbDateParserFormatter } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'app-income-management',
@@ -36,7 +38,8 @@ export class IncomeManagementComponent implements OnInit {
   });
   incomeDetails: IncomeDetails = new IncomeDetails();
   incomeHeads: Array<IncomeHead> = new Array<IncomeHead>();
-  constructor(public auth: AuthService, private service: ApiService, private calendar: NgbCalendar) { }
+  constructor(public auth: AuthService, private service: ApiService, private calendar: NgbCalendar,
+    private parserFormatter: NgbDateParserFormatter) { }
 
   ngOnInit() {
     this.loadIncomeHead();
@@ -69,7 +72,8 @@ export class IncomeManagementComponent implements OnInit {
       this.incomeDetails.description = this.incomeAddForm.get('descriptionCtrl').value;
       this.incomeDetails.incomeHeadId = this.incomeAddForm.get('incomeHeadCtrl').value;
       this.incomeDetails.paymentModeId = this.incomeAddForm.get('incomeHeadPaymentMode').value;
-      this.incomeDetails.transDate = this.incomeAddForm.get('incomeHeadDate').value;
+      const date = this.parserFormatter.format(this.incomeAddForm.get('incomeHeadDate').value);
+      this.incomeDetails.transDate = date;
       this.incomeDetails.reference = this.incomeAddForm.get('referenceCtrl').value;
       this.incomeDetails.amount = this.incomeAddForm.get('amountCtrl').value;
       const userId = +this.auth.getUserId();
