@@ -54,14 +54,14 @@ export class ExpenseMastersComponent implements OnInit {
   getIncomeHeads() {
     this.service.get(Constants.incomehead).subscribe(resp => {
       this.bindIncomeHeads(resp.data);
-      
+
     });
   }
 
   getExpenseHeads() {
     this.service.get(Constants.expenseHead).subscribe(resp => {
       this.bindExpenseHeads(resp.data);
-      
+
     });
   }
   bindIncomeHeads(data: Array<IncomeHead>) {
@@ -81,16 +81,16 @@ export class ExpenseMastersComponent implements OnInit {
       this.loading = true;
       this.service.get(Constants.incomeHead + '/' + id).subscribe(resp => {
         this.BindIncomeHead(resp.data);
-        this.incomeHead=resp.data;
+        this.incomeHead = resp.data;
         this.loading = false;
       });
     }
     this.modalReference = this.modalService.open(content);
   }
-  BindIncomeHead(data:IncomeHead ) {
+  BindIncomeHead(data: IncomeHead) {
     this.incomeHeadForm.setValue({
-      incomeHeadName:data.name,
-      incomeHeadDescription:data.description,
+      incomeHeadName: data.name,
+      incomeHeadDescription: data.description,
 
     });
   }
@@ -98,28 +98,27 @@ export class ExpenseMastersComponent implements OnInit {
     this.expenseHeadForm.reset();
     this.btnExpenseHeadSubmited = false;
     this.expenseHead = new ExpenseHead();
-    if (type == 2) //edit
-    {
+    if (type === 2) {
       this.loading = true;
       this.service.get(Constants.expenseHead + '/' + id).subscribe(resp => {
         this.BindExpenseHead(resp.data);
-        this.expenseHead=resp.data;
+        this.expenseHead = resp.data;
         this.loading = false;
       });
 
     }
     this.modalReference = this.modalService.open(content);
   }
-  BindExpenseHead(data:ExpenseHead ) {
+  BindExpenseHead(data: ExpenseHead) {
     this.expenseHeadForm.setValue({
-      expenseHeadName:data.name,
-      expenseHeadDescription:data.description,
+      expenseHeadName: data.name,
+      expenseHeadDescription: data.description,
 
     });
   }
   saveIncomeHead() {
     this.btnIncomeHeadSubmited = true;
-    if (this.incomeHeadForm.valid){
+    if (this.incomeHeadForm.valid) {
       this.incomeHead.description = this.incomeHeadForm.get('incomeHeadDescription').value;
       this.incomeHead.name = this.incomeHeadForm.get('incomeHeadName').value;
       const userId = +this.auth.getUserId();
@@ -139,7 +138,7 @@ export class ExpenseMastersComponent implements OnInit {
 
   saveExpenseHead() {
     this.btnExpenseHeadSubmited = true;
-    if (this.expenseHeadForm.valid){
+    if (this.expenseHeadForm.valid) {
       this.expenseHead.description = this.expenseHeadForm.get('expenseHeadDescription').value;
       this.expenseHead.name = this.expenseHeadForm.get('expenseHeadName').value;
       const userId = +this.auth.getUserId();
@@ -155,7 +154,7 @@ export class ExpenseMastersComponent implements OnInit {
       });
       this.btnExpenseHeadSubmited = false;
     }
-    
+
   }
   onDeleteModalClick(content: any, deleteobject: any, url: string) {
     //console.log(deleteobject); return false;

@@ -6,7 +6,7 @@
       </div>
       <div class="card">
         <div class="card-header">
-          <i class="fa fa-align-justify"></i> Add an Income&nbsp;
+          <i class="fa fa-align-justify"></i> Fee Payment&nbsp;
         </div>
         <div class="card-body">
           <div class="col-sm-12 ">
@@ -14,9 +14,10 @@
               <div class="form-group row" style="margin-left:0%;margin-right: 0%;">
                 <div class="form-group  col-sm-6">
                   <label for="company">Name</label>
-                  <select formControlName="studentName" class="form-control" id="studentName">
+                  <select (change)="changeStudent()" formControlName="studentName" class="form-control" id="studentName">
                     <option [ngValue]="null">Choose a Student</option>
-                    <option [ngValue]="student.id" *ngFor="let student of students">{{student.studentName}}</option>
+                    <option [ngValue]="student.studentId" *ngFor="let student of students">{{student.studentName}}
+                    </option>
                   </select>
                   <div *ngIf="receiptForm.controls.studentName.hasError('required') && btnSubmited ">
                     <div class="alert alert-danger">
@@ -26,9 +27,9 @@
                 </div>
                 <div class="form-group  col-sm-6">
                   <label for="company">Course</label>
-                  <select formControlName="courseName" class="form-control" id="courseName">
+                  <select (change)="changeCourse()" formControlName="courseName" class="form-control" id="courseName">
                     <option [ngValue]="null">Choose a Course</option>
-                    <!-- <option  [ngValue]="student.id" *ngFor="let student of students">{{student.studentName}}</option> -->
+                    <option [ngValue]="course.courseId" *ngFor="let course of courses">{{course.courseName}}</option>
                   </select>
                   <div *ngIf="receiptForm.controls.courseName.hasError('required') && btnSubmited ">
                     <div class="alert alert-danger">

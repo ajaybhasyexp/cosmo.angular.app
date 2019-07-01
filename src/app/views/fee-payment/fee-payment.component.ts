@@ -8,7 +8,10 @@ import { ModalDirective } from 'ngx-bootstrap/modal';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import Swal from 'sweetalert2';
 import { NgDatepickerModule } from 'ng2-datepicker';
-import { Student } from '../../models/student';
+import { StudentCourse } from '../../models/studentCourse';
+import { of } from 'rxjs';
+import { distinct } from 'rxjs/operators';
+import { isNgTemplate } from '@angular/compiler';
 
 @Component({
   selector: 'app-fee-payment',
@@ -21,7 +24,11 @@ export class FeePaymentComponent implements OnInit {
   deleteobject: any;
   modalReference: NgbModalRef;
   auth: AuthService;
-  students: Array<Student> = new Array<Student>();
+  students: Array<any> = new Array<any>();
+  courses: Array<any> = new Array<any>();
+  studentCourse: Array<StudentCourse> = new Array<StudentCourse>();
+  courseFee: number;
+  selectedStudent: number;
 
   receiptForm = new FormGroup({
     studentName: new FormControl(null, Validators.required),
@@ -45,27 +52,59 @@ export class FeePaymentComponent implements OnInit {
     if (this.auth.isLoggedIn() !== true) {
       this.route.navigate(['login']);
     }
-    this.GetStudent();
+    this.GetStudents();
   }
-  GetStudent() {
+
+  GetStudents() {
     this.loading = true;
-    this.service.get(Constants.student.replace('branchId', this.auth.getBranchId())).subscribe(resp => {
-      this.bindStudents(resp.data);
-      this.loading = false;
+    this.service.get(Constants.studentAssignUnpaid.replace('branchId', this.auth.getBranchId())).subscribe(resp => {
+      if (resp.isSuccess) {
+        this.bindStudents(resp.data);
+      }
     });
   }
-  bindStudents(data: Array<Student>) {
-    this.students = data;
+
+  changeStudent() {
+    this.selectedStudent = this.receiptForm.get('studentName').value;
+    this.courses = this.studentCourse.filter(s => s.studentId === this.selectedStudent);
   }
+
+  changeCourse() {
+    const selectedCourse = this.receiptForm.get('courseName').value;
+    this.courseFee = this.studentCourse.filter(s => s.studentId === this.selectedStudent && s.courseId === selectedCourse)[0].amount;
+    this.receiptForm.controls['amount'].setValue(this.courseFee);
+  }
+
+  bindStudents(data: any) {
+    this.studentCourse = data;
+    this.students = this.getUniqueStudents();
+    console.log(this.students);
+    this.loading = false;
+  }
+
   ResetForm() {
     this.receiptForm.reset();
     this.btnSubmited = false;
   }
-  SaveReceiptDetails()
-  {
+
+  SaveReceiptDetails() {
     const userId = +this.auth.getUserId();
     this.btnSubmited = true;
     if (this.receiptForm.valid) {
     }
   }
+
+  getUniqueStudents() {
+    const flags = [], output = [], l = this.studentCourse.length;
+    let i: number;
+    for (i = 0; i < l; i++) {
+      if (flags[this.studentCourse[i].studentId]) {
+        continue;
+      }
+      flags[this.studentCourse[i].studentId] = true;
+      output.push(this.studentCourse[i]);
+    }
+    return output;
+  }
+
 }
