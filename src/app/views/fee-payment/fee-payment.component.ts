@@ -12,6 +12,8 @@ import { StudentCourse } from '../../models/studentCourse';
 import { of } from 'rxjs';
 import { distinct } from 'rxjs/operators';
 import { isNgTemplate } from '@angular/compiler';
+import { NgbDateStruct, NgbCalendar } from '@ng-bootstrap/ng-bootstrap';
+import { NgbDateParserFormatter } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'app-fee-payment',
@@ -45,7 +47,7 @@ export class FeePaymentComponent implements OnInit {
     private service: ApiService,
     private modalService: NgbModal,
     auth: AuthService,
-    private route: Router
+    private route: Router, private parserFormatter: NgbDateParserFormatter
   ) { this.auth = auth; }
 
   ngOnInit() {
