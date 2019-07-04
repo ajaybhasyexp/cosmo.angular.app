@@ -6,6 +6,7 @@ import { FeePaymentRoutingModule } from './fee-payment-routing.module';
 import { NgDatepickerModule } from 'ng2-datepicker';
 import { NgbDateParserFormatter } from '@ng-bootstrap/ng-bootstrap';
 import { NgbDateCustomParserFormatter } from '../../shared/ngb-date-customparser';
+import { NgxPrintModule } from 'ngx-print';
 
 import {
   ReactiveFormsModule,
@@ -27,7 +28,8 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
     FormsModule,
     ReactiveFormsModule,
     NgDatepickerModule,
-    NgbModule
+    NgbModule,
+    NgxPrintModule
   ],
   providers: [
     { provide: NgbDateParserFormatter, useClass: NgbDateCustomParserFormatter }

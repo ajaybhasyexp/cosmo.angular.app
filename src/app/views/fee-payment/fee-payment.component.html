@@ -55,7 +55,7 @@
                 <div class="form-group col-sm-6">
                   <label for="company">Date</label>
                   <div class="input-group">
-                    <input maxlength="12" formControlName="date" placeholder="yyyy-mm-dd" ngbDatepicker
+                    <input maxlength="12" formControlName="date" placeholder="dd-mm-yyyy" ngbDatepicker
                       #d="ngbDatepicker" class="form-control" name="dp">
                     <div class="input-group-append">
                       <button class="btn btn-outline-secondary calendar" (click)="d.toggle()" type="button"><i
@@ -122,3 +122,8 @@
     </div>
   </div>
 </div>
+<div id="print-section">
+ Something to Print
+</div>
+<button printSectionId="print-section" ngxPrint>Print</button>
+<!--Your relevant print button-->
