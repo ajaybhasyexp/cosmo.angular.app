@@ -6,6 +6,7 @@ import { Constants } from '../../../constants';
 import Swal from 'sweetalert2';
 import { ExpenseHead } from '../../../models/expensehead';
 import { ExpenseDetails } from '../../../models/expenseDetails';
+import { NgbDateParserFormatter } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'app-expense-management',
@@ -32,7 +33,7 @@ export class ExpenseManagementComponent implements OnInit {
     ]),
 
   });
-  constructor(public auth: AuthService, private service: ApiService) { }
+  constructor(public auth: AuthService, private service: ApiService, private parserFormatter: NgbDateParserFormatter) { }
 
   ngOnInit() {
     this.loadExpenseHead();
@@ -54,7 +55,8 @@ export class ExpenseManagementComponent implements OnInit {
       this.expenseDetails.description = this.expenseAddForm.get('descriptionCtrl').value;
       this.expenseDetails.expenseHeadId = this.expenseAddForm.get('expenseHeadCtrl').value;
       this.expenseDetails.paymentModeId = this.expenseAddForm.get('expenseHeadPaymentMode').value;
-      //this.expenseDetails.transDate = this.expenseAddForm.get('expenseHeadDate').value;
+      const date = this.parserFormatter.format(this.expenseAddForm.get('expenseHeadDate').value);
+      this.expenseDetails.transDate = date;
       this.expenseDetails.reference = this.expenseAddForm.get('referenceCtrl').value;
       this.expenseDetails.amount = this.expenseAddForm.get('amountCtrl').value;
       const userId = +this.auth.getUserId();

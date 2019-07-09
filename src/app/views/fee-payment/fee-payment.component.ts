@@ -1,19 +1,15 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { AuthService } from '../../services/auth.service';
 import { Router } from '@angular/router';
 import { Constants } from '../../constants';
 import { ApiService } from '../../services/api.service';
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
-import { ModalDirective } from 'ngx-bootstrap/modal';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
-import Swal from 'sweetalert2';
-import { NgDatepickerModule } from 'ng2-datepicker';
 import { StudentCourse } from '../../models/studentCourse';
-import { of } from 'rxjs';
-import { distinct } from 'rxjs/operators';
-import { isNgTemplate } from '@angular/compiler';
-import { NgbDateStruct, NgbCalendar } from '@ng-bootstrap/ng-bootstrap';
 import { NgbDateParserFormatter } from '@ng-bootstrap/ng-bootstrap';
+import { FeePayment } from '../../models/feepayment';
+import { Course } from '../../models/course';
+import { Student } from '../../models/student';
 
 @Component({
   selector: 'app-fee-payment',
@@ -22,16 +18,20 @@ import { NgbDateParserFormatter } from '@ng-bootstrap/ng-bootstrap';
 })
 export class FeePaymentComponent implements OnInit {
   loading: boolean;
-  url: string;
-  deleteobject: any;
-  modalReference: NgbModalRef;
   auth: AuthService;
   students: Array<any> = new Array<any>();
   courses: Array<any> = new Array<any>();
   studentCourse: Array<StudentCourse> = new Array<StudentCourse>();
   courseFee: number;
   selectedStudent: number;
-  printVisible: boolean;
+  selectedCourse: number;
+  studentAssignId: number;
+  feePayment = new FeePayment();
+  branchId: string;
+  branchName: string;
+  studentName: string;
+  courseName: string;
+  @ViewChild('printButton') printButton: ElementRef<HTMLElement>;
 
   receiptForm = new FormGroup({
     studentName: new FormControl(null, Validators.required),
@@ -46,7 +46,6 @@ export class FeePaymentComponent implements OnInit {
   public btnSubmited = false;
   constructor(
     private service: ApiService,
-    private modalService: NgbModal,
     auth: AuthService,
     private route: Router, private parserFormatter: NgbDateParserFormatter
   ) { this.auth = auth; }
@@ -55,12 +54,15 @@ export class FeePaymentComponent implements OnInit {
     if (this.auth.isLoggedIn() !== true) {
       this.route.navigate(['login']);
     }
+    const branch = this.auth.getBranch();
+    this.branchId = branch.id.toString();
+    this.branchName = branch.branchName;
     this.GetStudents();
   }
 
   GetStudents() {
     this.loading = true;
-    this.service.get(Constants.studentAssignUnpaid.replace('branchId', this.auth.getBranchId())).subscribe(resp => {
+    this.service.get(Constants.studentAssignUnpaid.replace('branchId', this.branchId)).subscribe(resp => {
       if (resp.isSuccess) {
         this.bindStudents(resp.data);
       }
@@ -70,11 +72,16 @@ export class FeePaymentComponent implements OnInit {
   changeStudent() {
     this.selectedStudent = this.receiptForm.get('studentName').value;
     this.courses = this.studentCourse.filter(s => s.studentId === this.selectedStudent);
+    console.log(this.courses);
   }
 
   changeCourse() {
-    const selectedCourse = this.receiptForm.get('courseName').value;
-    this.courseFee = this.studentCourse.filter(s => s.studentId === this.selectedStudent && s.courseId === selectedCourse)[0].amount;
+    this.selectedCourse = this.receiptForm.get('courseName').value;
+    const selected = this.studentCourse.filter(s => s.studentId === this.selectedStudent && s.courseId === this.selectedCourse)[0];
+    this.courseFee = selected.amount;
+    this.studentAssignId = selected.id;
+    this.studentName = selected.studentName;
+    this.courseName = selected.courseName;
     this.receiptForm.controls['amount'].setValue(this.courseFee);
   }
 
@@ -91,9 +98,24 @@ export class FeePaymentComponent implements OnInit {
   }
 
   SaveReceiptDetails() {
+    this.loading = true;
     const userId = +this.auth.getUserId();
     this.btnSubmited = true;
     if (this.receiptForm.valid) {
+      this.feePayment.studentId = this.selectedStudent;
+      this.feePayment.amount = this.receiptForm.get('amount').value;
+      this.feePayment.courseId = this.selectedCourse;
+      this.feePayment.paymentModeId = this.receiptForm.get('paymentMode').value;
+      this.feePayment.reference = this.receiptForm.get('paymentRefrence').value;
+      const date = this.parserFormatter.format(this.receiptForm.get('date').value);
+      this.feePayment.receiptDate = date;
+      this.feePayment.studentAssignmentId = this.studentAssignId;
+      this.feePayment.userId = userId;
+      this.service.post(Constants.studentAssignPay.replace('branchId', this.branchId), this.feePayment).subscribe(resp => {
+        if (resp.isSuccess) {
+          this.printAndClear();
+        }
+      });
     }
   }
 
@@ -110,20 +132,13 @@ export class FeePaymentComponent implements OnInit {
     return output;
   }
 
-  saveReceipt() {
-    Swal.fire({
-      title: 'Do you want to print the receipt?',
-      text: 'Opting Yes will open a popup window.',
-      type: 'warning',
-      showCancelButton: true,
-      confirmButtonColor: '#3085d6',
-      cancelButtonColor: '#d33',
-      confirmButtonText: 'Yes, Print it!'
-    }).then(result => {
-      if (result.value) {
-        /// Open Print
-      }
-    });
+  printAndClear() {
+    this.loading = false;
+    const btn: HTMLElement = this.printButton.nativeElement;
+    btn.click();
+    this.receiptForm.reset();
+    this.GetStudents();
   }
-
 }
+
+

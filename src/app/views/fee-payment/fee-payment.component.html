@@ -111,7 +111,7 @@
                 </div>
               </div>
               <div class="form-group col-sm-12">
-                <button printSectionId="print-section" ngxPrint class="btn btn-primary" type="submit">Save and
+                <button class="btn btn-primary" type="submit">Save and
                   Print</button>
                 <button class="btn btn-primary" (click)="ResetForm();" type="button">Reset</button>
               </div>
@@ -123,15 +123,15 @@
     </div>
   </div>
 </div>
-<div [hidden]="!printVisible" id="print-section">
-  Something to Print.
+<div [hidden]="true" id="print-section">
+  {{branchName}}
   <div class="row">
     <div class="col-6">
-      This is a sample Outlook.
+      Course : {{courseName}}
     </div>
     <div class="col-6">
-      THe other half
+      Received Rupees {{receiptForm.get('amount').value}} with Thanks from {{studentName}}
     </div>
   </div>
 </div>
-<!--Your relevant print button-->
+<button [hidden]="true" #printButton printSectionId="print-section" printTitle="Receipt" ngxPrint name='printButton'></button>

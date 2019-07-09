@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { Constants } from '../constants';
 import { Router } from '@angular/router';
 import Swal from 'sweetalert2';
+import { Branch } from '../models/branch';
 
 @Injectable()
 export class AuthService {
@@ -16,7 +17,7 @@ export class AuthService {
   setBranch(data) {
     localStorage.setItem(Constants.branch, JSON.stringify(data));
   }
-  getBranch() {
+  getBranch(): Branch {
     return JSON.parse(localStorage.getItem(Constants.branch));
   }
 

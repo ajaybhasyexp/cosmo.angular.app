@@ -25,6 +25,7 @@ export class Constants {
     static readonly studentAssignDelete = 'studentAssign';
     static readonly studentAssignSave = 'studentAssign';
     static readonly studentAssignUnpaid = 'studentAssign/branchId/unpaid';
+    static readonly studentAssignPay = 'studentAssign/branchId/pay';
 
     static readonly incomeHead = 'incomeHead';
     static readonly expenseHead = 'expenseHead';
