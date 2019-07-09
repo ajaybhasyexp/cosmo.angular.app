@@ -31,6 +31,7 @@ export class FeePaymentComponent implements OnInit {
   studentCourse: Array<StudentCourse> = new Array<StudentCourse>();
   courseFee: number;
   selectedStudent: number;
+  printVisible: boolean;
 
   receiptForm = new FormGroup({
     studentName: new FormControl(null, Validators.required),
@@ -107,6 +108,22 @@ export class FeePaymentComponent implements OnInit {
       output.push(this.studentCourse[i]);
     }
     return output;
+  }
+
+  saveReceipt() {
+    Swal.fire({
+      title: 'Do you want to print the receipt?',
+      text: 'Opting Yes will open a popup window.',
+      type: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Yes, Print it!'
+    }).then(result => {
+      if (result.value) {
+        /// Open Print
+      }
+    });
   }
 
 }
