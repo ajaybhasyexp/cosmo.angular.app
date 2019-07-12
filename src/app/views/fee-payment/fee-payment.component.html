@@ -124,14 +124,52 @@
   </div>
 </div>
 <div [hidden]="true" id="print-section">
-  {{branchName}}
   <div class="row">
-    <div class="col-6">
-      Course : {{courseName}}
+    <div class="col-3"></div>
+    <div style="text-align: center" class="col-3">
+      COSMO
     </div>
-    <div class="col-6">
-      Received Rupees {{receiptForm.get('amount').value}} with Thanks from {{studentName}}
+    <div class="col-3"></div>
+  </div>
+  <div class="row">
+    <div style="text-align: center" class="col-12">
+      CENTRE FOR EDUCATION & TRAINING
+    </div>
+  </div>
+  <div class="row">
+    <div style="text-align: center" class="col-12">
+      {{branch.branchAddress}}
+    </div>
+  </div>
+  <div class="row">
+    <div style="text-align: center" class="col-12">
+      Phone: {{branch.contactNumber}}
+    </div>
+  </div>
+  <div class="row">
+    <div style="text-align: left" class="col-6">
+      Reciept Number: {{receiptNumber}}
+    </div>
+    <div style="text-align: right" class="col-6">
+      Date: {{feePayment.receiptDate}}
+    </div>
+  </div>
+  <div class="row">
+    <div style="text-align: center" class="col-12">
+      <u>FEES RECEIPT</u>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-12">
+      <i>Received with thanks from Sri/Smt {{studentName}}</i>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-12">
+      the Sum of Rs <p class="wavyline">{{receiptForm.get('amount').value}}</p>
+      towards Regn. Fees/Monthly Fees for <p class="wavyline">{{courseName}}</p>
     </div>
   </div>
 </div>
-<button [hidden]="true" #printButton printSectionId="print-section" printTitle="Receipt" ngxPrint name='printButton'></button>
+<button [hidden]="true" #printButton printSectionId="print-section" printTitle="Fees Receipt" ngxPrint
+  name='printButton'></button>

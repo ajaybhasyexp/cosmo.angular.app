@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef, Inject, LOCALE_ID } from '@angular/core';
 import { AuthService } from '../../services/auth.service';
 import { Router } from '@angular/router';
 import { Constants } from '../../constants';
@@ -8,8 +8,9 @@ import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { StudentCourse } from '../../models/studentCourse';
 import { NgbDateParserFormatter } from '@ng-bootstrap/ng-bootstrap';
 import { FeePayment } from '../../models/feepayment';
-import { Course } from '../../models/course';
-import { Student } from '../../models/student';
+import { Branch } from '../../models/branch';
+import { DatePipe } from '@angular/common';
+import { formatDate } from '@angular/common';
 
 @Component({
   selector: 'app-fee-payment',
@@ -27,10 +28,10 @@ export class FeePaymentComponent implements OnInit {
   selectedCourse: number;
   studentAssignId: number;
   feePayment = new FeePayment();
-  branchId: string;
-  branchName: string;
+  branch: Branch;
   studentName: string;
   courseName: string;
+  receiptNumber: string;
   @ViewChild('printButton') printButton: ElementRef<HTMLElement>;
 
   receiptForm = new FormGroup({
@@ -47,22 +48,22 @@ export class FeePaymentComponent implements OnInit {
   constructor(
     private service: ApiService,
     auth: AuthService,
-    private route: Router, private parserFormatter: NgbDateParserFormatter
+    private route: Router, private parserFormatter: NgbDateParserFormatter,
+    @Inject(LOCALE_ID) private locale: string
   ) { this.auth = auth; }
 
   ngOnInit() {
     if (this.auth.isLoggedIn() !== true) {
       this.route.navigate(['login']);
     }
-    const branch = this.auth.getBranch();
-    this.branchId = branch.id.toString();
-    this.branchName = branch.branchName;
+    this.branch = this.auth.getBranch();
     this.GetStudents();
+    this.receiptNumber = '3';
   }
 
   GetStudents() {
     this.loading = true;
-    this.service.get(Constants.studentAssignUnpaid.replace('branchId', this.branchId)).subscribe(resp => {
+    this.service.get(Constants.studentAssignUnpaid.replace('branchId', this.branch.id.toString())).subscribe(resp => {
       if (resp.isSuccess) {
         this.bindStudents(resp.data);
       }
@@ -107,13 +108,12 @@ export class FeePaymentComponent implements OnInit {
       this.feePayment.courseId = this.selectedCourse;
       this.feePayment.paymentModeId = this.receiptForm.get('paymentMode').value;
       this.feePayment.reference = this.receiptForm.get('paymentRefrence').value;
-      const date = this.parserFormatter.format(this.receiptForm.get('date').value);
-      this.feePayment.receiptDate = date;
+      this.feePayment.receiptDate = this.parserFormatter.format(this.receiptForm.get('date').value);
       this.feePayment.studentAssignmentId = this.studentAssignId;
       this.feePayment.userId = userId;
-      this.service.post(Constants.studentAssignPay.replace('branchId', this.branchId), this.feePayment).subscribe(resp => {
+      this.service.post(Constants.studentAssignPay.replace('branchId', this.branch.id.toString()), this.feePayment).subscribe(resp => {
         if (resp.isSuccess) {
-          this.printAndClear();
+          this.printAndClear(resp.data);
         }
       });
     }
@@ -132,12 +132,12 @@ export class FeePaymentComponent implements OnInit {
     return output;
   }
 
-  printAndClear() {
+  printAndClear(data: any) {
     this.loading = false;
     const btn: HTMLElement = this.printButton.nativeElement;
     btn.click();
-    this.receiptForm.reset();
-    this.GetStudents();
+    //this.receiptForm.reset();
+    //this.GetStudents();
   }
 }
 
