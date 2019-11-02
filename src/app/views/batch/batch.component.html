@@ -10,8 +10,15 @@
       </div>
       <div class="card-body">
         <dx-data-grid id="gridContainer" [dataSource]="batches" [columns]="['batchName', 'description']"
-          [showBorders]="true">
+          [showColumnLines]="true" [showRowLines]="true" [showBorders]="true" [rowAlternationEnabled]="true">
           <dxo-search-panel [visible]="true" [width]="240" placeholder="Search..."></dxo-search-panel>
+          <dxi-column dataField="batchName" caption="Batch Name" headerCellTemplate="titleHeaderTemplate">
+          </dxi-column>
+          <dxi-column dataField="description" caption="Description" headerCellTemplate="titleHeaderTemplate">
+          </dxi-column>
+          <div *dxTemplate="let info of 'titleHeaderTemplate'">
+            <p> <strong>{{info.column.caption}}</strong></p>
+          </div>
         </dx-data-grid>
       </div>
     </div>
